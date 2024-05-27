@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.5",
+    "firebase": "^10.12.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.2",
@@ -47,5 +48,5 @@
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --fix"
- }
+  }
 }
