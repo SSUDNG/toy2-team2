@@ -3,6 +3,9 @@ import Layout from './Layout';
 import Profile from '../pages/Profile';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
+import Calendar from '../pages/Calendar';
+import Salary from '../pages/Salary';
+import Correction from '../pages/Correction';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +24,19 @@ const router = createBrowserRouter([
         path: 'profile',
         element: <Profile />,
       },
+      {
+        path: 'salary',
+        element: <Salary />,
+      },
+      {
+        path: 'correction',
+        element: <Correction />,
+      },
+      {
+        path: 'calendar',
+        element: <Calendar />,
+      },
+      {},
     ],
   },
 ]);
