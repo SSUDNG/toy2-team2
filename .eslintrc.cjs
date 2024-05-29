@@ -37,7 +37,8 @@ module.exports = {
         jsx: 'never',
       },
     ],
-    'react/react-in-jsx-scope': 'off',  // 이 줄을 추가합니다.
+    'react/react-in-jsx-scope': 'off',  
+    '@typescript-eslint/no-use-before-define': 'off' // 이 줄을 추가합니다.
   },
   settings: {
     react: {
