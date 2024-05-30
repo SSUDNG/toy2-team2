@@ -12,9 +12,9 @@ interface ButtonStyleProps {
 
 type ButtonProps<T extends object = Record<never, never>> =
   ButtonHTMLAttributes<HTMLButtonElement> &
-    ButtonStyleProps & {
-      children: ReactNode;
-    } & T;
+  ButtonStyleProps & {
+    children: ReactNode;
+  } & T;
 
 function Button<T extends object>({
   children,
@@ -70,5 +70,7 @@ const ButtonLayout = styled.button<ButtonStyleProps>`
   border: 1px solid ${(props) => props.theme.color.primary};
   border-radius: 10px;
   box-sizing: border-box;
+  font-size: ${(props) => props.theme.fontSize.body1};
+  font-weight: ${(props) => props.theme.fontWeight.medium};
   cursor: pointer;
 `;
