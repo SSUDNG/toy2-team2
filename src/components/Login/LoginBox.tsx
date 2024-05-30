@@ -84,10 +84,11 @@ const ButtonBox = styled.div`
 `;
 
 const Input = styled.input`
-  ::placeholder {
+  &::placeholder {
     color: ${(props) => props.theme.color.blue};
   }
-
+  font-size: ${(props) => props.theme.fontSize.title4};
   height: 4.63vh;
   padding: 0 0.74vh;
+  border: 1px solid ${(props) => props.theme.color.gray};
 `;
