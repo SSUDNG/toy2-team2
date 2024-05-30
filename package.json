@@ -12,6 +12,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.4.2",
     "@reduxjs/toolkit": "^2.2.5",
     "@types/react-redux": "^7.1.33",
     "firebase": "^10.12.1",

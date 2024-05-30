@@ -1,26 +1,24 @@
 import styled from 'styled-components';
+import InputBox from '../components/Login/InputBox';
 
-function Signup() {
+function Login() {
   return (
     <Layout>
       <Col>
-        <InputBox>
-          <span>ID</span>
-          <Input />
-        </InputBox>
+        <Logo>LOGO</Logo>
+        <InputBox />
       </Col>
     </Layout>
   );
 }
 
-export default Signup;
+export default Login;
 
 const Layout = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: ${(props) => props.theme.color.background};
 `;
-
 const Col = styled.div`
   width: 28.438vw;
   margin: 0 auto;
@@ -29,12 +27,10 @@ const Col = styled.div`
   flex-direction: column;
 `;
 
-const InputBox = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const Input = styled.input`
-  width: 28.438vw;
-  height: 4.63vh;
-  border-color: ${(props) => props.theme.color.gray};
+const Logo = styled.span`
+  padding: 9vh 0;
+  margin: 0 auto;
+  color: ${(props) => props.theme.color.blue};
+  font-weight: ${(props) => props.theme.fontWeight.bold};
+  font-size: ${(props) => props.theme.fontSize.title1};
 `;

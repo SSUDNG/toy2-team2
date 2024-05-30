@@ -24,6 +24,8 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
+    'react/require-default-props': 'off',
+    '@typescript-eslint/no-use-before-define': 'off',
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'no-console': 'off',
@@ -37,7 +39,7 @@ module.exports = {
         jsx: 'never',
       },
     ],
-    'react/react-in-jsx-scope': 'off',  // 이 줄을 추가합니다.
+    'react/react-in-jsx-scope': 'off', // 이 줄을 추가합니다.
   },
   settings: {
     react: {
@@ -51,4 +53,3 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.cjs', 'commitlint.config.js'],
 };
-
