@@ -2,11 +2,11 @@ import { InputHTMLAttributes, createElement } from 'react';
 import styled, { css } from 'styled-components';
 import sb from '../../utils/styledBranch';
 
-type FontColor = 'black' | 'gray';
+type PlaceholderColor = 'black' | 'gray';
 type BorderColor = 'primary' | 'black' | 'red' | 'gray';
 
 interface InputStyleProps {
-  color: FontColor;
+  placeholderColor: PlaceholderColor;
   borderColor: BorderColor;
 }
 
@@ -14,13 +14,13 @@ type InputProps<T extends object = Record<never, never>> =
   InputHTMLAttributes<HTMLInputElement> & InputStyleProps & T;
 
 function Input<T extends object>({
-  color = 'black',
+  placeholderColor = 'black',
   borderColor = 'black',
   type = 'text',
   ...props
 }: InputProps<T>) {
   return createElement(InputLayout, {
-    color,
+    placeholderColor,
     borderColor,
     ...props,
     type,
@@ -31,12 +31,16 @@ export default Input;
 
 const InputLayout = styled.input<InputStyleProps>`
   ${(props) =>
-    sb(props.color, {
+    sb(props.placeholderColor, {
       black: css`
-        color: ${props.theme.color.black};
+        &::placeholder {
+          color: ${props.theme.color.black};
+        }
       `,
       gray: css`
-        color: ${props.theme.color.gray};
+        &::placeholder {
+          color: ${props.theme.color.gray};
+        }
       `,
     })}
   ${(props) =>
