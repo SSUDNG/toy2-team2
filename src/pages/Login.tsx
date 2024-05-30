@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-
 import LoginBox from '../components/Login/LoginBox';
 
 function Login() {
