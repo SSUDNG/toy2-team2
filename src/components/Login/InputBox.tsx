@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 import styled from 'styled-components';
+import Button from '../common/Button';
 
 const ID_MAX_LENGTH = 30;
 const PW_MIN_LENGTH = 8;
@@ -51,9 +52,13 @@ function LoginBox() {
         {errors.password && <span>{errors.password?.message}</span>}
       </InputBox>
       <ButtonBox>
-        <button type="submit">로그인</button>
+        <Button size="basic" color="primary" type="submit">
+          로그인
+        </Button>
         <Link to="/signup">
-          <button type="button">회원가입</button>
+          <Button size="basic" color="white" type="button">
+            회원가입
+          </Button>
         </Link>
       </ButtonBox>
     </Form>
@@ -80,7 +85,7 @@ const ButtonBox = styled.div`
 
 const Input = styled.input`
   ::placeholder {
-    color: ${(props) => props.theme.color};
+    color: ${(props) => props.theme.color.blue};
   }
 
   height: 4.63vh;
