@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { z } from 'zod';
 import styled from 'styled-components';
+import Button from '../common/Button';
+import Input from '../common/Input';
 
 const ID_MAX_LENGTH = 30;
 const PW_MIN_LENGTH = 8;
@@ -78,12 +80,12 @@ const ButtonBox = styled.div`
   gap: 1.563vw;
 `;
 
-const Input = styled.input`
-  &::placeholder {
-    color: ${(props) => props.theme.color.blue};
-  }
-  font-size: ${(props) => props.theme.fontSize.title4};
-  height: 4.63vh;
-  padding: 0 0.74vh;
-  border: 1px solid ${(props) => props.theme.color.gray};
-`;
+// const Input = styled.input`
+//   &::placeholder {
+//     color: ${(props) => props.theme.color.blue};
+//   }
+//   font-size: ${(props) => props.theme.fontSize.title4};
+//   height: 4.63vh;
+//   padding: 0 0.74vh;
+//   border: 1px solid ${(props) => props.theme.color.gray};
+// `;

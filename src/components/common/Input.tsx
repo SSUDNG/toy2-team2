@@ -6,7 +6,7 @@ type PlaceholderColor = 'black' | 'gray';
 type BorderColor = 'primary' | 'black' | 'red' | 'gray';
 
 interface InputStyleProps {
-  placeholderColor: PlaceholderColor;
+  placeHolderColor: PlaceholderColor;
   borderColor: BorderColor;
 }
 
@@ -14,13 +14,13 @@ type InputProps<T extends object = Record<never, never>> =
   InputHTMLAttributes<HTMLInputElement> & InputStyleProps & T;
 
 function Input<T extends object>({
-  placeholderColor = 'black',
+  color = 'black',
   borderColor = 'black',
   type = 'text',
   ...props
 }: InputProps<T>) {
   return createElement(InputLayout, {
-    placeholderColor,
+    color,
     borderColor,
     ...props,
     type,
@@ -31,7 +31,7 @@ export default Input;
 
 const InputLayout = styled.input<InputStyleProps>`
   ${(props) =>
-    sb(props.placeholderColor, {
+    sb(props.placeHolderColor, {
       black: css`
         &::placeholder {
           color: ${props.theme.color.black};
