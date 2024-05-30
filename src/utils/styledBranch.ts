@@ -1,4 +1,6 @@
-type StyledBranchObject<T extends string> = Record<T, string>;
+import { RuleSet } from 'styled-components';
+
+type StyledBranchObject<T extends string> = Record<T, RuleSet<object>>;
 
 export default function styledBranchOfAType<T extends string>(
   prop: T,
