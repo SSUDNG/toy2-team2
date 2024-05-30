@@ -7,7 +7,7 @@ function Login() {
     <Layout>
       <Col>
         <Logo>LOGO</Logo>
-        <InputBox />
+        <LoginBox />
       </Col>
     </Layout>
   );
