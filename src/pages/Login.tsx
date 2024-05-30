@@ -1,12 +1,13 @@
 import styled from 'styled-components';
-import InputBox from '../components/Login/InputBox';
+
+import LoginBox from '../components/Login/LoginBox';
 
 function Login() {
   return (
     <Layout>
       <Col>
         <Logo>LOGO</Logo>
-        <InputBox />
+        <LoginBox />
       </Col>
     </Layout>
   );
