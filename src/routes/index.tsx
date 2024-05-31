@@ -1,20 +1,25 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout';
-import Signup from '../pages/Signup';
 import Profile from '../pages/Profile';
 import Calendar from '../pages/Calendar';
 import Salary from '../pages/Salary';
 import Correction from '../pages/Correction';
+import Login from '../pages/Login';
+import Signup from '../pages/Signup';
 
 const router = createBrowserRouter([
+  {
+    path: 'login',
+    element: <Login />,
+  },
+  {
+    path: 'signup',
+    element: <Signup />,
+  },
   {
     path: '/',
     element: <Layout />,
     children: [
-      {
-        path: 'signup',
-        element: <Signup />,
-      },
       {
         path: 'profile',
         element: <Profile />,
