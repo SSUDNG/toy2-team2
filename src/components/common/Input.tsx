@@ -1,29 +1,40 @@
 import { InputHTMLAttributes, createElement } from 'react';
 import styled, { css } from 'styled-components';
+import { UseFormRegisterReturn } from 'react-hook-form';
 import sb from '../../utils/styledBranch';
 
 type PlaceholderColor = 'black' | 'gray';
+type OutlineColor = 'primary' | 'black' | 'red' | 'gray';
 type BorderColor = 'primary' | 'black' | 'red' | 'gray';
 
 interface InputStyleProps {
-  placeholderColor: PlaceholderColor;
-  borderColor: BorderColor;
+  placeholdercolor: PlaceholderColor;
+  bordercolor: BorderColor;
+  outlinecolor: OutlineColor;
 }
 
 type InputProps<T extends object = Record<never, never>> =
   InputHTMLAttributes<HTMLInputElement> & InputStyleProps & T;
 
 function Input<T extends object>({
-  color = 'black',
-  borderColor = 'black',
+  placeholdercolor = 'black',
+  bordercolor = 'gray',
+  outlinecolor = 'primary',
   type = 'text',
+  register,
   ...props
 }: InputProps<T>) {
+  const { onChange, onBlur, name, ref } = register || {};
   return createElement(InputLayout, {
-    color,
-    borderColor,
+    placeholdercolor,
+    bordercolor,
+    outlinecolor,
     ...props,
     type,
+    onChange,
+    onBlur,
+    name,
+    ref,
   });
 }
 
@@ -31,7 +42,7 @@ export default Input;
 
 const InputLayout = styled.input<InputStyleProps>`
   ${(props) =>
-    sb(props.placeholderColor, {
+    sb(props.placeHolderColor, {
       black: css`
         &::placeholder {
           color: ${props.theme.color.black};
@@ -44,7 +55,7 @@ const InputLayout = styled.input<InputStyleProps>`
       `,
     })}
   ${(props) =>
-    sb(props.borderColor, {
+    sb(props.bordercolor, {
       primary: css`
         border-color: ${props.theme.color.primary};
       `,
@@ -58,8 +69,25 @@ const InputLayout = styled.input<InputStyleProps>`
         border-color: ${props.theme.color.gray};
       `,
     })}
+    ${(props) =>
+    sb(props.outlinecolor, {
+      primary: css`
+        outline-color: ${props.theme.color.primary};
+      `,
+      black: css`
+        outline-color: ${props.theme.color.black};
+      `,
+      red: css`
+        outline-color: ${props.theme.color.red};
+      `,
+      gray: css`
+        outline-color: ${props.theme.color.gray};
+      `,
+    })}
   border-radius: 6px;
   border-style: solid;
   border-width: 1px;
   height: 50px;
+  padding: 0 ${(props) => props.theme.fontSize.title2};
+  font-size: ${(props) => props.theme.fontSize.title4};
 `;

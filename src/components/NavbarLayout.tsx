@@ -1,5 +1,64 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Button from './common/Button';
+import useCheckLogin from './Login/useCheckLogin';
+
+function NavbarLayout() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  useCheckLogin();
+  const clickLogOut = () => {
+    navigate('/login');
+    sessionStorage.clear();
+  };
+  return (
+    <NavbarLayoutStyle>
+      {/* NavbarList */}
+      <ul>
+        <Link to="/">
+          {/* NavbarItem */}
+          <li
+            className={`titleLogo ${location.pathname === '/' ? 'active' : ''}`}
+          >
+            LOGO
+          </li>
+        </Link>
+        {/* NavbarBox */}
+        <div className="navbar">
+          <div className="navEl">
+            <Link to="/profile">
+              <li className={location.pathname === '/profile' ? 'active' : ''}>
+                내 인사정보
+              </li>
+            </Link>
+            <Link to="/salary">
+              <li className={location.pathname === '/salary' ? 'active' : ''}>
+                급여 내역
+              </li>
+            </Link>
+            <Link to="/correction">
+              <li
+                className={location.pathname === '/correction' ? 'active' : ''}
+              >
+                신청 내역
+              </li>
+            </Link>
+            <Link to="/calendar">
+              <li className={location.pathname === '/calendar' ? 'active' : ''}>
+                캘린더
+              </li>
+            </Link>
+          </div>
+          <Button size="basic" color="white" onClick={clickLogOut}>
+            로그아웃
+          </Button>
+        </div>
+      </ul>
+    </NavbarLayoutStyle>
+  );
+}
+
+export default NavbarLayout;
 
 const NavbarLayoutStyle = styled.header`
   ul {
@@ -42,54 +101,3 @@ const NavbarLayoutStyle = styled.header`
     margin: 0 3rem 0 3rem;
   }
 `;
-
-function NavbarLayout() {
-  const location = useLocation();
-
-  return (
-    <NavbarLayoutStyle>
-      {/* NavbarList */}
-      <ul>
-        <Link to="/">
-          {/* NavbarItem */}
-          <li
-            className={`titleLogo ${location.pathname === '/' ? 'active' : ''}`}
-          >
-            LOGO
-          </li>
-        </Link>
-        {/* NavbarBox */}
-        <div className="navbar">
-          <div className="navEl">
-            <Link to="/profile">
-              <li className={location.pathname === '/profile' ? 'active' : ''}>
-                내 인사정보
-              </li>
-            </Link>
-            <Link to="/salary">
-              <li className={location.pathname === '/salary' ? 'active' : ''}>
-                급여 내역
-              </li>
-            </Link>
-            <Link to="/correction">
-              <li
-                className={location.pathname === '/correction' ? 'active' : ''}
-              >
-                신청 내역
-              </li>
-            </Link>
-            <Link to="/calendar">
-              <li className={location.pathname === '/calendar' ? 'active' : ''}>
-                캘린더
-              </li>
-            </Link>
-          </div>
-          {/* Button */}
-          <button>로그아웃</button>
-        </div>
-      </ul>
-    </NavbarLayoutStyle>
-  );
-}
-
-export default NavbarLayout;
