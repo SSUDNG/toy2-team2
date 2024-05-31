@@ -11,6 +11,7 @@ interface InputStyleProps {
   placeholdercolor: PlaceholderColor;
   bordercolor: BorderColor;
   outlinecolor: OutlineColor;
+  register: UseFormRegisterReturn;
 }
 
 type InputProps<T extends object = Record<never, never>> =
@@ -42,7 +43,7 @@ export default Input;
 
 const InputLayout = styled.input<InputStyleProps>`
   ${(props) =>
-    sb(props.placeHolderColor, {
+    sb(props.placeholdercolor, {
       black: css`
         &::placeholder {
           color: ${props.theme.color.black};

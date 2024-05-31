@@ -120,7 +120,6 @@ const Logo = styled.span`
   font-weight: ${(props) => props.theme.fontWeight.bold};
   font-size: ${(props) => props.theme.fontSize.title1};
 `;
-
 const Form = styled.form`
   display: flex;
   flex-direction: column;
