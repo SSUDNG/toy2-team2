@@ -85,6 +85,7 @@ const InputLayout = styled.input<InputStyleProps>`
         outline-color: ${props.theme.color.gray};
       `,
     })}
+    
   border-radius: 6px;
   border-style: solid;
   border-width: 1px;

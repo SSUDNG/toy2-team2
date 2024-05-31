@@ -11,6 +11,7 @@ function NavbarLayout() {
     navigate('/login');
     sessionStorage.clear();
   };
+
   return (
     <NavbarLayoutStyle>
       {/* NavbarList */}
