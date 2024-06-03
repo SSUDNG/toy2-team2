@@ -14,7 +14,7 @@ interface SelectStyleProps {
 
 type SelectProps<T extends object = Record<never, never>> =
   SelectHTMLAttributes<HTMLSelectElement> & { children: ReactNode } & T &
-  SelectStyleProps;
+    SelectStyleProps;
 
 function Select<T extends object>({
   children,

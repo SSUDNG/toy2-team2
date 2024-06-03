@@ -12,9 +12,9 @@ interface ButtonStyleProps {
 
 type ButtonProps<T extends object = Record<never, never>> =
   ButtonHTMLAttributes<HTMLButtonElement> &
-  ButtonStyleProps & {
-    children: ReactNode;
-  } & T;
+    ButtonStyleProps & {
+      children: ReactNode;
+    } & T;
 
 function Button<T extends object>({
   children,
