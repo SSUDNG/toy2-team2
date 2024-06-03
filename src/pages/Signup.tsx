@@ -9,11 +9,14 @@ import {
   setDoc,
   where,
 } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import InputBox from '../components/Login/InputBox';
 import signUpSchema from '../components/SignUp/signupSchema';
 import Button from '../components/common/Button';
 import Select from '../components/common/Select';
 import { firestore } from '../firebase/firebase';
+import Loading from '../components/common/Loading';
 
 interface IuserInfo {
   id: string;
@@ -38,158 +41,172 @@ function Signup() {
   } = useForm<ISignUP>({
     resolver: zodResolver(signUpSchema),
   });
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const departmentList = ['인사부', '재무부', '마케팅부', '영업부', '기술부'];
   const jobPositionList = ['사원', '대리', '과장', '부장', '이사'];
   const enroll = async (userInfo: IuserInfo) => {
-    const USER_COLLECTION = 'User';
-    const userCollectionRef = collection(firestore, USER_COLLECTION);
-    const idQuery = query(userCollectionRef, where('id', '==', userInfo.id));
-    const emailQuery = query(
-      userCollectionRef,
-      where('email', '==', userInfo.email),
-    );
-    const idQuerySnapshot = await getDocs(idQuery);
-    const emailQuerySnapshot = await getDocs(emailQuery);
-    if (!idQuerySnapshot.empty || !emailQuerySnapshot.empty) {
-      if (!idQuerySnapshot.empty) {
-        setError('id', { type: 'manual', message: '존재하는 ID입니다.' });
-      }
-      if (!emailQuerySnapshot.empty) {
-        setError('email', {
-          type: 'manual',
-          message: '존재하는 E-mail입니다.',
+    setIsLoading(true);
+    try {
+      const USER_COLLECTION = 'User';
+      const userCollectionRef = collection(firestore, USER_COLLECTION);
+      const idQuery = query(userCollectionRef, where('id', '==', userInfo.id));
+      const emailQuery = query(
+        userCollectionRef,
+        where('email', '==', userInfo.email),
+      );
+      const idQuerySnapshot = await getDocs(idQuery);
+      const emailQuerySnapshot = await getDocs(emailQuery);
+      if (!idQuerySnapshot.empty || !emailQuerySnapshot.empty) {
+        if (!idQuerySnapshot.empty) {
+          setError('id', { type: 'manual', message: '존재하는 ID입니다.' });
+        }
+        if (!emailQuerySnapshot.empty) {
+          setError('email', {
+            type: 'manual',
+            message: '존재하는 E-mail입니다.',
+          });
+        }
+      } else {
+        await setDoc(doc(firestore, USER_COLLECTION, `${userInfo.id}`), {
+          id: userInfo.id,
+          password: userInfo.password,
+          name: userInfo.name,
+          department: userInfo.department,
+          jobPosition: userInfo.jobPosition,
+          joiningDate: userInfo.joiningDate,
+          email: userInfo.email,
         });
+        navigate('/login');
       }
-    } else {
-      await setDoc(doc(firestore, USER_COLLECTION, `${userInfo.id}`), {
-        id: userInfo.id,
-        password: userInfo.password,
-        name: userInfo.name,
-        department: userInfo.department,
-        jobPosition: userInfo.jobPosition,
-        joiningDate: userInfo.joiningDate,
-        email: userInfo.email,
-      });
+    } catch (error) {
+      console.log('SignUp Error: ', error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
     <Layout>
       <Col>
         <Logo>LOGO</Logo>
-        <Form onSubmit={handleSubmit((data) => enroll(data))}>
-          <OptionList>
-            <List>
-              <InputLabel>ID</InputLabel>
-              <InputBox
-                type="text"
-                outlinecolor={errors.id ? 'red' : 'primary'}
-                bordercolor={errors.id ? 'red' : 'gray'}
-                required
-                placeholder="아이디를 입력하세요"
-                placeholdercolor="gray"
-                register={register('id')}
-                message={errors.id?.message}
-                font-size="16px"
-              />
-            </List>
-            <List>
-              <InputLabel>비밀번호</InputLabel>
-              <InputBox
-                type="text"
-                outlinecolor={errors.password ? 'red' : 'primary'}
-                bordercolor={errors.password ? 'red' : 'gray'}
-                required
-                placeholder="비밀번호를 입력하세요"
-                placeholdercolor="gray"
-                register={register('password')}
-                message={errors.password?.message}
-              />
-            </List>
-            <List>
-              <InputLabel>비밀번호 확인</InputLabel>
-              <InputBox
-                type="text"
-                bordercolor="gray"
-                outlinecolor="primary"
-                required
-                placeholder="비밀번호를 입력하세요"
-                placeholdercolor="gray"
-                register={register('confirmPassword')}
-                message={errors.confirmPassword?.message}
-              />
-            </List>
-            <List>
-              <InputLabel>이름</InputLabel>
-              <InputBox
-                type="text"
-                outlinecolor={errors.name ? 'red' : 'primary'}
-                bordercolor={errors.name ? 'red' : 'gray'}
-                required
-                placeholder="이름을 입력하세요"
-                placeholdercolor="gray"
-                register={register('name')}
-                message={errors.name?.message}
-              />
-            </List>
-            <List>
-              <InputLabel>부서</InputLabel>
-              <Select
-                bordercolor="gray"
-                outlinecolor="primary"
-                register={register('department')}
-              >
-                {departmentList.map((item) => (
-                  <option value={`${item}`} key={`${item}`}>
-                    {item}
-                  </option>
-                ))}
-              </Select>
-            </List>
-            <List>
-              <InputLabel>직위</InputLabel>
-              <Select
-                bordercolor="gray"
-                outlinecolor="primary"
-                register={register('jobPosition')}
-              >
-                {jobPositionList.map((item) => (
-                  <option value={`${item}`} key={`${item}`}>
-                    {item}
-                  </option>
-                ))}
-              </Select>
-            </List>
-            <List>
-              <InputLabel>입사일</InputLabel>
-              <InputBox
-                type="date"
-                bordercolor="gray"
-                outlinecolor="primary"
-                required
-                placeholder="입사일을 선택하세요"
-                placeholdercolor="gray"
-                register={register('joiningDate')}
-                message={errors.joiningDate?.message}
-              />
-            </List>
-            <List>
-              <InputLabel>E-mail</InputLabel>
-              <InputBox
-                type="email"
-                bordercolor="gray"
-                outlinecolor="primary"
-                required
-                placeholder="이메일을 입력하세요"
-                placeholdercolor="gray"
-                register={register('email')}
-                message={errors.email?.message}
-              />
-            </List>
-          </OptionList>
-          <Button size="xlarge" color="primary" type="submit">
-            등록
-          </Button>
-        </Form>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <Form onSubmit={handleSubmit((data) => enroll(data))}>
+            <OptionList>
+              <List>
+                <InputLabel>ID</InputLabel>
+                <InputBox
+                  type="text"
+                  outlinecolor={errors.id ? 'red' : 'primary'}
+                  bordercolor={errors.id ? 'red' : 'gray'}
+                  required
+                  placeholder="아이디를 입력하세요"
+                  placeholdercolor="gray"
+                  register={register('id')}
+                  message={errors.id?.message}
+                  font-size="16px"
+                />
+              </List>
+              <List>
+                <InputLabel>비밀번호</InputLabel>
+                <InputBox
+                  type="password"
+                  outlinecolor={errors.password ? 'red' : 'primary'}
+                  bordercolor={errors.password ? 'red' : 'gray'}
+                  required
+                  placeholder="비밀번호를 입력하세요"
+                  placeholdercolor="gray"
+                  register={register('password')}
+                  message={errors.password?.message}
+                />
+              </List>
+              <List>
+                <InputLabel>비밀번호 확인</InputLabel>
+                <InputBox
+                  type="password"
+                  bordercolor="gray"
+                  outlinecolor="primary"
+                  required
+                  placeholder="비밀번호를 입력하세요"
+                  placeholdercolor="gray"
+                  register={register('confirmPassword')}
+                  message={errors.confirmPassword?.message}
+                />
+              </List>
+              <List>
+                <InputLabel>이름</InputLabel>
+                <InputBox
+                  type="text"
+                  outlinecolor={errors.name ? 'red' : 'primary'}
+                  bordercolor={errors.name ? 'red' : 'gray'}
+                  required
+                  placeholder="이름을 입력하세요"
+                  placeholdercolor="gray"
+                  register={register('name')}
+                  message={errors.name?.message}
+                />
+              </List>
+              <List>
+                <InputLabel>부서</InputLabel>
+                <Select
+                  bordercolor="gray"
+                  outlinecolor="primary"
+                  register={register('department')}
+                >
+                  {departmentList.map((item) => (
+                    <option value={`${item}`} key={`${item}`}>
+                      {item}
+                    </option>
+                  ))}
+                </Select>
+              </List>
+              <List>
+                <InputLabel>직위</InputLabel>
+                <Select
+                  bordercolor="gray"
+                  outlinecolor="primary"
+                  register={register('jobPosition')}
+                >
+                  {jobPositionList.map((item) => (
+                    <option value={`${item}`} key={`${item}`}>
+                      {item}
+                    </option>
+                  ))}
+                </Select>
+              </List>
+              <List>
+                <InputLabel>입사일</InputLabel>
+                <InputBox
+                  type="date"
+                  bordercolor="gray"
+                  outlinecolor="primary"
+                  required
+                  placeholder="입사일을 선택하세요"
+                  placeholdercolor="gray"
+                  register={register('joiningDate')}
+                  message={errors.joiningDate?.message}
+                />
+              </List>
+              <List>
+                <InputLabel>E-mail</InputLabel>
+                <InputBox
+                  type="email"
+                  bordercolor="gray"
+                  outlinecolor="primary"
+                  required
+                  placeholder="이메일을 입력하세요"
+                  placeholdercolor="gray"
+                  register={register('email')}
+                  message={errors.email?.message}
+                />
+              </List>
+            </OptionList>
+            <Button size="xlarge" color="primary" type="submit">
+              등록
+            </Button>
+          </Form>
+        )}
       </Col>
     </Layout>
   );
