@@ -1,7 +1,14 @@
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
 import InputBox from '../components/Login/InputBox';
 import signUpSchema from '../components/SignUp/signupSchema';
 import Button from '../components/common/Button';
@@ -37,7 +44,6 @@ function Signup() {
     const USER_COLLECTION = 'User';
     const userCollectionRef = collection(firestore, USER_COLLECTION);
     const idQuery = query(userCollectionRef, where('id', '==', userInfo.id));
-    console.log(userInfo.id);
     const emailQuery = query(
       userCollectionRef,
       where('email', '==', userInfo.email),
@@ -55,7 +61,7 @@ function Signup() {
         });
       }
     } else {
-      await addDoc(userCollectionRef, {
+      await setDoc(doc(firestore, USER_COLLECTION, `${userInfo.id}`), {
         id: userInfo.id,
         password: userInfo.password,
         name: userInfo.name,
