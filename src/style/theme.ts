@@ -8,6 +8,7 @@ const color = {
   pureWhite: '#FFFFFF',
   background: '#F3F4F6',
   gray: '#E2DEDE',
+  darkgray: '#404040',
   black: '#202124',
   yellow: '#FFBF00',
 } as const;
