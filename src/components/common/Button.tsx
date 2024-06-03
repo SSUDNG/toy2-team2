@@ -64,7 +64,7 @@ const ButtonLayout = styled.button<ButtonStyleProps>`
         color: ${props.theme.color.white};
       `,
       white: css`
-        background-color: ${props.theme.color.background};
+        background-color: ${props.theme.color.white};
         color: ${props.theme.color.primary};
       `,
     })}
