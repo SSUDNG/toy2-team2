@@ -1,61 +1,48 @@
-import { InputHTMLAttributes, createElement } from 'react';
+import { ReactNode, SelectHTMLAttributes, createElement } from 'react';
 import styled, { css } from 'styled-components';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import sb from '../../utils/styledBranch';
 
-type PlaceholderColor = 'black' | 'gray';
 type OutlineColor = 'primary' | 'black' | 'red' | 'gray';
 type BorderColor = 'primary' | 'black' | 'red' | 'gray';
 
-interface InputStyleProps {
-  placeholdercolor: PlaceholderColor;
+interface SelectStyleProps {
   bordercolor: BorderColor;
   outlinecolor: OutlineColor;
   register: UseFormRegisterReturn;
 }
 
-type InputProps<T extends object = Record<never, never>> =
-  InputHTMLAttributes<HTMLInputElement> & InputStyleProps & T;
+type SelectProps<T extends object = Record<never, never>> =
+  SelectHTMLAttributes<HTMLSelectElement> & { children: ReactNode } & T &
+  SelectStyleProps;
 
-function Input<T extends object>({
-  placeholdercolor = 'black',
+function Select<T extends object>({
+  children,
   bordercolor = 'gray',
   outlinecolor = 'primary',
-  type = 'text',
   register,
   ...props
-}: InputProps<T>) {
+}: SelectProps<T>) {
   const { onChange, onBlur, name, ref } = register || {};
   // console.log(register);
-  return createElement(InputLayout, {
-    placeholdercolor,
-    bordercolor,
-    outlinecolor,
-    ...props,
-    type,
-    onChange,
-    onBlur,
-    name,
-    ref,
-  });
+  return createElement(
+    SelectLayout,
+    {
+      bordercolor,
+      outlinecolor,
+      ...props,
+      onChange,
+      onBlur,
+      name,
+      ref,
+    },
+    children,
+  );
 }
 
-export default Input;
+export default Select;
 
-const InputLayout = styled.input<InputStyleProps>`
-  ${(props) =>
-    sb(props.placeholdercolor, {
-      black: css`
-        &::placeholder {
-          color: ${props.theme.color.black};
-        }
-      `,
-      gray: css`
-        &::placeholder {
-          color: ${props.theme.color.gray};
-        }
-      `,
-    })}
+const SelectLayout = styled.select<SelectStyleProps>`
   ${(props) =>
     sb(props.bordercolor, {
       primary: css`
@@ -71,7 +58,7 @@ const InputLayout = styled.input<InputStyleProps>`
         border-color: ${props.theme.color.gray};
       `,
     })}
-    ${(props) =>
+  ${(props) =>
     sb(props.outlinecolor, {
       primary: css`
         outline-color: ${props.theme.color.primary};
@@ -86,7 +73,8 @@ const InputLayout = styled.input<InputStyleProps>`
         outline-color: ${props.theme.color.gray};
       `,
     })}
-    
+  text-align: center;
+  width: 100%;
   border-radius: 6px;
   border-style: solid;
   border-width: 1px;
