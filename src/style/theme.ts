@@ -10,6 +10,8 @@ const color = {
   gray: '#E2DEDE',
   darkgray: '#404040',
   black: '#202124',
+  yellow: '#FFBF00',
+  bluegreen: '#07A58E',
 } as const;
 
 const fontSize = {
