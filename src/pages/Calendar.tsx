@@ -7,46 +7,22 @@ import MonthNavigator from '../components/Calendar/MonthNavigator';
 import AddEventModal from '../components/Calendar/AddEventModal';
 import EventModal from '../components/Calendar/EventModal';
 import { RootState, AppDispatch } from '../store';
-import { fetchEvents } from '../modules/calendar';
-
-const CalendarWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const DaysGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-gap: 1px;
-  width: 100%;
-  background-color: #ccc;
-`;
-
-const DayCell = styled.div`
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  height: 100px;
-`;
-
-const EventContainer = styled.div`
-  width: 100%;
-`;
+import {
+  fetchEvents,
+  updateEvent,
+  deleteEvent,
+  Event as EventType,
+} from '../modules/calendar';
+import Button from '../components/common/Button';
 
 function Calendar() {
   const dispatch: AppDispatch = useDispatch();
   const [currentDate, setCurrentDate] = useState(new Date());
-  const events = useSelector((state: RootState) => {
-    console.log(state); // RootState 전체를 확인
-    console.log(state.calendar); // calendar 슬라이스가 올바르게 포함되어 있는지 확인
-    return state.calendar.events;
-  });
+  const events = useSelector((state: RootState) => state.calendar.events);
   const eventStatus = useSelector((state: RootState) => state.calendar.status);
   const error = useSelector((state: RootState) => state.calendar.error);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedEvent, setSelectedEvent] = useState<EventType | null>(null);
+  const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false);
 
   useEffect(() => {
     if (eventStatus === 'idle') {
@@ -72,6 +48,35 @@ function Calendar() {
     );
   }
 
+  const startDayOfWeek = (startOfMonth.getDay() + 7) % 7;
+  const endDayOfWeek = (endOfMonth.getDay() + 7) % 7;
+
+  const prevMonthDays = [];
+  const prevMonthLastDate = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    0,
+  ).getDate();
+
+  for (let i = startDayOfWeek - 1; i >= 0; i -= 1) {
+    prevMonthDays.unshift(
+      new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 1,
+        prevMonthLastDate - (startDayOfWeek - 1 - i),
+      ),
+    );
+  }
+
+  const nextMonthDays = [];
+  for (let i = 1; i < 7 - endDayOfWeek; i += 1) {
+    nextMonthDays.push(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, i),
+    );
+  }
+
+  const allDays = [...prevMonthDays, ...daysInMonth, ...nextMonthDays];
+
   function isToday(date: Date) {
     const today = new Date();
     return (
@@ -93,40 +98,116 @@ function Calendar() {
     );
   };
 
-  function getEventsForDay(date: Date) {
-    return events.filter((event) => {
-      const startDate = new Date(event.startDate);
-      const endDate = new Date(event.endDate);
-      return date >= startDate && date <= endDate;
+  const handleEventUpdate = (updatedEvent: EventType) => {
+    dispatch(updateEvent(updatedEvent));
+  };
+
+  const handleEventDelete = (eventId: string) => {
+    dispatch(deleteEvent(eventId));
+  };
+
+  const monthTitle = `${currentDate.toLocaleString('default', { month: 'long' })} ${currentDate.getFullYear()}`;
+  const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const renderEventBars = (day: Date, dayIndex: number) => {
+    const dayWithoutTime = new Date(day);
+    dayWithoutTime.setHours(0, 0, 0, 0);
+
+    // 각 날짜의 빈 row 생성
+    const rows: EventType[][] = new Array(6).fill([]).map(() => []);
+
+    const dayEvents = events
+      .filter((event) => {
+        const startDate = new Date(event.startDate);
+        startDate.setHours(0, 0, 0, 0);
+        const endDate = new Date(event.endDate);
+        endDate.setHours(0, 0, 0, 0);
+        return dayWithoutTime >= startDate && dayWithoutTime <= endDate;
+      })
+      .sort(
+        (a, b) =>
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime(),
+      );
+
+    dayEvents.forEach((event) => {
+      for (let rowIndex = 0; rowIndex < 6; rowIndex += 1) {
+        // 빈 row에 이벤트 추가
+        if (!rows[rowIndex].some((e) => e)) {
+          rows[rowIndex].push(event);
+          break;
+        }
+      }
     });
-  }
+
+    // 각 row의 이벤트를 렌더링
+    const renderRow = (row: EventType[], rowIndex: number) =>
+      row.map((event, index) => {
+        const key = `row-${dayWithoutTime.getTime()}-${rowIndex}-${index}`;
+        const span = Math.min(
+          (new Date(event.endDate).getTime() -
+            new Date(event.startDate).getTime()) /
+            (1000 * 60 * 60 * 24) +
+            1,
+          allDays.length - dayIndex,
+        );
+        return (
+          <Row key={key}>
+            <EventBar
+              key={event.id}
+              event={event}
+              span={span}
+              showName={
+                dayWithoutTime.toDateString() ===
+                new Date(event.startDate).toDateString()
+              }
+              onClick={() => setSelectedEvent(event)}
+            />
+          </Row>
+        );
+      });
+
+    return rows.flatMap((row, rowIndex) => renderRow(row, rowIndex));
+  };
 
   return (
     <CalendarWrapper>
+      <MonthTitle>{monthTitle}</MonthTitle>
       <MonthNavigator onPrevMonth={onPrevMonth} onNextMonth={onNextMonth} />
+      <Button
+        size="basic"
+        color="primary"
+        type="button"
+        onClick={() => setIsAddEventModalOpen(true)}
+      >
+        이벤트 추가
+      </Button>
+      <WeekDays>
+        {weekDays.map((day) => (
+          <WeekDay key={day}>{day}</WeekDay>
+        ))}
+      </WeekDays>
       {eventStatus === 'loading' && <div>Loading...</div>}
       {eventStatus === 'failed' && <div>Error: {error}</div>}
       <DaysGrid>
-        {daysInMonth.map((day) => (
-          <DayCell key={day.toString()}>
+        {allDays.map((day, index) => (
+          <DayCell
+            key={day.toString()}
+            isCurrentMonth={day.getMonth() === currentDate.getMonth()}
+          >
             <Day date={day.toDateString()} isToday={isToday(day)} />
-            <EventContainer>
-              {getEventsForDay(day).map((event) => (
-                <EventBar
-                  key={event.id}
-                  name={event.name}
-                  color={event.color}
-                />
-              ))}
-            </EventContainer>
+            <EventContainer>{renderEventBars(day, index)}</EventContainer>
           </DayCell>
         ))}
       </DaysGrid>
-      <AddEventModal />
+      {isAddEventModalOpen && (
+        <AddEventModal onClose={() => setIsAddEventModalOpen(false)} />
+      )}
       {selectedEvent && (
         <EventModal
           event={selectedEvent}
           onClose={() => setSelectedEvent(null)}
+          onUpdate={handleEventUpdate}
+          onDelete={handleEventDelete}
         />
       )}
     </CalendarWrapper>
@@ -134,3 +215,51 @@ function Calendar() {
 }
 
 export default Calendar;
+
+const CalendarWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const DaysGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 1px;
+  width: 100%;
+  background-color: #ccc;
+`;
+
+const DayCell = styled.div<{ isCurrentMonth: boolean }>`
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 100px;
+  color: ${({ isCurrentMonth }) => (isCurrentMonth ? 'black' : 'gray')};
+`;
+
+const EventContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Row = styled.div`
+  display: flex;
+`;
+
+const WeekDays = styled.div`
+  display: flex;
+  width: 100%;
+  background-color: #f0f0f0;
+`;
+
+const WeekDay = styled.div`
+  flex: 1;
+  text-align: center;
+  padding: 8px 0;
+`;
+
+const MonthTitle = styled.h2`
+  margin-bottom: 0;
+`;
