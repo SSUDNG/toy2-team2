@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import styled, { css } from 'styled-components';
 
 export type TableRowItem = string | number | boolean | React.ReactElement;
@@ -9,6 +10,11 @@ export interface TableRowProps {
 }
 
 function TableRow({ isHeader = false, isTail = false, column }: TableRowProps) {
+  const columnWithId = useMemo(
+    () => column.map(() => crypto.getRandomValues(new Uint32Array(1)).join('')),
+    [],
+  );
+
   return (
     <>
       {column.map((columnItem: TableRowItem, index) => (
@@ -17,7 +23,7 @@ function TableRow({ isHeader = false, isTail = false, column }: TableRowProps) {
           $tail={isTail}
           $first={index === 0}
           $last={index === column.length - 1}
-          key={columnItem.toString()}
+          key={columnWithId[index]}
         >
           {typeof columnItem === 'string' ||
           typeof columnItem === 'number' ||
