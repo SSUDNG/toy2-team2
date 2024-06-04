@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import styled from 'styled-components';
 import TableRow, { TableRowItem } from './TableRow';
 
@@ -14,6 +15,12 @@ function Table<T>({
   data,
   minWidth = 'fit-content',
 }: TableProps<T>) {
+  const dataWithId = useMemo(() => {
+    return data.map((item) => {
+      return { ...item, id: crypto.getRandomValues(new Uint32Array(1)) };
+    });
+  }, []);
+
   return (
     <TableLayout
       $column={columnName.length}
@@ -21,13 +28,16 @@ function Table<T>({
       $minWidth={minWidth}
     >
       <TableRow isHeader column={columnName} />
-      {data.map((row, index) => (
-        <TableRow
-          isTail={data.length - 1 === index}
-          column={Object.values(row)}
-          key={JSON.stringify(row)}
-        />
-      ))}
+      {dataWithId.map((row, index) => {
+        const { id, ...newRow } = row;
+        return (
+          <TableRow
+            isTail={data.length - 1 === index}
+            column={Object.values(newRow)}
+            key={id.join('')}
+          />
+        );
+      })}
     </TableLayout>
   );
 }
