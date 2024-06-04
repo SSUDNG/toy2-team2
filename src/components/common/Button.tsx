@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import sb from '../../utils/styledBranch';
 
 type ButtonSize = 'basic' | 'large' | 'xlarge';
-type ButtonColor = 'primary' | 'white';
+type ButtonColor = 'primary' | 'white' | 'red';
 
 interface ButtonStyleProps {
   size: ButtonSize;
@@ -73,6 +73,14 @@ const ButtonLayout = styled.button<ButtonStyleProps>`
         border: 1px solid ${props.theme.color.primary};
         &:hover {
           filter: brightness(125%);
+        }
+      `,
+      red: css`
+        background-color: ${props.theme.color.red};
+        color: ${props.theme.color.black};
+        border: 1px solid ${props.theme.color.red};
+        &:hover {
+          filter: brightness(90%);
         }
       `,
     })}
