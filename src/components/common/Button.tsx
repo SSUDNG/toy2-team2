@@ -79,7 +79,7 @@ const ButtonLayout = styled.button<ButtonStyleProps>`
       `,
       red: css`
         background-color: ${props.theme.color.red};
-        color: ${props.theme.color.black};
+        color: ${props.theme.color.white};
         border: 1px solid ${props.theme.color.red};
         &:hover {
           filter: brightness(90%);
