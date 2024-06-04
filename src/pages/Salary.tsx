@@ -90,7 +90,7 @@ function Salary() {
 
 export default Salary;
 
-const SalaryLayout = styled.section`
+export const SalaryLayout = styled.section`
   width: fit-content;
   margin: 0 auto;
   & h2 {
