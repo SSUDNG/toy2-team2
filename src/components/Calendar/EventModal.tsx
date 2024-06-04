@@ -1,6 +1,6 @@
-// src/EventModal.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import Button from '../common/Button';
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -20,10 +20,12 @@ const ModalContent = styled.div`
   border-radius: 5px;
   max-width: 500px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 
 interface Event {
-  id?: string;
+  id: string;
   name: string;
   startDate: string;
   endDate: string;
@@ -33,19 +35,77 @@ interface Event {
 interface EventModalProps {
   event: Event;
   onClose: () => void;
+  onUpdate: (event: Event) => void;
+  onDelete: (eventId: string) => void;
 }
 
-function EventModal({ event, onClose }: EventModalProps) {
+function EventModal({ event, onClose, onUpdate, onDelete }: EventModalProps) {
+  const [editableEvent, setEditableEvent] = useState(event);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEditableEvent((prevEvent) => ({ ...prevEvent, [name]: value }));
+  };
+
+  const handleUpdate = () => {
+    onUpdate(editableEvent);
+    onClose();
+  };
+  const handleDelete = () => {
+    onDelete(event.id);
+    onClose();
+  };
+
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
-        <h2>{event.name}</h2>
-        <p>
-          {event.startDate} - {event.endDate}
-        </p>
-        <button type="button" onClick={onClose}>
-          Close
-        </button>
+        <h2>Edit Event</h2>
+        <label>
+          Name:
+          <input
+            type="text"
+            name="name"
+            value={editableEvent.name}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Start Date:
+          <input
+            type="date"
+            name="startDate"
+            value={editableEvent.startDate}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          End Date:
+          <input
+            type="date"
+            name="endDate"
+            value={editableEvent.endDate}
+            onChange={handleChange}
+          />
+        </label>
+        <Button
+          size="basic"
+          color="primary"
+          type="submit"
+          onClick={handleUpdate}
+        >
+          수정
+        </Button>
+        <Button
+          size="basic"
+          color="primary"
+          type="submit"
+          onClick={handleDelete}
+        >
+          삭제
+        </Button>
+        <Button size="basic" color="white" type="button" onClick={onClose}>
+          취소
+        </Button>
       </ModalContent>
     </ModalOverlay>
   );

@@ -10,7 +10,7 @@ import router from './routes';
 
 const store = configureStore({
   reducer: {
-    events: eventsReducer,
+    calendar: eventsReducer,
   },
 });
 export type RootState = ReturnType<typeof store.getState>;

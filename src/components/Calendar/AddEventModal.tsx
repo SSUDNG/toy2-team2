@@ -1,16 +1,28 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { collection, addDoc } from 'firebase/firestore';
+import { setDoc, doc } from 'firebase/firestore';
 import { firestore } from '../../firebase/firebase';
+import ColorOptions from './ColorOptions';
+import Button from '../common/Button';
 
-const ModalWrapper = styled.div`
-  /* 모달 스타일 */
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
-
-const ColorOption = styled.input<{ color: string }>`
-  background-color: ${(props) => props.color};
-  /* 기타 스타일 */
+const ModalContent = styled.form`
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 500px;
+  width: 100%;
 `;
 
 interface FormData {
@@ -20,21 +32,26 @@ interface FormData {
   color: string;
 }
 
-function AddEventModal() {
+interface AddEventModalProps {
+  onClose: () => void;
+}
+
+function AddEventModal({ onClose }: AddEventModalProps) {
   const { register, handleSubmit } = useForm<FormData>();
 
   async function onSubmit(data: FormData) {
     const userId = sessionStorage.getItem('id');
     if (!userId) return;
 
+    const eventId = Date.now().toString();
     const event = {
       ...data,
-      eventId: Date.now().toString(),
     };
 
     try {
-      await addDoc(collection(firestore, 'event', userId, 'events'), event);
+      await setDoc(doc(firestore, 'events', userId, 'event', eventId), event);
       alert('Event added successfully!');
+      onClose();
     } catch (error) {
       console.error('Error adding event: ', error);
       alert('Error adding event. Please try again.');
@@ -47,8 +64,12 @@ function AddEventModal() {
   const colorProps = register('color', { required: true });
 
   return (
-    <ModalWrapper>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <ModalOverlay onClick={onClose}>
+      <ModalContent
+        onSubmit={handleSubmit(onSubmit)}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2>add Event</h2>
         <input
           type="text"
           placeholder="Event Name"
@@ -73,65 +94,15 @@ function AddEventModal() {
           onBlur={endDateProps.onBlur}
           ref={endDateProps.ref}
         />
-        <div>
-          <ColorOption
-            type="radio"
-            value="red"
-            color="red"
-            name={colorProps.name}
-            onChange={colorProps.onChange}
-            onBlur={colorProps.onBlur}
-            ref={colorProps.ref}
-          />
-          <ColorOption
-            type="radio"
-            value="blue"
-            color="blue"
-            name={colorProps.name}
-            onChange={colorProps.onChange}
-            onBlur={colorProps.onBlur}
-            ref={colorProps.ref}
-          />
-          <ColorOption
-            type="radio"
-            value="green"
-            color="green"
-            name={colorProps.name}
-            onChange={colorProps.onChange}
-            onBlur={colorProps.onBlur}
-            ref={colorProps.ref}
-          />
-          <ColorOption
-            type="radio"
-            value="yellow"
-            color="yellow"
-            name={colorProps.name}
-            onChange={colorProps.onChange}
-            onBlur={colorProps.onBlur}
-            ref={colorProps.ref}
-          />
-          <ColorOption
-            type="radio"
-            value="purple"
-            color="purple"
-            name={colorProps.name}
-            onChange={colorProps.onChange}
-            onBlur={colorProps.onBlur}
-            ref={colorProps.ref}
-          />
-          <ColorOption
-            type="radio"
-            value="orange"
-            color="orange"
-            name={colorProps.name}
-            onChange={colorProps.onChange}
-            onBlur={colorProps.onBlur}
-            ref={colorProps.ref}
-          />
-        </div>
-        <button type="submit">Add Event</button>
-      </form>
-    </ModalWrapper>
+        <ColorOptions colorProps={colorProps} />
+        <Button size="basic" color="primary" type="submit">
+          추가
+        </Button>
+        <Button size="basic" color="white" type="button" onClick={onClose}>
+          취소
+        </Button>
+      </ModalContent>
+    </ModalOverlay>
   );
 }
 
