@@ -7,12 +7,14 @@ type TableData<T> = Record<keyof T, TableRowItem> & T;
 interface TableProps<T> {
   columnName: string[];
   data: TableData<T>[];
+  order?: (keyof T)[];
   minWidth?: string;
 }
 
 function Table<T>({
   columnName,
   data,
+  order,
   minWidth = 'fit-content',
 }: TableProps<T>) {
   const dataWithId = useMemo(() => {
@@ -33,7 +35,11 @@ function Table<T>({
         return (
           <TableRow
             isTail={data.length - 1 === index}
-            column={Object.values(newRow)}
+            column={
+              order
+                ? order.map((column) => newRow[column])
+                : Object.values(newRow)
+            }
             key={id.join('')}
           />
         );
