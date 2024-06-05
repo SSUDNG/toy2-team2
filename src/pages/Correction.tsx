@@ -8,7 +8,8 @@ import Badge from '../components/common/Badge';
 import IrregularWrapper from '../components/Correction/IrregularWrapper';
 import { CORRECTION_TABLE_COLUMNS, PROGRESS_VALUES } from '../constants';
 
-interface TableType extends Omit<CorrectionTable, 'progress'> {
+interface TableType extends Omit<CorrectionTable, 'date' | 'progress'> {
+  date: Date;
   note: React.ReactElement;
   progress: React.ReactElement;
 }
@@ -45,6 +46,7 @@ function Correction() {
   ).map((data: CorrectionTable) => {
     return {
       ...data,
+      date: new Date(data.date),
       irregular: <IrregularWrapper>{data.irregular}</IrregularWrapper>,
       note: <DeleteButton />,
       progress: <ProgressBadge progress={data.progress} />,
@@ -58,7 +60,7 @@ function Correction() {
         columnName={CORRECTION_TABLE_COLUMNS}
         data={tableData}
         order={[
-          'number',
+          'month',
           'date',
           'reason',
           'pay',

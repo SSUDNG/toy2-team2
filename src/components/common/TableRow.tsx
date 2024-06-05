@@ -1,7 +1,12 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import styled, { css } from 'styled-components';
 
-export type TableRowItem = string | number | boolean | React.ReactElement;
+export type TableRowItem =
+  | string
+  | number
+  | boolean
+  | Date
+  | React.ReactElement;
 
 export interface TableRowProps {
   isHeader?: boolean;
@@ -15,6 +20,31 @@ function TableRow({ isHeader = false, isTail = false, column }: TableRowProps) {
     [],
   );
 
+  const generateChildren = useCallback((columnItem: TableRowItem) => {
+    if (
+      typeof columnItem === 'string' ||
+      typeof columnItem === 'number' ||
+      typeof columnItem === 'boolean'
+    ) {
+      return (
+        <TableItemText>
+          {typeof columnItem === 'number'
+            ? columnItem.toLocaleString()
+            : columnItem}
+        </TableItemText>
+      );
+    }
+    if (columnItem instanceof Date) {
+      return (
+        <TableItemText>
+          {columnItem.getFullYear() % 100}.{columnItem.getMonth() < 9 && '0'}
+          {columnItem.getMonth() + 1}.{columnItem.getDate()}
+        </TableItemText>
+      );
+    }
+    return columnItem;
+  }, []);
+
   return (
     <>
       {column.map((columnItem: TableRowItem, index) => (
@@ -25,17 +55,7 @@ function TableRow({ isHeader = false, isTail = false, column }: TableRowProps) {
           $last={index === column.length - 1}
           key={columnWithId[index]}
         >
-          {typeof columnItem === 'string' ||
-          typeof columnItem === 'number' ||
-          typeof columnItem === 'boolean' ? (
-            <TableItemText>
-              {typeof columnItem === 'number'
-                ? columnItem.toLocaleString()
-                : columnItem}
-            </TableItemText>
-          ) : (
-            columnItem
-          )}
+          {generateChildren(columnItem)}
         </TableItem>
       ))}
     </>

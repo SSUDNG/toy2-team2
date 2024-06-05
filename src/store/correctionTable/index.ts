@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { PROGRESS_VALUES } from '../../constants';
 
 export interface CorrectionTable {
-  number: number;
+  month: number;
   date: string;
   reason: string;
   pay: number;
@@ -12,40 +12,40 @@ export interface CorrectionTable {
 
 const TABLE_DATA: CorrectionTable[] = [
   {
-    number: 1,
-    date: '24.05.28',
+    month: 1,
+    date: '2024-05-28',
     reason: '야근수당 초과 지급',
     pay: 3500000,
     irregular: 29700,
     progress: 'in progress',
   },
   {
-    number: 2,
-    date: '24.04.28',
+    month: 2,
+    date: '2024-04-28',
     reason: '휴일 수당 미지급',
     pay: 3500000,
     irregular: -127200,
     progress: 'done',
   },
   {
-    number: 3,
-    date: '24.03.28',
+    month: 3,
+    date: '2024-03-28',
     reason: '휴일 수당 미지급',
     pay: 3500000,
     irregular: -127200,
     progress: 'done',
   },
   {
-    number: 4,
-    date: '24.02.28',
+    month: 4,
+    date: '2024-02-28',
     reason: '휴일 수당 미지급',
     pay: 3500000,
     irregular: -127200,
     progress: 'done',
   },
   {
-    number: 5,
-    date: '24.01.28',
+    month: 5,
+    date: '2024-01-28',
     reason: '휴일 수당 미지급',
     pay: 3500000,
     irregular: -127200,
