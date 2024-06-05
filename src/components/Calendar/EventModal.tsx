@@ -2,28 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ModalContent = styled.div`
-  background: white;
-  padding: 20px;
-  border-radius: 5px;
-  max-width: 500px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-
 interface Event {
   id: string;
   name: string;
@@ -60,33 +38,30 @@ function EventModal({ event, onClose, onUpdate, onDelete }: EventModalProps) {
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <h2>Edit Event</h2>
-        <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={editableEvent.name}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Start Date:
-          <input
-            type="date"
-            name="startDate"
-            value={editableEvent.startDate}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          End Date:
-          <input
-            type="date"
-            name="endDate"
-            value={editableEvent.endDate}
-            onChange={handleChange}
-          />
-        </label>
+        <div>Name: </div>
+        <input
+          type="text"
+          name="name"
+          value={editableEvent.name}
+          onChange={handleChange}
+        />
+
+        <div>Start Date:</div>
+        <input
+          type="date"
+          name="startDate"
+          value={editableEvent.startDate}
+          onChange={handleChange}
+        />
+
+        <div>End Date:</div>
+        <input
+          type="date"
+          name="endDate"
+          value={editableEvent.endDate}
+          onChange={handleChange}
+        />
+
         <Button
           size="basic"
           color="primary"
@@ -112,3 +87,25 @@ function EventModal({ event, onClose, onUpdate, onDelete }: EventModalProps) {
 }
 
 export default EventModal;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ModalContent = styled.div`
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 500px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;

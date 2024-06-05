@@ -1,12 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const DayWrapper = styled.div<{ isToday: boolean }>`
-  background-color: ${(props) => (props.isToday ? 'yellow' : 'white')};
-  width: 100%;
-  text-align: right;
-`;
-
 function Day({ date, isToday }: { date: string; isToday: boolean }) {
   return (
     <DayWrapper isToday={isToday}>
@@ -16,3 +10,9 @@ function Day({ date, isToday }: { date: string; isToday: boolean }) {
 }
 
 export default Day;
+
+const DayWrapper = styled.div<{ isToday: boolean }>`
+  background-color: ${(props) => (props.isToday ? 'yellow' : 'white')};
+  width: 100%;
+  text-align: right;
+`;

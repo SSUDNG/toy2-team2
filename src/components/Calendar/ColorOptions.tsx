@@ -3,31 +3,6 @@ import styled from 'styled-components';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import theme from '../../style/theme';
 
-const ColorOptionsWrapper = styled.div`
-  display: flex;
-  gap: 10px;
-  margin: 10px 0;
-`;
-
-const ColorOption = styled.label<{
-  barColor: string;
-}>`
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  background-color: ${(props) => props.barColor};
-  border: 2px solid transparent;
-  border-radius: 4px;
-  cursor: pointer;
-  input {
-    display: none;
-  }
-  &:hover,
-  &:focus-within {
-    border-color: #000;
-  }
-`;
-
 interface ColorOptionsProps {
   colorProps: UseFormRegisterReturn;
 }
@@ -54,3 +29,28 @@ function ColorOptions({ colorProps }: ColorOptionsProps) {
 }
 
 export default ColorOptions;
+
+const ColorOptionsWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+`;
+
+const ColorOption = styled.label<{
+  barColor: string;
+}>`
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  background-color: ${(props) => props.barColor};
+  border: 2px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  input {
+    display: none;
+  }
+  &:hover,
+  &:focus-within {
+    border-color: #000;
+  }
+`;

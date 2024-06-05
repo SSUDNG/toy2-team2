@@ -113,8 +113,7 @@ function Calendar() {
     const dayWithoutTime = new Date(day);
     dayWithoutTime.setHours(0, 0, 0, 0);
 
-    // 각 날짜의 빈 row 생성
-    const rows: EventType[][] = new Array(6).fill([]).map(() => []);
+    const rows: EventType[][] = [];
 
     const dayEvents = events
       .filter((event) => {
@@ -130,16 +129,27 @@ function Calendar() {
       );
 
     dayEvents.forEach((event) => {
-      for (let rowIndex = 0; rowIndex < 6; rowIndex += 1) {
-        // 빈 row에 이벤트 추가
-        if (!rows[rowIndex].some((e) => e)) {
+      let added = false;
+      for (let rowIndex = 0; rowIndex < rows.length; rowIndex += 1) {
+        if (
+          !rows[rowIndex].some(
+            (e) =>
+              new Date(e.startDate).getTime() <=
+                new Date(event.endDate).getTime() &&
+              new Date(e.endDate).getTime() >=
+                new Date(event.startDate).getTime(),
+          )
+        ) {
           rows[rowIndex].push(event);
+          added = true;
           break;
         }
       }
+      if (!added) {
+        rows.push([event]);
+      }
     });
 
-    // 각 row의 이벤트를 렌더링
     const renderRow = (row: EventType[], rowIndex: number) =>
       row.map((event, index) => {
         const key = `row-${dayWithoutTime.getTime()}-${rowIndex}-${index}`;
@@ -235,7 +245,7 @@ const DayCell = styled.div<{ isCurrentMonth: boolean }>`
   display: flex;
   flex-direction: column;
   height: auto;
-  min-height: 100px;
+  min-height: 12rem;
   color: ${({ isCurrentMonth }) => (isCurrentMonth ? 'black' : 'gray')};
 `;
 
