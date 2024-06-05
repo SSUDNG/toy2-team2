@@ -93,7 +93,7 @@ const TableRow = styled.tr`
 
 const TableCell = styled.td`
   padding: 8px;
-  background-color: #ffffff;
+  background-color: ${(props) => props.theme.color.pureWhite};
   text-align: center;
   height: 8vh;
   display: flex;
@@ -104,5 +104,5 @@ const TableCell = styled.td`
 
 const TableHeaderCell = styled.th`
   padding: 8px;
-  background-color: ${(props) => props.theme.color.white};
+  background-color: ${(props) => props.theme.color.pureWhite};
 `;
