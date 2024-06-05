@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { RootState } from '../store';
+import { AppDispatch, RootState } from '../store';
 import { SalaryTable } from '../store/salaryTable';
-import { CorrectionTable } from '../store/correctionTable';
+import { CorrectionTable, appendAsync } from '../store/correctionTable';
 import Button from '../components/common/Button';
 import Table from '../components/common/Table';
 import Input from '../components/common/Input';
@@ -29,6 +29,20 @@ function CorrectionModal({
     handleSubmit,
     setError,
   } = useForm<Pick<CorrectionTable, 'reason' | 'pay' | 'irregular'>>();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const appendData = (
+    data: Pick<CorrectionTable, 'reason' | 'pay' | 'irregular'>,
+  ) => {
+    const newData: CorrectionTable = {
+      ...data,
+      month,
+      date: new Date().valueOf(),
+      progress: 'in progress',
+    };
+    dispatch(appendAsync(newData));
+    setIsVisible(false);
+  };
 
   return (
     isVisible && (
@@ -41,7 +55,7 @@ function CorrectionModal({
         <CorrectionModalLayout>
           <h3>정정 신청</h3>
           <CorrectionModalForm
-            onSubmit={handleSubmit((data) => console.log(data))}
+            onSubmit={handleSubmit((data) => appendData(data))}
           >
             <CorrectionModalLabel>신청 월</CorrectionModalLabel>
             <Input

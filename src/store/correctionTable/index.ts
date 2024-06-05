@@ -1,5 +1,11 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { getDocs, query, orderBy, collection } from 'firebase/firestore';
+import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {
+  getDocs,
+  query,
+  orderBy,
+  collection,
+  addDoc,
+} from 'firebase/firestore';
 import { firestore } from '../../firebase/firebase';
 import { PROGRESS_VALUES } from '../../constants';
 
@@ -29,16 +35,26 @@ const initialState: CorrectionTableState = {
 const correctionTableSlice = createSlice({
   name: 'correctionTable',
   initialState,
-  reducers: {
-    add: (state, action: PayloadAction<number>) => {
-      console.log('add', state.table, action.payload);
-    },
-    remove: (state, action: PayloadAction<number>) => {
-      console.log('remove', state.table, action.payload);
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(
+      appendAsync.fulfilled.type,
+      (state, action: PayloadAction<CorrectionTable>) => {
+        state.table = [...state.table, action.payload];
+      },
+    );
   },
 });
 
-export const { add, remove } = correctionTableSlice.actions;
+export const appendAsync = createAsyncThunk(
+  'correctionTable/appendAsync',
+  async (correction: CorrectionTable) => {
+    await addDoc(
+      collection(firestore, 'User', userId, 'correction'),
+      correction,
+    );
+    return correction;
+  },
+);
 
 export default correctionTableSlice.reducer;
