@@ -84,7 +84,7 @@ const ProfileInfoStyle = styled.div`
     font-weight: ${(props) => props.theme.fontWeight.bold};
     border-radius: 10px;
     padding: 2em;
-    background-color: ${(props) => props.theme.color.pureWhite};
+    background-color: ${(props) => props.theme.color.white};
     box-shadow: 0 3px 10px -5px;
   }
   .confirmApply {
