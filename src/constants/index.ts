@@ -16,3 +16,5 @@ export const CORRECTION_TABLE_COLUMNS = [
   '비고',
   '상태',
 ];
+
+export const PROGRESS_VALUES = ['in progress', 'done'] as const;
