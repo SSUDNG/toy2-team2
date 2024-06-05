@@ -6,25 +6,6 @@ import { firestore } from '../../firebase/firebase';
 import ColorOptions from './ColorOptions';
 import Button from '../common/Button';
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const ModalContent = styled.form`
-  background: white;
-  padding: 20px;
-  border-radius: 5px;
-  max-width: 500px;
-  width: 100%;
-`;
-
 interface FormData {
   name: string;
   startDate: string;
@@ -69,7 +50,7 @@ function AddEventModal({ onClose }: AddEventModalProps) {
         onSubmit={handleSubmit(onSubmit)}
         onClick={(e) => e.stopPropagation()}
       >
-        <h2>add Event</h2>
+        <h2>일정 추가</h2>
         <input
           type="text"
           placeholder="Event Name"
@@ -107,3 +88,22 @@ function AddEventModal({ onClose }: AddEventModalProps) {
 }
 
 export default AddEventModal;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const ModalContent = styled.form`
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 500px;
+  width: 100%;
+`;

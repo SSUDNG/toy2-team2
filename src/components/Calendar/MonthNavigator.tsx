@@ -1,6 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 
+interface MonthNavigatorProps {
+  onPrevMonth: () => void;
+  onNextMonth: () => void;
+}
+
+function MonthNavigator({ onPrevMonth, onNextMonth }: MonthNavigatorProps) {
+  return (
+    <NavigatorWrapper>
+      <Button onClick={onPrevMonth}>{'<'}</Button>
+      <Button onClick={onNextMonth}>{'>'}</Button>
+    </NavigatorWrapper>
+  );
+}
+
+export default MonthNavigator;
+
 const NavigatorWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -20,19 +36,3 @@ const Button = styled.button`
     background-color: #0056b3;
   }
 `;
-
-interface MonthNavigatorProps {
-  onPrevMonth: () => void;
-  onNextMonth: () => void;
-}
-
-function MonthNavigator({ onPrevMonth, onNextMonth }: MonthNavigatorProps) {
-  return (
-    <NavigatorWrapper>
-      <Button onClick={onPrevMonth}>{'<'}</Button>
-      <Button onClick={onNextMonth}>{'>'}</Button>
-    </NavigatorWrapper>
-  );
-}
-
-export default MonthNavigator;

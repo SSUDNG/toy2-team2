@@ -1,19 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Bar = styled.div<{ color: string; span: number }>`
-  display: flex;
-  background-color: ${(props) => props.color};
-  width: 100%;
-  color: white;
-  padding: 5px;
-  cursor: pointer;
-  grid-column: span ${(props) => props.span};
-  margin-bottom: 2px;
-  height: 1rem;
-  line-height: 1rem;
-`;
-
 interface EventBarProps {
   event: {
     id: string;
@@ -36,3 +23,16 @@ function EventBar({ event, span, showName, onClick }: EventBarProps) {
 }
 
 export default EventBar;
+
+const Bar = styled.div<{ color: string; span: number }>`
+  display: flex;
+  background-color: ${(props) => props.color};
+  width: 100%;
+  color: white;
+  padding: 5px;
+  cursor: pointer;
+  grid-column: span ${(props) => props.span};
+  margin-bottom: 2px;
+  height: 2rem;
+  line-height: 1rem;
+`;
