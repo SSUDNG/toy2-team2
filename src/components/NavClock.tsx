@@ -10,7 +10,7 @@ const NavClockStyled = styled.div`
     height: 100%;
     width: 100vh;
     font-size: ${(props) => props.theme.fontSize.title1};
-    background-color: ${(props) => props.theme.color.white};
+    background-color: ${(props) => props.theme.color.pureWhite};
   }
 `;
 
