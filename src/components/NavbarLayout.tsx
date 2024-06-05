@@ -69,7 +69,7 @@ const NavbarLayoutStyle = styled.header`
     color: ${(props) => props.theme.color.black};
     font-size: ${(props) => props.theme.fontSize.title3};
     font-weight: ${(props) => props.theme.fontWeight.bold};
-    background-color: ${(props) => props.theme.color.white};
+    background-color: ${(props) => props.theme.color.pureWhite};
     box-shadow: 0 1px 10px -5px;
     margin-bottom: 2em;
   }
