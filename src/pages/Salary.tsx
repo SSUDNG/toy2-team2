@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '../store';
-import { SalaryTable } from '../store/salaryTable/salaryTableSlice';
+import { SalaryTable } from '../store/salaryTable';
 import Button from '../components/common/Button';
 import Table from '../components/common/Table';
 import { SALARY_TABLE_COLUMNS } from '../constants';

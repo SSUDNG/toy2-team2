@@ -1,120 +1,71 @@
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 import { SalaryLayout as CorrectionLayout } from './Salary';
+import { CorrectionTable } from '../store/correctionTable';
 import Table from '../components/common/Table';
 import Button from '../components/common/Button';
 import Badge from '../components/common/Badge';
 import IrregularWrapper from '../components/Correction/IrregularWrapper';
-import { CORRECTION_TABLE_COLUMNS } from '../constants';
+import { CORRECTION_TABLE_COLUMNS, PROGRESS_VALUES } from '../constants';
 
-interface TableType {
-  number: number;
-  date: string;
-  reason: string;
-  pay: number;
-  irregular: number;
+interface TableType extends Omit<CorrectionTable, 'progress'> {
   note: React.ReactElement;
   progress: React.ReactElement;
 }
 
-const TABLE_DATA: TableType[] = [
-  {
-    number: 1,
-    date: '24.05.28',
-    reason: '야근수당 초과 지급',
-    pay: 3500000,
-    irregular: 29700,
-    note: (
-      <Button size="basic" color="red">
-        삭제
-      </Button>
-    ),
-    progress: (
+function DeleteButton() {
+  return (
+    <Button size="basic" color="red">
+      삭제
+    </Button>
+  );
+}
+
+type Progress = Pick<CorrectionTable, 'progress'> &
+  (typeof PROGRESS_VALUES)[number];
+
+function ProgressBadge({ progress }: { progress: Progress }) {
+  if (progress === PROGRESS_VALUES[0]) {
+    return (
       <Badge size="basic" color="yellow">
         처리 중
       </Badge>
-    ),
-  },
-  {
-    number: 2,
-    date: '24.04.28',
-    reason: '휴일 수당 미지급',
-    pay: 3500000,
-    irregular: -127200,
-    note: (
-      <Button size="basic" color="red">
-        삭제
-      </Button>
-    ),
-    progress: (
-      <Badge size="basic" color="bluegreen">
-        처리 완료
-      </Badge>
-    ),
-  },
-  {
-    number: 3,
-    date: '24.03.28',
-    reason: '휴일 수당 미지급',
-    pay: 3500000,
-    irregular: -127200,
-    note: (
-      <Button size="basic" color="red">
-        삭제
-      </Button>
-    ),
-    progress: (
-      <Badge size="basic" color="bluegreen">
-        처리 완료
-      </Badge>
-    ),
-  },
-  {
-    number: 4,
-    date: '24.02.28',
-    reason: '휴일 수당 미지급',
-    pay: 3500000,
-    irregular: -127200,
-    note: (
-      <Button size="basic" color="red">
-        삭제
-      </Button>
-    ),
-    progress: (
-      <Badge size="basic" color="bluegreen">
-        처리 완료
-      </Badge>
-    ),
-  },
-  {
-    number: 5,
-    date: '24.01.28',
-    reason: '휴일 수당 미지급',
-    pay: 3500000,
-    irregular: -127200,
-    note: (
-      <Button size="basic" color="red">
-        삭제
-      </Button>
-    ),
-    progress: (
-      <Badge size="basic" color="bluegreen">
-        처리 완료
-      </Badge>
-    ),
-  },
-];
+    );
+  }
+  return (
+    <Badge size="basic" color="bluegreen">
+      처리 완료
+    </Badge>
+  );
+}
 
 function Correction() {
+  const tableData = useSelector(
+    (state: RootState) => state.correctionTable.table,
+  ).map((data: CorrectionTable) => {
+    return {
+      ...data,
+      irregular: <IrregularWrapper>{data.irregular}</IrregularWrapper>,
+      note: <DeleteButton />,
+      progress: <ProgressBadge progress={data.progress} />,
+    };
+  });
+
   return (
     <CorrectionLayout>
       <h2>정정 내역</h2>
       <Table<Omit<TableType, 'irregular'> & { irregular: React.ReactElement }>
         columnName={CORRECTION_TABLE_COLUMNS}
-        data={TABLE_DATA.map((data: TableType) => {
-          return {
-            ...data,
-            irregular: <IrregularWrapper>{data.irregular}</IrregularWrapper>,
-          };
-        })}
+        data={tableData}
+        order={[
+          'number',
+          'date',
+          'reason',
+          'pay',
+          'irregular',
+          'note',
+          'progress',
+        ]}
         minWidth="85.573vw"
       />
     </CorrectionLayout>
