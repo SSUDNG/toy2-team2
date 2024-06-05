@@ -70,7 +70,7 @@ const ButtonLayout = styled.button<ButtonStyleProps>`
         }
       `,
       white: css`
-        background-color: inherit;
+        background-color: ${props.theme.color.pureWhite};
         color: ${props.theme.color.primary};
         border: 1px solid ${props.theme.color.primary};
         &:hover {
