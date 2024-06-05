@@ -129,7 +129,7 @@ const CorrectionModalLayout = styled.section`
   padding: 3rem;
   background-color: ${(props) => props.theme.color.background};
   border-radius: 10px;
-  z-index: 20;
+  z-index: 10;
   & h3 {
     text-align: center;
     color: ${(props) => props.theme.color.blue};

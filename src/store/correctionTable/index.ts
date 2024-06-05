@@ -5,11 +5,14 @@ import {
   orderBy,
   collection,
   addDoc,
+  doc,
+  deleteDoc,
 } from 'firebase/firestore';
 import { firestore } from '../../firebase/firebase';
 import { PROGRESS_VALUES } from '../../constants';
 
 export interface CorrectionTable {
+  id: string;
   month: number;
   date: number;
   reason: string;
@@ -29,7 +32,9 @@ const querySnapshot = await getDocs(
 );
 
 const initialState: CorrectionTableState = {
-  table: querySnapshot.docs.map((doc) => doc.data()) as CorrectionTable[],
+  table: querySnapshot.docs.map((item) => {
+    return { ...item.data(), id: item.id };
+  }) as CorrectionTable[],
 };
 
 const correctionTableSlice = createSlice({
@@ -37,12 +42,21 @@ const correctionTableSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(
-      appendAsync.fulfilled.type,
-      (state, action: PayloadAction<CorrectionTable>) => {
-        state.table = [...state.table, action.payload];
-      },
-    );
+    builder
+      .addCase(
+        appendAsync.fulfilled.type,
+        (state, action: PayloadAction<CorrectionTable>) => {
+          state.table = [...state.table, action.payload];
+        },
+      )
+      .addCase(
+        removeAsync.fulfilled.type,
+        (state, action: PayloadAction<string>) => {
+          state.table = state.table.filter(
+            (item) => item.id !== action.payload,
+          );
+        },
+      );
   },
 });
 
@@ -54,6 +68,14 @@ export const appendAsync = createAsyncThunk(
       correction,
     );
     return correction;
+  },
+);
+
+export const removeAsync = createAsyncThunk(
+  'correctionTable/removeAsync',
+  async (id: string) => {
+    await deleteDoc(doc(firestore, 'User', userId, 'correction', id));
+    return id;
   },
 );
 
