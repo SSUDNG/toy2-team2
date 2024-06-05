@@ -31,6 +31,7 @@ function Salary() {
       <Table<TableType>
         columnName={SALARY_TABLE_COLUMNS}
         data={tableData}
+        order={['month', 'gross', 'bonus', 'tax', 'net', 'note']}
         minWidth="73.7vw"
       />
     </SalaryLayout>

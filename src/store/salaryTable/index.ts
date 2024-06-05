@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { collection, query, getDocs, orderBy } from 'firebase/firestore';
+import { firestore } from '../../firebase/firebase';
 
 export interface SalaryTable {
   month: number;
@@ -8,50 +10,31 @@ export interface SalaryTable {
   net: number;
 }
 
-const TABLE_DATA: SalaryTable[] = [
-  {
-    month: 1,
-    gross: 3500000,
-    bonus: 1200000,
-    tax: 930000,
-    net: 3770000,
-  },
-  {
-    month: 2,
-    gross: 3500000,
-    bonus: 0,
-    tax: 930000,
-    net: 2570000,
-  },
-  {
-    month: 3,
-    gross: 3500000,
-    bonus: 0,
-    tax: 930000,
-    net: 2570000,
-  },
-  {
-    month: 4,
-    gross: 3500000,
-    bonus: 0,
-    tax: 930000,
-    net: 2570000,
-  },
-  {
-    month: 5,
-    gross: 3500000,
-    bonus: 0,
-    tax: 930000,
-    net: 2570000,
-  },
-];
-
 interface SalaryTableState {
   table: SalaryTable[];
 }
 
+const isSalaryTable = (docs: object[]): docs is SalaryTable[] =>
+  docs.reduce(
+    (acc, cur) =>
+      acc &&
+      'month' in cur &&
+      'gross' in cur &&
+      'bonus' in cur &&
+      'tax' in cur &&
+      'net' in cur,
+    true,
+  );
+
+const userId = sessionStorage.getItem('id') || '';
+
+const querySnapshot = await getDocs(
+  query(collection(firestore, 'User', userId, 'salary'), orderBy('month')),
+);
+const snapshotArray = querySnapshot.docs.map((doc) => doc.data());
+
 const initialState: SalaryTableState = {
-  table: TABLE_DATA,
+  table: isSalaryTable(snapshotArray) ? snapshotArray : [],
 };
 
 const salaryTablesSlice = createSlice({
