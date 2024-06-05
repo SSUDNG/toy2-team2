@@ -2,9 +2,15 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const NavClockStyled = styled.div`
-  .clockWrapper {
+  .leftUnder {
     display: flex;
-    /* background-color: ${(props) => props.theme.color.white}; */
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    width: 100vh;
+    font-size: ${(props) => props.theme.fontSize.title1};
+    background-color: ${(props) => props.theme.color.white};
   }
 `;
 
@@ -14,14 +20,17 @@ export default function NavClock() {
   useEffect(() => {
     const intervalId = setInterval(() => {
       setTime(new Date().toLocaleTimeString());
-    }, 60000);
+    }, 1000);
 
     return () => clearInterval(intervalId);
   }, []);
 
   return (
     <NavClockStyled>
-      <div className="clockWrapper">{time}</div>
+      <div className="leftUnder">
+        <div>{time}</div>
+        <div>else</div>
+      </div>
     </NavClockStyled>
   );
 }

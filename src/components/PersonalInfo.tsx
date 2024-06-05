@@ -1,35 +1,13 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
 import { app } from '../firebase/firebase';
-
-const Table = styled.table`
-  width: 50vw;
-  border-collapse: collapse;
-  text-align: center;
-`;
-
-const TableRow = styled.tr`
-  border: 1px solid #ddd;
-`;
-
-const TableCell = styled.td`
-  border: 1px solid #ddd;
-  padding: 8px;
-`;
-
-const TableHeaderCell = styled.th`
-  border: 1px solid #ddd;
-  padding: 8px;
-  background-color: ${(props) => props.theme.color.white};
-`;
 
 interface UserInfo {
   name: string;
   department: string;
-  position: string;
-  hireDate: string;
+  jobPosition: string;
+  joiningDate: string;
   email: string;
 }
 
@@ -39,12 +17,10 @@ export default function PersonalInfo() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const auth = getAuth(app);
-        const user = auth.currentUser;
-
-        if (user) {
+        const userId = sessionStorage.getItem('id');
+        if (userId) {
           const firestore = getFirestore(app);
-          const docRef = doc(firestore, 'User', user.uid);
+          const docRef = doc(firestore, 'User', userId);
           const docSnap = await getDoc(docRef);
 
           if (docSnap.exists()) {
@@ -52,8 +28,8 @@ export default function PersonalInfo() {
             setUserInfo({
               name: data.name,
               department: data.department,
-              position: data.position,
-              hireDate: data.hireDate,
+              jobPosition: data.jobPosition,
+              joiningDate: data.joiningDate,
               email: data.email,
             });
           } else {
@@ -88,11 +64,11 @@ export default function PersonalInfo() {
           </TableRow>
           <TableRow>
             <TableHeaderCell>직위</TableHeaderCell>
-            <TableCell>{userInfo.position}</TableCell>
+            <TableCell>{userInfo.jobPosition}</TableCell>
           </TableRow>
           <TableRow>
             <TableHeaderCell>입사일</TableHeaderCell>
-            <TableCell>{userInfo.hireDate}</TableCell>
+            <TableCell>{userInfo.joiningDate}</TableCell>
           </TableRow>
           <TableRow>
             <TableHeaderCell>이메일</TableHeaderCell>
@@ -103,3 +79,30 @@ export default function PersonalInfo() {
     </div>
   );
 }
+const Table = styled.table`
+  width: 50vw;
+  height: 40vh;
+  justify-content: center;
+  border-collapse: collapse;
+  text-align: center;
+`;
+
+const TableRow = styled.tr`
+  border-spacing: 1px solid black;
+`;
+
+const TableCell = styled.td`
+  padding: 8px;
+  background-color: #ffffff;
+  text-align: center;
+  height: 8vh;
+  display: flex;
+  justify-content: center;
+  align-content: stretch;
+  flex-direction: column;
+`;
+
+const TableHeaderCell = styled.th`
+  padding: 8px;
+  background-color: ${(props) => props.theme.color.white};
+`;

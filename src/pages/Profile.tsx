@@ -4,17 +4,6 @@ import ProfileInfo from '../components/ProfileInfo';
 import NavClock from '../components/NavClock';
 import PersonalInfo from '../components/PersonalInfo';
 
-const ProfileStyle = styled.header`
-  .topLayout {
-    display: flex;
-    justify-content: space-around;
-  }
-  .underLayout {
-    display: flex;
-    justify-content: space-around;
-  }
-`;
-
 function Profile() {
   return (
     <ProfileStyle>
@@ -31,3 +20,15 @@ function Profile() {
 }
 
 export default Profile;
+
+const ProfileStyle = styled.header`
+  .topLayout {
+    display: flex;
+    justify-content: space-around;
+  }
+  .underLayout {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2em;
+  }
+`;

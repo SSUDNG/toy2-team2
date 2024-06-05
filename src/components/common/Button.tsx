@@ -21,6 +21,7 @@ function Button<T extends object>({
   size = 'basic',
   color = 'primary',
   type = 'button',
+  className = 'button',
   ...props
 }: ButtonProps<T>) {
   return createElement(
@@ -29,6 +30,7 @@ function Button<T extends object>({
       size,
       color,
       type,
+      className,
       ...props,
     },
     children,
