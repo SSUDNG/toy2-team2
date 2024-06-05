@@ -14,27 +14,14 @@ interface SalaryTableState {
   table: SalaryTable[];
 }
 
-const isSalaryTable = (docs: object[]): docs is SalaryTable[] =>
-  docs.reduce(
-    (acc, cur) =>
-      acc &&
-      'month' in cur &&
-      'gross' in cur &&
-      'bonus' in cur &&
-      'tax' in cur &&
-      'net' in cur,
-    true,
-  );
-
 const userId = sessionStorage.getItem('id') || '';
 
 const querySnapshot = await getDocs(
   query(collection(firestore, 'User', userId, 'salary'), orderBy('month')),
 );
-const snapshotArray = querySnapshot.docs.map((doc) => doc.data());
 
 const initialState: SalaryTableState = {
-  table: isSalaryTable(snapshotArray) ? snapshotArray : [],
+  table: querySnapshot.docs.map((doc) => doc.data()) as SalaryTable[],
 };
 
 const salaryTablesSlice = createSlice({
