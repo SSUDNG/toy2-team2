@@ -1,8 +1,9 @@
+import { SalaryLayout as CorrectionLayout } from './Salary';
 import Table from '../components/common/Table';
 import Button from '../components/common/Button';
 import Badge from '../components/common/Badge';
 import IrregularWrapper from '../components/Correction/IrregularWrapper';
-import { SalaryLayout as CorrectionLayout } from './Salary';
+import { CORRECTION_TABLE_COLUMNS } from '../constants';
 
 interface TableType {
   number: number;
@@ -14,15 +15,6 @@ interface TableType {
   progress: React.ReactElement;
 }
 
-const TABLE_COLUMNS = [
-  'No',
-  '신청일',
-  '사유',
-  '급여',
-  '비정상급여',
-  '비고',
-  '상태',
-];
 const TABLE_DATA: TableType[] = [
   {
     number: 1,
@@ -116,7 +108,7 @@ function Correction() {
     <CorrectionLayout>
       <h2>정정 내역</h2>
       <Table<Omit<TableType, 'irregular'> & { irregular: React.ReactElement }>
-        columnName={TABLE_COLUMNS}
+        columnName={CORRECTION_TABLE_COLUMNS}
         data={TABLE_DATA.map((data: TableType) => {
           return {
             ...data,

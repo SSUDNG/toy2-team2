@@ -4,12 +4,11 @@ import { RootState } from '../store';
 import { SalaryTable } from '../store/salaryTable/salaryTableSlice';
 import Button from '../components/common/Button';
 import Table from '../components/common/Table';
+import { SALARY_TABLE_COLUMNS } from '../constants';
 
 interface TableType extends SalaryTable {
   note: React.ReactElement;
 }
-
-const TABLE_COLUMNS = ['월', '급여', '보너스', '세금', '실수령', '비고'];
 
 function CorrectButton() {
   return (
@@ -30,7 +29,7 @@ function Salary() {
     <SalaryLayout>
       <h2>급여 내역</h2>
       <Table<TableType>
-        columnName={TABLE_COLUMNS}
+        columnName={SALARY_TABLE_COLUMNS}
         data={tableData}
         minWidth="73.7vw"
       />
