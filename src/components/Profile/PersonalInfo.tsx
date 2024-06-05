@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
-import { app } from '../firebase/firebase';
+import { app } from '../../firebase/firebase';
 
 interface UserInfo {
   name: string;

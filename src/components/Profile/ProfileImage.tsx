@@ -1,6 +1,6 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
-import Button from './common/Button';
+import Button from '../common/Button';
 
 function ProfileImage(): JSX.Element {
   const [photo, setImageUrl] = useState<string>('');

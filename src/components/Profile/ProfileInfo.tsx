@@ -8,7 +8,7 @@ import {
   where,
   getDocs,
 } from 'firebase/firestore';
-import { app } from '../firebase/firebase';
+import { app } from '../../firebase/firebase';
 
 export default function ProfileInfo() {
   const [todayScheduleCount, setTodayScheduleCount] = useState(0);
