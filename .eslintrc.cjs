@@ -29,6 +29,13 @@ module.exports = {
     'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'no-console': 'off',
+    'no-param-reassign': [
+      'error',
+      {
+        props: true,
+        ignorePropertyModificationsFor: ['state', 'acc', 'e'],
+      },
+    ],
     'import/extensions': [
       'error',
       'ignorePackages',
