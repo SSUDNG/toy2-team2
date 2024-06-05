@@ -1,9 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import salaryTableReducer from './salaryTable/salaryTableSlice';
+import { eventsReducer } from './calendar';
+import salaryTableReducer from './salaryTable';
+import correctionTableReducer from './correctionTable';
 
 export const store = configureStore({
   reducer: {
+    calendar: eventsReducer,
     salaryTable: salaryTableReducer,
+    correctionTable: correctionTableReducer,
   },
 });
 

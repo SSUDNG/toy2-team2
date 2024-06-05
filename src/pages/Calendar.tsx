@@ -12,7 +12,7 @@ import {
   updateEvent,
   deleteEvent,
   Event as EventType,
-} from '../modules/calendar';
+} from '../store/calendar';
 import Button from '../components/common/Button';
 
 function Calendar() {
