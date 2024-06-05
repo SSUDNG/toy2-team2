@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import ProfileImage from '../components/ProfileImage';
-import ProfileInfo from '../components/ProfileInfo';
-import NavClock from '../components/NavClock';
-import PersonalInfo from '../components/PersonalInfo';
+import ProfileImage from '../components/Profile/ProfileImage';
+import ProfileInfo from '../components/Profile/ProfileInfo';
+import NavClock from '../components/Profile/NavClock';
+import PersonalInfo from '../components/Profile/PersonalInfo';
 
 function Profile() {
   return (
