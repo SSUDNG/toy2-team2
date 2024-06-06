@@ -1,9 +1,7 @@
 import Badge from '../common/Badge';
-import { CorrectionTable } from '../../store/correctionTable';
 import { PROGRESS_VALUES } from '../../constants';
 
-type Progress = Pick<CorrectionTable, 'progress'> &
-  (typeof PROGRESS_VALUES)[number];
+type Progress = (typeof PROGRESS_VALUES)[number];
 
 function ProgressBadge({ progress }: { progress: Progress }) {
   if (progress === PROGRESS_VALUES[0]) {
