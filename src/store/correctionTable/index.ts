@@ -25,35 +25,9 @@ interface CorrectionTableState {
   table: CorrectionTable[];
 }
 
-const createInitialState = async () => {
-  try {
-    const userId = sessionStorage.getItem('id');
-
-    const querySnapshot = userId
-      ? await getDocs(
-          query(
-            collection(firestore, 'User', userId, 'correction'),
-            orderBy('date'),
-          ),
-        )
-      : undefined;
-
-    const initialState: CorrectionTableState = {
-      table: querySnapshot
-        ? (querySnapshot.docs.map((item) => {
-            return { ...item.data(), id: item.id };
-          }) as CorrectionTable[])
-        : [],
-    };
-
-    return initialState;
-  } catch (error) {
-    console.log(error);
-    throw new Error('데이터베이스 조회에 실패했습니다.');
-  }
+const initialState: CorrectionTableState = {
+  table: [],
 };
-
-const initialState = await createInitialState();
 
 const correctionTableSlice = createSlice({
   name: 'correctionTable',
@@ -61,6 +35,12 @@ const correctionTableSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(
+        initializeCorrectionAsync.fulfilled.type,
+        (state, action: PayloadAction<CorrectionTable[]>) => {
+          state.table = action.payload;
+        },
+      )
       .addCase(
         appendAsync.fulfilled.type,
         (state, action: PayloadAction<CorrectionTable>) => {
@@ -77,6 +57,29 @@ const correctionTableSlice = createSlice({
       );
   },
 });
+
+export const initializeCorrectionAsync = createAsyncThunk(
+  'correctionTable/initializeCorrectionAsync',
+  async (userId: string) => {
+    try {
+      const querySnapshot = await getDocs(
+        query(
+          collection(firestore, 'User', userId, 'correction'),
+          orderBy('date'),
+        ),
+      );
+
+      const fetchedDocs: CorrectionTable[] = querySnapshot.docs.map((item) => {
+        return { ...item.data(), id: item.id };
+      }) as CorrectionTable[];
+
+      return fetchedDocs;
+    } catch (error) {
+      console.log(error);
+      throw new Error('데이터베이스 조회에 실패했습니다.');
+    }
+  },
+);
 
 export const appendAsync = createAsyncThunk(
   'correctionTable/appendAsync',

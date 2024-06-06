@@ -34,7 +34,7 @@ function DeleteModal({
         <DeleteModalNav>
           <Button
             size="basic"
-            color="red"
+            color="primary"
             onClick={() => {
               dispatch(removeAsync(id));
               setIsVisible(false);
