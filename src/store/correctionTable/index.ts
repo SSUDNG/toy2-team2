@@ -83,18 +83,22 @@ export const initializeCorrectionAsync = createAsyncThunk(
 
 export const appendAsync = createAsyncThunk(
   'correctionTable/appendAsync',
-  async (correction: CorrectionTable) => {
+  async (correction: Omit<CorrectionTable, 'id'>) => {
     const userId = sessionStorage.getItem('id') || '';
     try {
-      await addDoc(
+      const docRef = await addDoc(
         collection(firestore, 'User', userId, 'correction'),
         correction,
       );
+
+      return {
+        ...correction,
+        id: docRef.id,
+      };
     } catch (error) {
       console.log(error);
       throw new Error('데이터베이스 조회에 실패했습니다.');
     }
-    return correction;
   },
 );
 
@@ -104,11 +108,12 @@ export const removeAsync = createAsyncThunk(
     const userId = sessionStorage.getItem('id') || '';
     try {
       await deleteDoc(doc(firestore, 'User', userId, 'correction', id));
+
+      return id;
     } catch (error) {
       console.log(error);
       throw new Error('데이터베이스 조회에 실패했습니다.');
     }
-    return id;
   },
 );
 

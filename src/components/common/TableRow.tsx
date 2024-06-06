@@ -17,7 +17,7 @@ export interface TableRowProps {
 function TableRow({ isHeader = false, isTail = false, column }: TableRowProps) {
   const columnWithId = useMemo(
     () => column.map(() => crypto.getRandomValues(new Uint32Array(1)).join('')),
-    [],
+    [column],
   );
 
   const generateChildren = useCallback((columnItem: TableRowItem) => {
