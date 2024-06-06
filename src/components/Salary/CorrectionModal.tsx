@@ -1,6 +1,7 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import schema from '../../schema/correctionSchema';
@@ -8,6 +9,9 @@ import { AppDispatch } from '../../store';
 import { CorrectionTable, appendAsync } from '../../store/correctionTable';
 import Input from '../common/Input';
 import Button from '../common/Button';
+import Loading from '../common/Loading';
+
+type FormFields = z.infer<typeof schema>;
 
 function CorrectionModal({
   month,
@@ -24,15 +28,12 @@ function CorrectionModal({
     handleSubmit,
     setError,
     reset,
-  } = useForm<Pick<CorrectionTable, 'reason' | 'pay' | 'irregular'>>({
-    defaultValues: {
-      reason: undefined,
-      pay: undefined,
-      irregular: undefined,
-    },
+  } = useForm<FormFields>({
     resolver: zodResolver(schema),
   });
   const dispatch = useDispatch<AppDispatch>();
+
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const closeModal = useCallback(() => {
     reset();
@@ -40,18 +41,31 @@ function CorrectionModal({
   }, [reset, setIsVisible]);
 
   const appendData = useCallback(
-    (data: Pick<CorrectionTable, 'reason' | 'pay' | 'irregular'>) => {
+    (data: FormFields) => {
+      setIsSubmitting(true);
       const newData: Omit<CorrectionTable, 'id'> = {
-        ...data,
+        reason: data.reason,
+        pay: parseInt(data.pay, 10),
+        irregular: parseInt(data.irregular, 10),
         month,
         date: new Date().valueOf(),
         progress: 'in progress',
       };
-      dispatch(appendAsync(newData)).then(() => {
-        closeModal();
-      });
+      dispatch(appendAsync(newData))
+        .then(() => {
+          closeModal();
+        })
+        .catch((error) => {
+          console.log('error', error);
+          setError('root', {
+            message: '등록에 실패했습니다.',
+          });
+        })
+        .finally(() => {
+          setIsSubmitting(false);
+        });
     },
-    [closeModal, dispatch, month],
+    [closeModal, dispatch, month, setError],
   );
 
   return (
@@ -65,7 +79,9 @@ function CorrectionModal({
         <CorrectionModalLayout>
           <h3>정정 신청</h3>
           <CorrectionModalForm
-            onSubmit={handleSubmit((data) => appendData(data))}
+            onSubmit={handleSubmit((data) => {
+              appendData(data);
+            })}
           >
             <CorrectionModalLabel>신청 월</CorrectionModalLabel>
             <Input
@@ -120,7 +136,12 @@ function CorrectionModal({
               {errors.irregular && errors.irregular.message}
             </CorrectionModalErrorMessage>
             <CorrectionModalNav>
-              <Button size="basic" color="primary" type="submit">
+              <Button
+                size="basic"
+                color="primary"
+                type="submit"
+                disabled={isSubmitting}
+              >
                 신청
               </Button>
               <Button
@@ -129,12 +150,21 @@ function CorrectionModal({
                 onClick={() => {
                   closeModal();
                 }}
+                disabled={isSubmitting}
               >
                 취소
               </Button>
             </CorrectionModalNav>
+            <CorrectionModalErrorMessage>
+              {errors.root && errors.root.message}
+            </CorrectionModalErrorMessage>
           </CorrectionModalForm>
         </CorrectionModalLayout>
+        {isSubmitting && (
+          <LoadingLayout>
+            <Loading />
+          </LoadingLayout>
+        )}
       </>
     )
   );
@@ -148,7 +178,7 @@ const CorrectionModalLayout = styled.section`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  padding: 3rem;
+  padding: 2rem;
   background-color: ${(props) => props.theme.color.background};
   border-radius: 10px;
   z-index: 10;
@@ -199,4 +229,15 @@ const CorrectionModalBackground = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
+`;
+
+export const LoadingLayout = styled.div`
+  z-index: 100;
+  & > div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 `;

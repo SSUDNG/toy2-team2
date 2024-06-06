@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { AppDispatch } from '../../store';
 import { removeAsync } from '../../store/correctionTable';
 import Button from '../common/Button';
+import { LoadingLayout } from '../Salary/CorrectionModal';
+import Loading from '../common/Loading';
 
 function DeleteModal({
   id,
@@ -15,33 +18,47 @@ function DeleteModal({
 }) {
   const dispatch = useDispatch<AppDispatch>();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   return (
     isVisible && (
-      <DeleteModalLayout>
-        <p>정말 삭제하시겠습니까?</p>
-        <DeleteModalNav>
-          <Button
-            size="basic"
-            color="primary"
-            onClick={() => {
-              dispatch(removeAsync(id)).then(() => {
+      <>
+        <DeleteModalLayout>
+          <p>정말 삭제하시겠습니까?</p>
+          <DeleteModalNav>
+            <Button
+              size="basic"
+              color="primary"
+              onClick={() => {
+                setIsSubmitting(true);
+                dispatch(removeAsync(id))
+                  .then(() => {
+                    setIsVisible(false);
+                  })
+                  .finally(() => {
+                    setIsSubmitting(false);
+                  });
+              }}
+            >
+              삭제
+            </Button>
+            <Button
+              size="basic"
+              color="white"
+              onClick={() => {
                 setIsVisible(false);
-              });
-            }}
-          >
-            삭제
-          </Button>
-          <Button
-            size="basic"
-            color="white"
-            onClick={() => {
-              setIsVisible(false);
-            }}
-          >
-            취소
-          </Button>
-        </DeleteModalNav>
-      </DeleteModalLayout>
+              }}
+            >
+              취소
+            </Button>
+          </DeleteModalNav>
+        </DeleteModalLayout>
+        {isSubmitting && (
+          <LoadingLayout>
+            <Loading />
+          </LoadingLayout>
+        )}
+      </>
     )
   );
 }
@@ -62,6 +79,7 @@ const DeleteModalLayout = styled.section`
   border-radius: 10px;
   z-index: 10;
   & p {
+    text-align: center;
     font-size: ${(props) => props.theme.fontSize.title1};
   }
 `;

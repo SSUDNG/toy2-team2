@@ -12,7 +12,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import InputBox from '../components/Login/InputBox';
-import signUpSchema from '../components/SignUp/signupSchema';
+import signUpSchema from '../schema/signupSchema';
 import Button from '../components/common/Button';
 import Select from '../components/common/Select';
 import { firestore } from '../firebase/firebase';
