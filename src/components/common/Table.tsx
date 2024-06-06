@@ -19,7 +19,7 @@ function Table<T>({
 }: TableProps<T>) {
   const dataWithId = useMemo(() => {
     return data.map(() => crypto.getRandomValues(new Uint32Array(1)));
-  }, []);
+  }, [data]);
 
   return (
     <TableLayout
