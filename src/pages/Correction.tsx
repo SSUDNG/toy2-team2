@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { RootState } from '../store';
+import { AppDispatch, RootState } from '../store';
 import { SalaryLayout as CorrectionLayout } from './Salary';
 import { CorrectionTable, removeAsync } from '../store/correctionTable';
 import Table from '../components/common/Table';
