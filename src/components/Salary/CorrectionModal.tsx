@@ -26,14 +26,15 @@ function CorrectionModal({
   const appendData = (
     data: Pick<CorrectionTable, 'reason' | 'pay' | 'irregular'>,
   ) => {
-    const newData: CorrectionTable = {
+    const newData: Omit<CorrectionTable, 'id'> = {
       ...data,
       month,
       date: new Date().valueOf(),
       progress: 'in progress',
     };
-    dispatch(appendAsync(newData));
-    setIsVisible(false);
+    dispatch(appendAsync(newData)).then(() => {
+      setIsVisible(false);
+    });
   };
 
   return (

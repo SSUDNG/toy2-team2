@@ -24,8 +24,9 @@ function DeleteModal({
             size="basic"
             color="primary"
             onClick={() => {
-              dispatch(removeAsync(id));
-              setIsVisible(false);
+              dispatch(removeAsync(id)).then(() => {
+                setIsVisible(false);
+              });
             }}
           >
             삭제
