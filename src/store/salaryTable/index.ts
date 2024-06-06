@@ -14,15 +14,33 @@ interface SalaryTableState {
   table: SalaryTable[];
 }
 
-const userId = sessionStorage.getItem('id') || '';
+const createInitialState = async () => {
+  try {
+    const userId = sessionStorage.getItem('id');
 
-const querySnapshot = await getDocs(
-  query(collection(firestore, 'User', userId, 'salary'), orderBy('month')),
-);
+    const querySnapshot = userId
+      ? await getDocs(
+          query(
+            collection(firestore, 'User', userId, 'salary'),
+            orderBy('month'),
+          ),
+        )
+      : undefined;
 
-const initialState: SalaryTableState = {
-  table: querySnapshot.docs.map((doc) => doc.data()) as SalaryTable[],
+    const initialState: SalaryTableState = {
+      table: querySnapshot
+        ? (querySnapshot.docs.map((doc) => doc.data()) as SalaryTable[])
+        : [],
+    };
+
+    return initialState;
+  } catch (error) {
+    console.log(error);
+    throw new Error('데이터베이스 조회에 실패했습니다.');
+  }
 };
+
+const initialState = await createInitialState();
 
 const salaryTablesSlice = createSlice({
   name: 'salaryTable',
