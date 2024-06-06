@@ -15,7 +15,7 @@ interface InputStyleProps {
 }
 
 type InputProps<T extends object = Record<never, never>> =
-  InputHTMLAttributes<HTMLInputElement> & InputStyleProps & T;
+  InputHTMLAttributes<HTMLInputElement> & Partial<InputStyleProps> & T;
 
 function Input<T extends object>({
   placeholdercolor = 'black',
