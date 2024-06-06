@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import styled from 'styled-components';
 import TableRow, { TableRowItem } from './TableRow';
 
-type TableData<T> = Record<keyof T, TableRowItem> & T;
+type TableData<T> = Record<keyof T, TableRowItem>;
 
 interface TableProps<T> {
   columnName: string[];
@@ -18,9 +18,7 @@ function Table<T>({
   minWidth = 'fit-content',
 }: TableProps<T>) {
   const dataWithId = useMemo(() => {
-    return data.map((item) => {
-      return { ...item, id: crypto.getRandomValues(new Uint32Array(1)) };
-    });
+    return data.map(() => crypto.getRandomValues(new Uint32Array(1)));
   }, []);
 
   return (
@@ -30,17 +28,14 @@ function Table<T>({
       $minWidth={minWidth}
     >
       <TableRow isHeader column={columnName} />
-      {dataWithId.map((row, index) => {
-        const { id, ...newRow } = row;
+      {data.map((row, index) => {
         return (
           <TableRow
             isTail={data.length - 1 === index}
             column={
-              order
-                ? order.map((column) => newRow[column])
-                : Object.values(newRow)
+              order ? order.map((column) => row[column]) : Object.values(row)
             }
-            key={id.join('')}
+            key={dataWithId[index].join('')}
           />
         );
       })}
