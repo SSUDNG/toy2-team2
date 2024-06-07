@@ -60,8 +60,8 @@ function Correction() {
           columnName={CORRECTION_TABLE_COLUMNS}
           data={tableData}
           order={[
-            'month',
             'date',
+            'month',
             'reason',
             'pay',
             'irregular',
