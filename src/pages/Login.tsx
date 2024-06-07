@@ -32,9 +32,7 @@ function Login() {
     const querySnapshot = await getDocs(userQuery);
     if (!querySnapshot.empty) {
       const info = querySnapshot.docs[0].data();
-      sessionStorage.setItem('name', info.name);
       sessionStorage.setItem('id', info.id);
-      console.log(info);
       dispatch(
         setUserInfo({
           id: info.id,
@@ -42,7 +40,6 @@ function Login() {
           jobposition: info.jobPosition,
         }),
       );
-      console.log(info);
       return true;
     }
     return false;

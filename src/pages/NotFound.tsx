@@ -1,19 +1,23 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import styled from 'styled-components';
 
 function NotFound() {
-  const department = useSelector((state: RootState) => state.login);
-  // const { department, jobposition } = useSelector(
-  //   (state: RootState) => state.login,
-  // );
-  console.log(department);
-  // return (
-  //   <div>
-  //     {/* <h1>Profile</h1> */}
-  //     {/* <p>Department: {department}</p> */}
-  //     {/* <p>Job Position: {jobposition}</p> */}
-  //   </div>
-  // );
+  return (
+    <Layout>
+      <WarningBox>존재하지 않는 페이지 입니다.</WarningBox>
+    </Layout>
+  );
 }
 
 export default NotFound;
+
+const Layout = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+`;
+
+const WarningBox = styled.div`
+  font-size: ${(props) => props.theme.fontSize.title2};
+`;

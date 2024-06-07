@@ -7,28 +7,28 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  department: null,
+  department: 'department',
   jobposition: null,
   id: null,
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: 'login',
   initialState,
   reducers: {
-    setUserInfo(
+    setUserInfo: (
       state,
       action: PayloadAction<{
         department: string;
         jobposition: string;
         id: string;
       }>,
-    ) {
+    ) => {
       state.department = action.payload.department;
       state.jobposition = action.payload.jobposition;
       state.id = action.payload.id;
     },
-    clearUserInfo(state) {
+    clearUserInfo: (state) => {
       state.department = null;
       state.jobposition = null;
       state.id = null;

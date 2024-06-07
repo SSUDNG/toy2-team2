@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const useCheckLogin = async () => {
-  const userName = sessionStorage.getItem('name');
+  const userName = sessionStorage.getItem('id');
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
