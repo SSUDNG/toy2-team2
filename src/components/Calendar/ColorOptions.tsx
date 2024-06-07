@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import theme from '../../style/theme';

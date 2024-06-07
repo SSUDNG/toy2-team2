@@ -1,4 +1,3 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { setDoc, doc } from 'firebase/firestore';
