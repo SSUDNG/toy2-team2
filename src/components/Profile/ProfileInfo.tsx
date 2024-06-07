@@ -8,15 +8,33 @@ import {
   where,
   getDocs,
 } from 'firebase/firestore';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../../store';
+import { initializeSalaryAsync } from '../../store/salaryTable';
+import { initializeCorrectionAsync } from '../../store/correctionTable';
 import { app } from '../../firebase/firebase';
 
 export default function ProfileInfo() {
   const [todayScheduleCount, setTodayScheduleCount] = useState(0);
+  const dispatch = useDispatch<AppDispatch>();
+  const userId = sessionStorage.getItem('id');
+  const salaryTable = useSelector(
+    (state: RootState) => state.salaryTable.table,
+  );
+  const correctionTable = useSelector(
+    (state: RootState) => state.correctionTable.table,
+  );
+  const currentMonth = new Date().getMonth();
+  const currentMonthSalary = salaryTable.find(
+    (salary) => salary.month === currentMonth,
+  );
+  const pendingCorrections = correctionTable.filter(
+    (correction) => correction.progress === 'in progress',
+  ).length;
 
   useEffect(() => {
     const fetchTodayScheduleCount = async () => {
       try {
-        const userId = sessionStorage.getItem('id');
         if (userId) {
           const firestore = getFirestore(app);
           const eventsRef = collection(firestore, 'events', userId, 'event');
@@ -39,7 +57,11 @@ export default function ProfileInfo() {
     };
 
     fetchTodayScheduleCount();
-  }, []);
+    if (userId) {
+      dispatch(initializeSalaryAsync(userId));
+      dispatch(initializeCorrectionAsync(userId));
+    }
+  }, [dispatch, userId]);
 
   return (
     <ProfileInfoStyle>
@@ -48,13 +70,18 @@ export default function ProfileInfo() {
           <div className="confirmEl">
             <Link to="/correction">
               결재 대기중인 내역
-              <div className="confirmApply">1건</div>
+              <div className="confirmApply">{pendingCorrections}건</div>
             </Link>
           </div>
           <div className="confirmEl">
             <Link to="/salary">
               당월 예상 급여
-              <div className="confirmPay">2,370,000</div>
+              <div className="confirmPay">
+                {currentMonthSalary
+                  ? currentMonthSalary.net.toLocaleString()
+                  : '데이터 없음'}
+                원
+              </div>
             </Link>
           </div>
           <div className="confirmEl">
@@ -68,6 +95,7 @@ export default function ProfileInfo() {
     </ProfileInfoStyle>
   );
 }
+
 const ProfileInfoStyle = styled.div`
   .confirmWrapper {
     display: flex;
@@ -80,7 +108,7 @@ const ProfileInfoStyle = styled.div`
     align-items: center;
     margin: 0 50px 0 50px;
     color: ${(props) => props.theme.color.black};
-    font-size: ${(props) => props.theme.fontSize.title1};
+    font-size: ${(props) => props.theme.fontSize.title2};
     font-weight: ${(props) => props.theme.fontWeight.bold};
     border-radius: 10px;
     padding: 2em;

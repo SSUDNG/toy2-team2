@@ -56,7 +56,7 @@ function Login() {
   const onSubmit = async (data: ILogin) => {
     const loggedIn = await checkLogin(data.id, data.password);
     if (loggedIn) {
-      navigate('/');
+      navigate('/profile');
     }
   };
 

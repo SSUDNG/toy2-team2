@@ -79,17 +79,19 @@ export default function PersonalInfo() {
     </div>
   );
 }
+
 const Table = styled.table`
-  width: 50vw;
+  width: 60vw;
   height: 40vh;
+  border-radius: 10px;
+  overflow: hidden;
   justify-content: center;
   border-collapse: collapse;
   text-align: center;
+  font-weight: ${(props) => props.theme.fontWeight.semiBold};
 `;
 
-const TableRow = styled.tr`
-  border-spacing: 1px solid black;
-`;
+const TableRow = styled.tr``;
 
 const TableCell = styled.td`
   padding: 8px;

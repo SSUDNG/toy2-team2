@@ -1,9 +1,10 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import Button from '../common/Button';
+import defaultImage from '../../../defaultImage.svg';
 
 function ProfileImage(): JSX.Element {
-  const [photo, setImageUrl] = useState<string>('');
+  const [photo, setImageUrl] = useState<string>(defaultImage);
 
   useEffect(() => {
     const storedImageUrl = localStorage.getItem('profileImage');
@@ -21,10 +22,19 @@ function ProfileImage(): JSX.Element {
     }
   };
 
+  const handleImageError = () => {
+    setImageUrl(defaultImage);
+  };
+
   return (
     <ProfileStyle>
       <div>
-        <img className="profileImage" src={photo} alt="프로필 이미지" />
+        <img
+          className="profileImage"
+          src={photo}
+          alt="프로필 이미지"
+          onError={handleImageError}
+        />
         <Button size="basic" color="white" as="label" htmlFor="imageInput">
           이미지 선택
           <input
