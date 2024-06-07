@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 
 import ColorOptions from './ColorOptions';
 import Button from '../common/Button';
-import { addEvent } from '../../modules/calendar';
 import { AppDispatch } from '../../store';
+import { addEvent } from '../../store/calendar';
 
 interface FormData {
   name: string;
