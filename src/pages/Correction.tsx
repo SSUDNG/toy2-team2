@@ -1,11 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../store';
 import {
   CorrectionTable,
   initializeCorrectionAsync,
 } from '../store/correctionTable';
-import { SalaryLayout as CorrectionLayout } from './Salary';
+import { SalaryLayout as CorrectionLayout, LoadingLayout } from './Salary';
+import PositionedLoading from '../components/common/PositionedLoading';
 import Table from '../components/common/Table';
 import IrregularWrapper from '../components/Correction/IrregularWrapper';
 import DeleteButton from '../components/Correction/DeleteButton';
@@ -19,14 +20,21 @@ interface TableType extends Omit<CorrectionTable, 'date' | 'progress'> {
 }
 
 function Correction() {
-  const userId = sessionStorage.getItem('id');
   const dispatch = useDispatch<AppDispatch>();
+  const isFetched = useSelector(
+    (state: RootState) => state.correctionTable.isFetched,
+  );
+
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (userId) {
-      dispatch(initializeCorrectionAsync(userId));
+    if (!isFetched) {
+      setIsLoading(true);
+      dispatch(initializeCorrectionAsync()).then(() => {
+        setIsLoading(false);
+      });
     }
-  }, [userId, dispatch]);
+  }, [isFetched, dispatch]);
 
   const tableData = useSelector(
     (state: RootState) => state.correctionTable.table,
@@ -43,21 +51,27 @@ function Correction() {
   return (
     <CorrectionLayout>
       <h2>정정 내역</h2>
-      <Table<Omit<TableType, 'irregular'> & { irregular: React.ReactElement }>
-        columnName={CORRECTION_TABLE_COLUMNS}
-        data={tableData}
-        order={[
-          'month',
-          'date',
-          'reason',
-          'pay',
-          'irregular',
-          'note',
-          'progress',
-        ]}
-        minWidth="85.573vw"
-        keys={CORRECTION_TABLE_COLUMNS}
-      />
+      {isLoading ? (
+        <LoadingLayout>
+          <PositionedLoading position="middle" />
+        </LoadingLayout>
+      ) : (
+        <Table<Omit<TableType, 'irregular'> & { irregular: React.ReactElement }>
+          columnName={CORRECTION_TABLE_COLUMNS}
+          data={tableData}
+          order={[
+            'month',
+            'date',
+            'reason',
+            'pay',
+            'irregular',
+            'note',
+            'progress',
+          ]}
+          minWidth="85.573vw"
+          keys={CORRECTION_TABLE_COLUMNS}
+        />
+      )}
     </CorrectionLayout>
   );
 }

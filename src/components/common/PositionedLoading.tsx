@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import Loading from './Loading';
 import sb from '../../utils/styledBranch';
 
-type Position = 'unfixed' | 'center' | 'rightunder';
+type Position = 'unfixed' | 'middle' | 'center' | 'rightunder';
 
 interface PositionedLoadingProps {
   position: Position;
@@ -27,6 +27,12 @@ const LoadingLayout = styled.div<{ $position: Position }>`
   ${(props) =>
     sb(props.$position, {
       unfixed: css``,
+      middle: css`
+        & > div {
+          width: 100%;
+          margin: 0 auto;
+        }
+      `,
       center: css`
         & > div {
           position: fixed;
