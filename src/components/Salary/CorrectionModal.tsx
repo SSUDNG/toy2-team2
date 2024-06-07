@@ -9,7 +9,7 @@ import { AppDispatch } from '../../store';
 import { CorrectionTable, appendAsync } from '../../store/correctionTable';
 import Input from '../common/Input';
 import Button from '../common/Button';
-import Loading from '../common/Loading';
+import PositionedLoading from '../common/PositionedLoading';
 
 type FormFields = z.infer<typeof schema>;
 
@@ -160,11 +160,7 @@ function CorrectionModal({
             </CorrectionModalErrorMessage>
           </CorrectionModalForm>
         </CorrectionModalLayout>
-        {isSubmitting && (
-          <LoadingLayout>
-            <Loading />
-          </LoadingLayout>
-        )}
+        {isSubmitting && <PositionedLoading position="rightunder" />}
       </>
     )
   );
@@ -229,15 +225,4 @@ const CorrectionModalBackground = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-`;
-
-export const LoadingLayout = styled.div`
-  z-index: 100;
-  & > div {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
 `;

@@ -12,10 +12,12 @@ export interface SalaryTable {
 
 interface SalaryTableState {
   table: SalaryTable[];
+  isFetched: boolean;
 }
 
 const initialState: SalaryTableState = {
   table: [],
+  isFetched: false,
 };
 
 const salaryTablesSlice = createSlice({
@@ -27,6 +29,7 @@ const salaryTablesSlice = createSlice({
       initializeSalaryAsync.fulfilled.type,
       (state, action: PayloadAction<SalaryTable[]>) => {
         state.table = action.payload;
+        state.isFetched = true;
       },
     );
   },
@@ -34,7 +37,13 @@ const salaryTablesSlice = createSlice({
 
 export const initializeSalaryAsync = createAsyncThunk(
   'salaryTable/initializeSalaryAsync',
-  async (userId: string) => {
+  async () => {
+    const userId = sessionStorage.getItem('id');
+
+    if (!userId) {
+      throw new Error('유저 아이디 획득에 실패했습니다.');
+    }
+
     try {
       const querySnapshot = await getDocs(
         query(

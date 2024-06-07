@@ -8,7 +8,7 @@ export const SALARY_TABLE_COLUMNS = [
 ];
 
 export const CORRECTION_TABLE_COLUMNS = [
-  'No',
+  '월',
   '신청일',
   '사유',
   '급여',

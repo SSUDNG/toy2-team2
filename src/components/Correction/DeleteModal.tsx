@@ -4,8 +4,7 @@ import styled from 'styled-components';
 import { AppDispatch } from '../../store';
 import { removeAsync } from '../../store/correctionTable';
 import Button from '../common/Button';
-import { LoadingLayout } from '../Salary/CorrectionModal';
-import Loading from '../common/Loading';
+import PositionedLoading from '../common/PositionedLoading';
 
 function DeleteModal({
   id,
@@ -53,11 +52,7 @@ function DeleteModal({
             </Button>
           </DeleteModalNav>
         </DeleteModalLayout>
-        {isSubmitting && (
-          <LoadingLayout>
-            <Loading />
-          </LoadingLayout>
-        )}
+        {isSubmitting && <PositionedLoading position="rightunder" />}
       </>
     )
   );

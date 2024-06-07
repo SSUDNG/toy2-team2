@@ -23,10 +23,12 @@ export interface CorrectionTable {
 
 interface CorrectionTableState {
   table: CorrectionTable[];
+  isFetched: boolean;
 }
 
 const initialState: CorrectionTableState = {
   table: [],
+  isFetched: false,
 };
 
 const correctionTableSlice = createSlice({
@@ -39,12 +41,14 @@ const correctionTableSlice = createSlice({
         initializeCorrectionAsync.fulfilled.type,
         (state, action: PayloadAction<CorrectionTable[]>) => {
           state.table = action.payload;
+          state.isFetched = true;
         },
       )
       .addCase(
         appendAsync.fulfilled.type,
         (state, action: PayloadAction<CorrectionTable>) => {
           state.table = [...state.table, action.payload];
+          state.isFetched = false;
         },
       )
       .addCase(
@@ -53,6 +57,7 @@ const correctionTableSlice = createSlice({
           state.table = state.table.filter(
             (item) => item.id !== action.payload,
           );
+          state.isFetched = false;
         },
       );
   },
@@ -60,7 +65,13 @@ const correctionTableSlice = createSlice({
 
 export const initializeCorrectionAsync = createAsyncThunk(
   'correctionTable/initializeCorrectionAsync',
-  async (userId: string) => {
+  async () => {
+    const userId = sessionStorage.getItem('id');
+
+    if (!userId) {
+      throw new Error('유저 아이디 획득에 실패했습니다.');
+    }
+
     try {
       const querySnapshot = await getDocs(
         query(
