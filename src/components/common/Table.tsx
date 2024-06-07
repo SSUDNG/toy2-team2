@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import styled from 'styled-components';
 import TableRow, { TableRowItem } from './TableRow';
 
@@ -7,6 +6,7 @@ type TableData<T> = Record<keyof T, TableRowItem>;
 interface TableProps<T> {
   columnName: string[];
   data: TableData<T>[];
+  keys: string[];
   order?: (keyof T)[];
   minWidth?: string;
 }
@@ -15,19 +15,16 @@ function Table<T>({
   columnName,
   data,
   order,
+  keys,
   minWidth = 'fit-content',
 }: TableProps<T>) {
-  const dataWithId = useMemo(() => {
-    return data.map(() => crypto.getRandomValues(new Uint32Array(1)));
-  }, [data]);
-
   return (
     <TableLayout
       $column={columnName.length}
       $row={data.length + 1}
       $minWidth={minWidth}
     >
-      <TableRow isHeader column={columnName} />
+      <TableRow isHeader column={columnName} keys={columnName} />
       {data.map((row, index) => {
         return (
           <TableRow
@@ -35,7 +32,8 @@ function Table<T>({
             column={
               order ? order.map((column) => row[column]) : Object.values(row)
             }
-            key={dataWithId[index].join('')}
+            keys={columnName}
+            key={keys[index]}
           />
         );
       })}
