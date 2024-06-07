@@ -1,7 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { RootState } from '../store';
-import { SalaryTable } from '../store/salaryTable';
+import { RootState, AppDispatch } from '../store';
+import { SalaryTable, initializeSalaryAsync } from '../store/salaryTable';
 import Table from '../components/common/Table';
 import CorrectionButton from '../components/Salary/CorrectionButton';
 import { SALARY_TABLE_COLUMNS } from '../constants';
@@ -11,6 +12,15 @@ interface TableType extends SalaryTable {
 }
 
 function Salary() {
+  const userId = sessionStorage.getItem('id');
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(initializeSalaryAsync(userId));
+    }
+  }, [userId, dispatch]);
+
   const tableData = useSelector(
     (state: RootState) => state.salaryTable.table,
   ).map((data: SalaryTable) => {

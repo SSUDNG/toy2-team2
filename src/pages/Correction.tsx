@@ -1,7 +1,8 @@
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../store';
+import { CorrectionTable, initializeCorrectionAsync } from '../store/correctionTable';
 import { SalaryLayout as CorrectionLayout } from './Salary';
-import { CorrectionTable } from '../store/correctionTable';
 import Table from '../components/common/Table';
 import IrregularWrapper from '../components/Correction/IrregularWrapper';
 import DeleteButton from '../components/Correction/DeleteButton';
@@ -15,6 +16,15 @@ interface TableType extends Omit<CorrectionTable, 'date' | 'progress'> {
 }
 
 function Correction() {
+  const userId = sessionStorage.getItem('id');
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(initializeCorrectionAsync(userId));
+    }
+  }, [userId, dispatch]);
+
   const tableData = useSelector(
     (state: RootState) => state.correctionTable.table,
   ).map((data: CorrectionTable) => {
