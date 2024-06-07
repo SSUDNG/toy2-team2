@@ -2,16 +2,19 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const useCheckLogin = async () => {
-  const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+  const userName = sessionStorage.getItem('id');
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (userName === null) {
       navigate('/login');
-    } else if (location.pathname === '/login' && isLoggedIn) {
+    } else if (
+      location.pathname === '/login' ||
+      location.pathname === '/signup'
+    ) {
       navigate('/');
     }
-  }, [isLoggedIn, navigate, location.pathname]);
+  }, [userName, navigate, location.pathname]);
 };
 
 export default useCheckLogin;

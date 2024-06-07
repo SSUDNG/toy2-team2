@@ -18,9 +18,9 @@ function InputBox({
         type={type}
         required={required}
         placeholder={placeholder}
-        placeholdercolor={placeholdercolor}
-        bordercolor={bordercolor}
-        outlinecolor={outlinecolor}
+        $placeholdercolor={placeholdercolor}
+        $bordercolor={bordercolor}
+        $outlinecolor={outlinecolor}
         register={register}
       />
       {message && <ErrorMessageBox> {message}</ErrorMessageBox>}

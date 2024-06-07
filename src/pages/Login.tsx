@@ -3,11 +3,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Button from '../components/common/Button';
 import formSchema from '../components/Login/loginSchema';
 import { firestore } from '../firebase/firebase';
 import InputBox from '../components/Login/InputBox';
 import useCheckLogin from '../components/Login/useCheckLogin';
+import { setUserInfo } from '../store/login/index';
 
 interface ILogin {
   id: string;
@@ -18,6 +20,7 @@ function Login() {
   useCheckLogin();
   const USER_COLLECTION = 'User';
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const checkLogin = async (id: string, password: string): Promise<boolean> => {
     const userCollectionRef = collection(firestore, USER_COLLECTION);
     const userQuery = query(
@@ -29,9 +32,14 @@ function Login() {
     const querySnapshot = await getDocs(userQuery);
     if (!querySnapshot.empty) {
       const info = querySnapshot.docs[0].data();
-      sessionStorage.setItem('name', info.name);
       sessionStorage.setItem('id', info.id);
-      sessionStorage.setItem('isLoggedIn', 'true');
+      dispatch(
+        setUserInfo({
+          id: info.id,
+          department: info.department,
+          jobposition: info.jobPosition,
+        }),
+      );
       return true;
     }
     return false;

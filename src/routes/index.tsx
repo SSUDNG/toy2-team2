@@ -6,6 +6,7 @@ import Salary from '../pages/Salary';
 import Correction from '../pages/Correction';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
+import NotFound from '../pages/NotFound';
 
 const router = createBrowserRouter([
   {
@@ -36,8 +37,15 @@ const router = createBrowserRouter([
         path: 'calendar',
         element: <Calendar />,
       },
-      {},
+      {
+        path: '*',
+        element: <NotFound />,
+      },
     ],
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ]);
 

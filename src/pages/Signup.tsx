@@ -17,6 +17,7 @@ import Button from '../components/common/Button';
 import Select from '../components/common/Select';
 import { firestore } from '../firebase/firebase';
 import Loading from '../components/common/Loading';
+import useCheckLogin from '../components/Login/useCheckLogin';
 
 interface IuserInfo {
   id: string;
@@ -33,6 +34,7 @@ interface ISignUP extends IuserInfo {
 }
 
 function Signup() {
+  useCheckLogin();
   const {
     register,
     formState: { errors },
