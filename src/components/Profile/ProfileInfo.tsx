@@ -1,21 +1,13 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-} from 'firebase/firestore';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../../store';
 import { initializeSalaryAsync } from '../../store/salaryTable';
 import { initializeCorrectionAsync } from '../../store/correctionTable';
-import { app } from '../../firebase/firebase';
+import { fetchEvents } from '../../store/calendar';
 
 export default function ProfileInfo() {
-  const [todayScheduleCount, setTodayScheduleCount] = useState(0);
   const dispatch = useDispatch<AppDispatch>();
   const userId = sessionStorage.getItem('id');
   const salaryTable = useSelector(
@@ -24,6 +16,7 @@ export default function ProfileInfo() {
   const correctionTable = useSelector(
     (state: RootState) => state.correctionTable.table,
   );
+  const events = useSelector((state: RootState) => state.calendar.events);
   const currentMonth = new Date().getMonth();
   const currentMonthSalary = salaryTable.find(
     (salary) => salary.month === currentMonth,
@@ -32,36 +25,28 @@ export default function ProfileInfo() {
     (correction) => correction.progress === 'in progress',
   ).length;
 
+  const [todayScheduleCount, setTodayScheduleCount] = useState(0);
+
   useEffect(() => {
-    const fetchTodayScheduleCount = async () => {
-      try {
-        if (userId) {
-          const firestore = getFirestore(app);
-          const eventsRef = collection(firestore, 'events', userId, 'event');
-          const today = new Date();
-          const year = today.getFullYear();
-          const month = String(today.getMonth() + 1).padStart(2, '0');
-          const day = String(today.getDate()).padStart(2, '0');
-          const todayString = `${year}-${month}-${day}`;
-
-          const q = query(eventsRef, where('startDate', '==', todayString));
-          const querySnapshot = await getDocs(q);
-
-          setTodayScheduleCount(querySnapshot.size);
-        } else {
-          console.log('로그인 된 상태 아님.');
-        }
-      } catch (error) {
-        console.error('DB 불러오기 오류: ', error);
-      }
-    };
-
-    fetchTodayScheduleCount();
     if (userId) {
       dispatch(initializeSalaryAsync(userId));
       dispatch(initializeCorrectionAsync(userId));
+      dispatch(fetchEvents()).then((resultAction) => {});
     }
   }, [dispatch, userId]);
+
+  useEffect(() => {
+    if (events && events.length > 0) {
+      const today = new Date(new Date().getTime() + 9 * 60 * 60 * 1000)
+        .toISOString()
+        .split('T')[0];
+        const todayScheduleCount = events.filter(({ startDate }) => {
+        const eventDate = new Date(startDate).toISOString().split('T')[0];
+        return eventDate === today;
+      }).length;
+      setTodayScheduleCount(todayScheduleCount);
+    }
+  }, [events]);
 
   return (
     <ProfileInfoStyle>
