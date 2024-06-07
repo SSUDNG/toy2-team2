@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 
-function Day({ date, isToday }: { date: string; isToday: boolean }) {
-  return (
-    <DayWrapper isToday={isToday}>
-      {date.split(' ')[2]} {/* 일자만 표시 */}
-    </DayWrapper>
-  );
+function Day({ date, $isToday }: { date: string; $isToday: boolean }) {
+  return <DayWrapper $isToday={$isToday}>{date.split(' ')[2]}</DayWrapper>;
 }
 
 export default Day;
 
-const DayWrapper = styled.div<{ isToday: boolean }>`
-  background-color: ${(props) => (props.isToday ? 'yellow' : 'white')};
+const DayWrapper = styled.div<{ $isToday: boolean }>`
+  background-color: ${(props) => props.theme.color.white};
   width: 100%;
-  text-align: right;
+  font-size: ${(props) => props.theme.fontSize.body1};
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
 `;
