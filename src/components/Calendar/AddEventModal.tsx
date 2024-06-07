@@ -1,9 +1,11 @@
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { setDoc, doc } from 'firebase/firestore';
-import { firestore } from '../../firebase/firebase';
+import { useDispatch } from 'react-redux';
+
 import ColorOptions from './ColorOptions';
 import Button from '../common/Button';
+import { addEvent } from '../../modules/calendar';
+import { AppDispatch } from '../../store';
 
 interface FormData {
   name: string;
@@ -18,23 +20,18 @@ interface AddEventModalProps {
 
 function AddEventModal({ onClose }: AddEventModalProps) {
   const { register, handleSubmit } = useForm<FormData>();
+  const dispatch: AppDispatch = useDispatch();
 
   async function onSubmit(data: FormData) {
     const userId = sessionStorage.getItem('id');
     if (!userId) return;
 
-    const eventId = Date.now().toString();
-    const event = {
-      ...data,
-    };
-
     try {
-      await setDoc(doc(firestore, 'events', userId, 'event', eventId), event);
-      alert('Event added successfully!');
+      await dispatch(addEvent(data)).unwrap();
+      console.log('Event added successfully!');
       onClose();
     } catch (error) {
       console.error('Error adding event: ', error);
-      alert('Error adding event. Please try again.');
     }
   }
 
@@ -98,6 +95,7 @@ const ModalOverlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 3;
 `;
 const ModalContent = styled.form`
   background: white;
