@@ -39,7 +39,8 @@ function TableRow({
       return (
         <TableItemText>
           {columnItem.getFullYear() % 100}.{columnItem.getMonth() < 9 && '0'}
-          {columnItem.getMonth() + 1}.{columnItem.getDate()}
+          {columnItem.getMonth() + 1}.{columnItem.getDate() < 10 && '0'}
+          {columnItem.getDate()}
         </TableItemText>
       );
     }
