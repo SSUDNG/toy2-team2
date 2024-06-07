@@ -30,8 +30,6 @@ function Login() {
     if (!querySnapshot.empty) {
       const info = querySnapshot.docs[0].data();
       sessionStorage.setItem('name', info.name);
-      sessionStorage.setItem('id', info.id);
-      sessionStorage.setItem('isLoggedIn', 'true');
       return true;
     }
     return false;
