@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../store';
-import { CorrectionTable, initializeCorrectionAsync } from '../store/correctionTable';
+import {
+  CorrectionTable,
+  initializeCorrectionAsync,
+} from '../store/correctionTable';
 import { SalaryLayout as CorrectionLayout } from './Salary';
 import Table from '../components/common/Table';
 import IrregularWrapper from '../components/Correction/IrregularWrapper';
