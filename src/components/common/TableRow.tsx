@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import styled, { css } from 'styled-components';
 
 export type TableRowItem =
@@ -12,14 +12,15 @@ export interface TableRowProps {
   isHeader?: boolean;
   isTail?: boolean;
   column: TableRowItem[];
+  keys: string[];
 }
 
-function TableRow({ isHeader = false, isTail = false, column }: TableRowProps) {
-  const columnWithId = useMemo(
-    () => column.map(() => crypto.getRandomValues(new Uint32Array(1)).join('')),
-    [column],
-  );
-
+function TableRow({
+  isHeader = false,
+  isTail = false,
+  column,
+  keys,
+}: TableRowProps) {
   const generateChildren = useCallback((columnItem: TableRowItem) => {
     if (
       typeof columnItem === 'string' ||
@@ -53,7 +54,7 @@ function TableRow({ isHeader = false, isTail = false, column }: TableRowProps) {
           $tail={isTail}
           $first={index === 0}
           $last={index === column.length - 1}
-          key={columnWithId[index]}
+          key={keys[index]}
         >
           {generateChildren(columnItem)}
         </TableItem>

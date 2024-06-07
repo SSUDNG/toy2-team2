@@ -43,6 +43,7 @@ function Correction() {
           'progress',
         ]}
         minWidth="85.573vw"
+        keys={CORRECTION_TABLE_COLUMNS}
       />
     </CorrectionLayout>
   );
