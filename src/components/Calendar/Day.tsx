@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 function Day({ date, isToday }: { date: string; isToday: boolean }) {
