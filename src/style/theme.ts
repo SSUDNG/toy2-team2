@@ -20,7 +20,7 @@ const barColor = {
   color3: '#FF6F91',
   color4: '#FF9671',
   color5: '#FFC75F',
-  color6: '#F9F871',
+  color6: '#4BBC8E',
 } as const;
 const fontSize = {
   title1: '2.25rem',

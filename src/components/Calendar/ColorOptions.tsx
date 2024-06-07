@@ -8,12 +8,12 @@ interface ColorOptionsProps {
 }
 
 function ColorOptions({ colorProps }: ColorOptionsProps) {
-  const barColors = theme.barColor;
+  const $barColors = theme.barColor;
 
   return (
     <ColorOptionsWrapper>
-      {Object.entries(barColors).map(([key, value]) => (
-        <ColorOption key={key} barColor={value}>
+      {Object.entries($barColors).map(([key, value]) => (
+        <ColorOption key={key} $barColor={value}>
           <input
             type="radio"
             value={value}
@@ -36,13 +36,16 @@ const ColorOptionsWrapper = styled.div`
   margin: 10px 0;
 `;
 
-const ColorOption = styled.label<{
-  barColor: string;
-}>`
+const ColorOption = styled.label.attrs<{ $barColor: string }>(
+  ({ $barColor }) => ({
+    style: {
+      backgroundColor: $barColor,
+    },
+  }),
+)`
   display: inline-block;
   width: 30px;
   height: 30px;
-  background-color: ${(props) => props.barColor};
   border: 2px solid transparent;
   border-radius: 4px;
   cursor: pointer;
@@ -51,6 +54,6 @@ const ColorOption = styled.label<{
   }
   &:hover,
   &:focus-within {
-    border-color: #000;
+    border-color: ${(props) => props.theme.color.red};
   }
 `;
