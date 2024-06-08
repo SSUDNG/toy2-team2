@@ -48,6 +48,19 @@ export default function ProfileInfo() {
     }
   }, [events]);
 
+  useEffect(() => {
+    if (events && events.length > 0) {
+      const today = new Date(new Date().getTime() + 9 * 60 * 60 * 1000)
+        .toISOString()
+        .split('T')[0];
+        const todayScheduleCount = events.filter(({ startDate }) => {
+        const eventDate = new Date(startDate).toISOString().split('T')[0];
+        return eventDate === today;
+      }).length;
+      setTodayScheduleCount(todayScheduleCount);
+    }
+  }, [events]);
+
   return (
     <ProfileInfoStyle>
       <div>
