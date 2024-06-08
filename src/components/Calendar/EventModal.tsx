@@ -30,6 +30,8 @@ const defaultEvent: Event = {
 function EventModal({ event = defaultEvent, onClose, type }: EventModalProps) {
   const dispatch: AppDispatch = useDispatch();
   const [isEvent, setIsEvent] = useState(event);
+  const [validationError, setValidationError] = useState<string | null>(null);
+  const [errorKey, setErrorKey] = useState(0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -49,8 +51,16 @@ function EventModal({ event = defaultEvent, onClose, type }: EventModalProps) {
     dispatch(deleteEvent(event.id));
     onClose();
   };
+
   const handleAdd = () => {
     const { id, ...newEvent } = isEvent;
+
+    if (!newEvent.name || !newEvent.startDate || !newEvent.endDate) {
+      setValidationError('모든 필드를 입력하세요.');
+      setErrorKey((prev) => prev + 1);
+      return;
+    }
+
     dispatch(addEvent(newEvent));
     onClose();
   };
@@ -74,6 +84,7 @@ function EventModal({ event = defaultEvent, onClose, type }: EventModalProps) {
             value={type === 'edit' ? isEvent.name : undefined}
             placeholder="일정 이름을 입력하세요."
             onChange={handleChange}
+            required
           />
         </List>
         <List>
@@ -83,6 +94,7 @@ function EventModal({ event = defaultEvent, onClose, type }: EventModalProps) {
             name="startDate"
             value={type === 'edit' ? isEvent.startDate : undefined}
             onChange={handleChange}
+            required
           />
         </List>
         <List>
@@ -92,6 +104,7 @@ function EventModal({ event = defaultEvent, onClose, type }: EventModalProps) {
             name="endDate"
             value={type === 'edit' ? isEvent.endDate : undefined}
             onChange={handleChange}
+            required
           />
         </List>
         <List>
@@ -102,6 +115,9 @@ function EventModal({ event = defaultEvent, onClose, type }: EventModalProps) {
           />
         </List>
         <ButtonRow>
+          {validationError && (
+            <ErrorMessage key={errorKey}>{validationError}</ErrorMessage>
+          )}{' '}
           {type === 'edit' ? (
             <>
               <Button
@@ -131,7 +147,6 @@ function EventModal({ event = defaultEvent, onClose, type }: EventModalProps) {
               추가
             </Button>
           )}
-
           <Button size="basic" color="white" type="button" onClick={onClose}>
             취소
           </Button>
@@ -217,4 +232,31 @@ const ButtonRow = styled.div`
   justify-content: right;
   gap: 1rem;
   margin-bottom: 1rem;
+`;
+const ErrorMessage = styled.p`
+  position: absolute;
+  left: 1rem;
+  animation: vibration 0.3s;
+  @keyframes vibration {
+    0% {
+      transform: translateX(0);
+      color: ${(props) => props.theme.color.black};
+    }
+    25% {
+      transform: translateX(-5px);
+      ccolor: #7e3f46;
+    }
+    50% {
+      transform: translateX(5px);
+      color: #be3f46;
+    }
+    75% {
+      transform: translateX(-5px);
+      color: #ff3f46;
+    }
+    100% {
+      transform: translateX(0);
+      color: ${(props) => props.theme.color.red};
+    }
+  }
 `;
