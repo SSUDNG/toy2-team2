@@ -61,7 +61,7 @@ function Login() {
   const onSubmit = async (data: ILogin) => {
     const loggedIn = await checkLogin(data.id, data.password);
     if (loggedIn) {
-      navigate('/profile');
+      navigate('/');
     } else {
       setError('password', {
         type: 'manual',
