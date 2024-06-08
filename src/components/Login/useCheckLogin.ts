@@ -7,10 +7,18 @@ const useCheckLogin = async () => {
   const location = useLocation();
   useEffect(() => {
     if (
-      (location.pathname === '/login' || location.pathname === '/signup') &&
-      userId !== null
+      userId !== null &&
+      (location.pathname === '/login' || location.pathname === '/signup')
     ) {
       navigate('/');
+    } else if (
+      userId === null &&
+      (location.pathname === '/' ||
+        location.pathname === '/profile' ||
+        location.pathname === '/salary' ||
+        location.pathname === '/calendar')
+    ) {
+      navigate('/login');
     }
   }, [userId, navigate, location.pathname]);
 };
