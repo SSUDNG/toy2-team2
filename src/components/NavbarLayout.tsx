@@ -25,8 +25,8 @@ function NavbarLayout() {
         {/* NavbarBox */}
         <div className="navbar">
           <div className="navEl">
-            <Link to="/profile">
-              <li className={location.pathname === '/profile' ? 'active' : ''}>
+            <Link to="/">
+              <li className={location.pathname === '/' ? 'active' : ''}>
                 내 인사정보
               </li>
             </Link>
