@@ -1,25 +1,33 @@
 import styled from 'styled-components';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import { MdCheck } from 'react-icons/md';
 import theme from '../../style/theme';
 
 interface ColorOptionsProps {
-  colorProps: UseFormRegisterReturn;
+  selectedColor?: string;
+  onColorChange: (color: string) => void;
 }
 
-function ColorOptions({ colorProps }: ColorOptionsProps) {
+function ColorOptions({
+  selectedColor = '',
+  onColorChange,
+}: ColorOptionsProps) {
   const $barColors = theme.barColor;
 
   return (
     <ColorOptionsWrapper>
       {Object.entries($barColors).map(([key, value]) => (
-        <ColorOption key={key} $barColor={value}>
+        <ColorOption
+          key={key}
+          $barColor={value}
+          $isSelected={selectedColor === value}
+          onClick={() => onColorChange(value)}
+        >
+          {selectedColor === value && <Checked />}
           <input
             type="radio"
             value={value}
-            name={colorProps.name}
-            onChange={colorProps.onChange}
-            onBlur={colorProps.onBlur}
-            ref={colorProps.ref}
+            checked={selectedColor === value}
+            onChange={() => onColorChange(value)}
           />
         </ColorOption>
       ))}
@@ -32,27 +40,35 @@ export default ColorOptions;
 const ColorOptionsWrapper = styled.div`
   display: flex;
   gap: 10px;
-  margin: 10px 0;
+  margin-bottom: 1rem;
 `;
 
-const ColorOption = styled.label.attrs<{ $barColor: string }>(
-  ({ $barColor }) => ({
-    style: {
-      backgroundColor: $barColor,
-    },
-  }),
-)`
+const ColorOption = styled.label.attrs<{
+  $barColor: string;
+  $isSelected: boolean;
+}>(({ $barColor }) => ({
+  style: {
+    backgroundColor: $barColor,
+  },
+}))`
   display: inline-block;
   width: 30px;
   height: 30px;
-  border: 2px solid transparent;
   border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  transition: filter 200ms;
+  &:hover {
+    transform: scale(1.05);
+  }
   input {
     display: none;
   }
-  &:hover,
-  &:focus-within {
-    border-color: ${(props) => props.theme.color.red};
-  }
+`;
+
+const Checked = styled(MdCheck)`
+  color: ${(props) => props.theme.color.pureWhite};
+  font-size: ${(props) => props.theme.fontSize.body1};
 `;

@@ -9,27 +9,29 @@ interface EventBarProps {
     color: string;
   };
   span: number;
+  offset: number;
   onClick: () => void;
 }
 
-function EventBar({ event, span, onClick }: EventBarProps) {
+function EventBar({ event, span, offset, onClick }: EventBarProps) {
   return (
-    <Bar color={event.color} span={span} onClick={onClick}>
+    <Bar color={event.color} span={span} offset={offset} onClick={onClick}>
       {event.name}
     </Bar>
   );
 }
 
 export default EventBar;
-const Bar = styled.div<{ color: string; span: number }>`
+
+const Bar = styled.div<{ color: string; span: number; offset: number }>`
+  position: absolute;
   display: flex;
   background-color: ${(props) => props.color};
   color: ${(props) => props.theme.color.pureWhite};
-  grid-column: span ${(props) => props.span};
-  width: 100%;
-  padding: 5px 10px 5px;
+  left: ${(props) => props.offset * (100 / 7)}%;
+  width: calc(${(props) => props.span * (100 / 7)}% - 1rem);
+  padding: 0.5rem;
   border-radius: 0.5rem 1rem 1rem 0.5rem;
   cursor: pointer;
-  margin-bottom: 2px;
   height: 1rem;
 `;

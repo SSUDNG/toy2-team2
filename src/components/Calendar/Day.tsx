@@ -10,7 +10,7 @@ const DayWrapper = styled.div<{ $isToday: boolean }>`
   background-color: ${(props) => props.theme.color.white};
   width: 100%;
   font-size: ${(props) => props.theme.fontSize.body1};
-  padding: 10px;
+  padding: 0.5rem;
   box-sizing: border-box;
   display: flex;
   align-items: center;

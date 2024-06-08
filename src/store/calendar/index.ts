@@ -41,9 +41,9 @@ export const fetchEvents = createAsyncThunk<Event[], void>(
 
       const eventCollectionRef = collection(
         firestore,
-        'events',
+        'User',
         userId,
-        'event',
+        'events',
       );
       const eventSnapshot = await getDocs(eventCollectionRef);
 
@@ -65,7 +65,7 @@ export const addEvent = createAsyncThunk(
     if (!userId) throw new Error('No ID found in sessionStorage');
 
     const docRef = await addDoc(
-      collection(firestore, 'events', userId, 'event'),
+      collection(firestore, 'User', userId, 'events'),
       newEvent,
     );
     return { id: docRef.id, ...newEvent };
@@ -81,9 +81,9 @@ export const updateEvent = createAsyncThunk(
 
     const eventDocRef = doc(
       firestore,
-      'events',
+      'User',
       userId,
-      'event',
+      'events',
       updatedEvent.id,
     );
 
@@ -104,9 +104,9 @@ export const deleteEvent = createAsyncThunk(
   'events/deleteEvent',
   async (eventId: string) => {
     const userId = sessionStorage.getItem('id');
+    console.log(eventId);
     if (!userId) throw new Error('No ID found in sessionStorage');
-
-    const eventDocRef = doc(firestore, 'events', userId, 'event', eventId);
+    const eventDocRef = doc(firestore, 'User', userId, 'events', eventId);
     await deleteDoc(eventDocRef);
     return eventId;
   },
