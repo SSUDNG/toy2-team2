@@ -29,9 +29,9 @@ export default function ProfileInfo() {
 
   useEffect(() => {
     if (userId) {
-      dispatch(initializeSalaryAsync(userId));
-      dispatch(initializeCorrectionAsync(userId));
-      dispatch(fetchEvents()).then((resultAction) => {});
+      dispatch(initializeSalaryAsync());
+      dispatch(initializeCorrectionAsync());
+      dispatch(fetchEvents()).then(() => {});
     }
   }, [dispatch, userId]);
 
