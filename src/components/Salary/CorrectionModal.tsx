@@ -41,7 +41,7 @@ function CorrectionModal({
   }, [reset, setIsVisible]);
 
   const appendData = useCallback(
-    (data: FormFields) => {
+    async (data: FormFields) => {
       setIsSubmitting(true);
       const newData: Omit<CorrectionTable, 'id'> = {
         reason: data.reason,
@@ -55,10 +55,9 @@ function CorrectionModal({
         .then(() => {
           closeModal();
         })
-        .catch((error) => {
-          console.log('error', error);
+        .catch((err) => {
           setError('root', {
-            message: '등록에 실패했습니다.',
+            message: err.message,
           });
         })
         .finally(() => {
@@ -209,6 +208,7 @@ const CorrectionModalErrorMessage = styled.label`
   margin-bottom: 0.75rem;
   color: ${(props) => props.theme.color.red};
   font-size: ${(props) => props.theme.fontSize.body1};
+  text-align: right;
 `;
 
 const CorrectionModalNav = styled.nav`

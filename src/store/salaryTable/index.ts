@@ -25,13 +25,22 @@ const salaryTablesSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(
-      initializeSalaryAsync.fulfilled.type,
-      (state, action: PayloadAction<SalaryTable[]>) => {
-        state.table = action.payload;
-        state.isFetched = true;
-      },
-    );
+    builder
+      .addCase(
+        initializeSalaryAsync.fulfilled.type,
+        (state, action: PayloadAction<SalaryTable[]>) => {
+          state.table = action.payload;
+          state.isFetched = true;
+        },
+      )
+      .addCase(
+        initializeSalaryAsync.rejected.type,
+        (state, action: { type: string; error: Error }) => {
+          console.error(action.error.message);
+          state.isFetched = false;
+          throw action.error;
+        },
+      );
   },
 });
 
@@ -42,6 +51,12 @@ export const initializeSalaryAsync = createAsyncThunk(
 
     if (!userId) {
       throw new Error('유저 아이디 획득에 실패했습니다.');
+    }
+
+    const isOnline = navigator.onLine;
+
+    if (!isOnline) {
+      throw new Error('네트워크 연결에 실패했습니다.');
     }
 
     try {
@@ -58,8 +73,7 @@ export const initializeSalaryAsync = createAsyncThunk(
 
       return fetchedDocs;
     } catch (error) {
-      console.log(error);
-      throw new Error('데이터베이스 조회에 실패했습니다.');
+      throw new Error('데이터베이스 연결에 실패했습니다.');
     }
   },
 );
