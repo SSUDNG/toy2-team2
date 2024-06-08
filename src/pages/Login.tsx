@@ -37,7 +37,10 @@ function Login() {
         setUserInfo({
           id: info.id,
           department: info.department,
+          email: info.email,
           jobposition: info.jobPosition,
+          joiningDate: info.joiningDate,
+          name: info.name,
         }),
       );
       return true;
