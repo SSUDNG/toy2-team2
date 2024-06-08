@@ -38,7 +38,7 @@ function Login() {
           id: info.id,
           department: info.department,
           email: info.email,
-          jobPosition: info.jobPosition,
+          jobposition: info.jobPosition,
           joiningDate: info.joiningDate,
           name: info.name,
         }),
