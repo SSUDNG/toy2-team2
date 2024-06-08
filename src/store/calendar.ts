@@ -7,7 +7,7 @@ import {
   updateDoc,
   deleteDoc,
 } from 'firebase/firestore';
-import { firestore } from '../../firebase/firebase';
+import { firestore } from '../firebase/firebase';
 
 export interface Event {
   id: string;

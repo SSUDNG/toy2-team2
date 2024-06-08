@@ -1,6 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { collection, query, getDocs, orderBy } from 'firebase/firestore';
-import { firestore } from '../../firebase/firebase';
+import { firestore } from '../firebase/firebase';
 
 export interface SalaryTable {
   month: number;

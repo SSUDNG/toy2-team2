@@ -8,8 +8,8 @@ import {
   doc,
   deleteDoc,
 } from 'firebase/firestore';
-import { firestore } from '../../firebase/firebase';
-import { PROGRESS_VALUES } from '../../constants';
+import { firestore } from '../firebase/firebase';
+import { PROGRESS_VALUES } from '../constants';
 
 export interface CorrectionTable {
   id: string;

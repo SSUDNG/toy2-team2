@@ -17,10 +17,7 @@ export default function PersonalInfo() {
           throw new Error('User ID not found in session storage');
         }
         const userCollectionRef = collection(firestore, 'User');
-        const userQuery = query(
-          userCollectionRef,
-          where('id', '==', userId)
-        );
+        const userQuery = query(userCollectionRef, where('id', '==', userId));
         const querySnapshot = await getDocs(userQuery);
         if (!querySnapshot.empty) {
           const userData = querySnapshot.docs[0].data() as {
@@ -37,8 +34,7 @@ export default function PersonalInfo() {
         console.error('사용자 정보를 불러오는 중 에러 발생: ', error);
       }
     };
-    
-  
+
     fetchUserInfo();
   }, [dispatch]);
 
