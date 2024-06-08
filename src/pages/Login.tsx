@@ -5,7 +5,7 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Button from '../components/common/Button';
-import formSchema from '../components/Login/loginSchema';
+import formSchema from '../schema/loginSchema';
 import { firestore } from '../firebase/firebase';
 import useCheckLogin from '../components/Login/useCheckLogin';
 import { setUserInfo } from '../store/login';
