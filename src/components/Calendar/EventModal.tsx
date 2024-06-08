@@ -50,7 +50,8 @@ function EventModal({ event = defaultEvent, onClose, type }: EventModalProps) {
     onClose();
   };
   const handleAdd = () => {
-    dispatch(addEvent(isEvent));
+    const { id, ...newEvent } = isEvent;
+    dispatch(addEvent(newEvent));
     onClose();
   };
 
@@ -89,7 +90,7 @@ function EventModal({ event = defaultEvent, onClose, type }: EventModalProps) {
           <InputBox
             type="date"
             name="endDate"
-            value={type === 'edit' ? isEvent.endDate : ''}
+            value={type === 'edit' ? isEvent.endDate : undefined}
             onChange={handleChange}
           />
         </List>

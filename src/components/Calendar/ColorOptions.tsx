@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { MdCheck } from 'react-icons/md';
 import theme from '../../style/theme';
@@ -21,11 +20,13 @@ function ColorOptions({
           key={key}
           $barColor={value}
           $isSelected={selectedColor === value}
+          onClick={() => onColorChange(value)}
         >
           {selectedColor === value && <Checked />}
           <input
             type="radio"
             value={value}
+            checked={selectedColor === value}
             onChange={() => onColorChange(value)}
           />
         </ColorOption>
@@ -53,13 +54,15 @@ const ColorOption = styled.label.attrs<{
   display: inline-block;
   width: 30px;
   height: 30px;
-  border: 2px solid transparent;
   border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-
+  transition: filter 200ms;
+  &:hover {
+    transform: scale(1.05);
+  }
   input {
     display: none;
   }

@@ -80,7 +80,8 @@ function Calendar() {
     setCurrentDate(new Date());
   };
 
-  const monthTitle = `${currentDate.getFullYear()}. ${String(currentDate.getMonth() + 1).padStart(2, '0')} `;
+  const TitleMonth = `${String(currentDate.getMonth() + 1).padStart(2, '0')} `;
+  const TitleYear = `${currentDate.getFullYear()}`;
   const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
 
   const renderEventBars = (week: Date[]) => {
@@ -95,7 +96,7 @@ function Calendar() {
         const startDate = new Date(event.startDate);
         startDate.setHours(0, 0, 0, 0);
         const endDate = new Date(event.endDate);
-        endDate.setHours(0, 0, 0, 0);
+        endDate.setHours(23, 59, 59, 999);
         return weekStart <= endDate && weekEnd >= startDate;
       })
       .sort(
@@ -125,9 +126,8 @@ function Calendar() {
       }
     });
 
-    const renderRow = (row: EventType[], rowIndex: number) =>
-      row.map((event, index) => {
-        const key = `week-${weekStart.getTime()}-${rowIndex}-${index}`;
+    const renderRow = (row: EventType[]) =>
+      row.map((event) => {
         const eventStartDate = new Date(event.startDate);
         eventStartDate.setHours(0, 0, 0, 0);
         const eventEndDate = new Date(event.endDate);
@@ -148,24 +148,30 @@ function Calendar() {
         );
 
         return (
-          <EventRow key={key} offset={offset} span={span}>
-            <EventBar
-              key={event.id}
-              event={event}
-              span={span}
-              onClick={() => setSelectedEvent(event)}
-            />
-          </EventRow>
+          <EventBar
+            key={event.id}
+            event={event}
+            span={span}
+            offset={offset}
+            onClick={() => setSelectedEvent(event)}
+          />
         );
       });
 
-    return rows.flatMap((row, rowIndex) => renderRow(row, rowIndex));
+    return rows.flatMap((row) => (
+      <EventRow key={row.map((event) => event.id).join('-')}>
+        {renderRow(row)}
+      </EventRow>
+    ));
   };
 
   return (
     <CalendarWrapper>
       <CalendarHeader>
-        <MonthTitle>{monthTitle}</MonthTitle>
+        <Title>
+          <Year>{TitleYear}</Year>
+          <Month>{TitleMonth}</Month>
+        </Title>
 
         <AddButton
           size="basic"
@@ -234,15 +240,27 @@ const CalendarWrapper = styled.div`
 const CalendarHeader = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  position: relative;
 `;
-const MonthTitle = styled.h2`
+
+const Title = styled.div`
+  display: flex;
+  align-items: flex-end;
+`;
+const Year = styled.div`
+  color: ${(props) => props.theme.color.dimgray};
+  font-size: ${(props) => props.theme.fontSize.title3};
+`;
+const Month = styled.div`
   color: ${(props) => props.theme.color.darkgray};
-  font-size: ${(props) => props.theme.fontSize.title2};
+  font-size: ${(props) => props.theme.fontSize.title1};
 `;
 const AddButton = styled(Button)`
   width: 10rem;
+  position: absolute;
+  right: 0;
 `;
 const WeekDays = styled.div`
   display: flex;
@@ -253,7 +271,7 @@ const WeekDays = styled.div`
 `;
 const WeekDay = styled.div`
   flex: 1;
-  padding: 10px;
+  padding: 0.5rem;
   color: ${(props) => props.theme.color.darkgray};
   &:first-child {
     color: ${(props) => props.theme.color.red};
@@ -264,7 +282,7 @@ const WeekWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 12rem;
+  min-height: 10rem;
   position: relative;
   background-color: ${(props) => props.theme.color.white};
 `;
@@ -280,7 +298,7 @@ const GridItem = styled.div<{ $isToday: boolean }>`
   ${(props) =>
     props.$isToday
       ? css`
-          border: 4px solid ${props.theme.color.primary};
+          border: 2px solid ${props.theme.color.primary};
         `
       : css`
           border: 1px solid ${props.theme.color.pureWhite};
@@ -306,10 +324,13 @@ const EventContainer = styled.div`
   flex-direction: column;
   width: 100%;
   z-index: 2;
+  position: relative;
 `;
 
-const EventRow = styled.div<{ offset: number; span: number }>`
+const EventRow = styled.div`
   display: flex;
-  margin-left: ${({ offset }) => offset * (100 / 7)}%;
-  width: ${({ span }) => span * (100 / 7)}%;
+  width: 100%;
+  height: 2rem; /* Row height */
+  position: relative;
+  margin-bottom: 0.1rem;
 `;
