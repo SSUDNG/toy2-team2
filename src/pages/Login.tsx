@@ -38,11 +38,12 @@ function Login() {
           id: info.id,
           department: info.department,
           email: info.email,
-          jobposition: info.jobPosition,
+          jobPosition: info.jobPosition,
           joiningDate: info.joiningDate,
           name: info.name,
         }),
       );
+      
       return true;
     }
     return false;

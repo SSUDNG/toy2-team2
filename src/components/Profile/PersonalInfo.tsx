@@ -1,50 +1,46 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
-import { app } from '../../firebase/firebase';
-
-interface UserInfo {
-  name: string;
-  department: string;
-  jobPosition: string;
-  joiningDate: string;
-  email: string;
-}
-
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store';
+import { setUserInfo } from '../../store/login';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { firestore } from '../../firebase/firebase';
 export default function PersonalInfo() {
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state: RootState) => state.login);
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUserInfo = async () => {
       try {
         const userId = sessionStorage.getItem('id');
-        if (userId) {
-          const firestore = getFirestore(app);
-          const docRef = doc(firestore, 'User', userId);
-          const docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            setUserInfo({
-              name: data.name,
-              department: data.department,
-              jobPosition: data.jobPosition,
-              joiningDate: data.joiningDate,
-              email: data.email,
-            });
-          } else {
-            console.log('데이터를 찾을 수 없습니다.');
-          }
-        } else {
-          console.log('로그인 된 상태 아님.');
+        if (!userId) {
+          throw new Error('User ID not found in session storage');
+        }
+        const userCollectionRef = collection(firestore, 'User');
+        const userQuery = query(
+          userCollectionRef,
+          where('id', '==', userId)
+        );
+        const querySnapshot = await getDocs(userQuery);
+        if (!querySnapshot.empty) {
+          const userData = querySnapshot.docs[0].data() as {
+            department: string;
+            jobPosition: string;
+            id: string;
+            email: string;
+            joiningDate: string;
+            name: string;
+          };
+          dispatch(setUserInfo(userData));
         }
       } catch (error) {
-        console.error('DB 불러오기 오류: ', error);
+        console.error('사용자 정보를 불러오는 중 에러 발생: ', error);
       }
     };
-
-    fetchUserData();
-  }, []);
+    
+  
+    fetchUserInfo();
+  }, [dispatch]);
 
   if (!userInfo) {
     return <div>Loading...</div>;
@@ -64,7 +60,7 @@ export default function PersonalInfo() {
           </TableRow>
           <TableRow>
             <TableHeaderCell>직위</TableHeaderCell>
-            <TableCell>{userInfo.jobPosition}</TableCell>
+            <TableCell>{userInfo.jobposition}</TableCell>
           </TableRow>
           <TableRow>
             <TableHeaderCell>입사일</TableHeaderCell>

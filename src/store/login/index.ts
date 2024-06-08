@@ -26,7 +26,7 @@ const userSlice = createSlice({
       state,
       action: PayloadAction<{
         department: string;
-        jobposition: string;
+        jobPosition: string;
         id: string;
         email: string;
         joiningDate: string;
@@ -34,7 +34,7 @@ const userSlice = createSlice({
       }>,
     ) => {
       state.department = action.payload.department;
-      state.jobposition = action.payload.jobposition;
+      state.jobposition = action.payload.jobPosition;
       state.id = action.payload.id;
       state.email = action.payload.email;
       state.joiningDate = action.payload.joiningDate;
