@@ -4,12 +4,18 @@ interface UserState {
   department: string | null;
   jobposition: string | null;
   id: string | null;
+  email: string | null;
+  joiningDate: string | null;
+  name: string | null;
 }
 
 const initialState: UserState = {
-  department: 'department',
-  jobposition: null,
-  id: null,
+  department: '없음',
+  jobposition: '없음',
+  id: '없음',
+  email: '없음',
+  joiningDate: '없음',
+  name: '없음',
 };
 
 const userSlice = createSlice({
@@ -22,16 +28,25 @@ const userSlice = createSlice({
         department: string;
         jobposition: string;
         id: string;
+        email: string;
+        joiningDate: string;
+        name: string;
       }>,
     ) => {
       state.department = action.payload.department;
       state.jobposition = action.payload.jobposition;
       state.id = action.payload.id;
+      state.email = action.payload.email;
+      state.joiningDate = action.payload.joiningDate;
+      state.name = action.payload.name;
     },
     clearUserInfo: (state) => {
       state.department = null;
       state.jobposition = null;
       state.id = null;
+      state.email = null;
+      state.joiningDate = null;
+      state.name = null;
     },
   },
 });
