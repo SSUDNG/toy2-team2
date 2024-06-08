@@ -1,19 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const NavClockStyled = styled.div`
-  .leftUnder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    height: 100%;
-    width: 100vh;
-    font-size: ${(props) => props.theme.fontSize.title1};
-    background-color: ${(props) => props.theme.color.pureWhite};
-  }
-`;
-
 export default function NavClock() {
   const [time, setTime] = useState(new Date().toLocaleTimeString());
 
@@ -28,9 +15,24 @@ export default function NavClock() {
   return (
     <NavClockStyled>
       <div className="leftUnder">
-        <div>{time}</div>
-        <div>else</div>
+        <div className="clock">{time}</div>
       </div>
     </NavClockStyled>
   );
 }
+
+const NavClockStyled = styled.div`
+  .leftUnder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 40vw;
+    font-size: ${(props) => props.theme.fontSize.title1};
+  }
+  .clock {
+    padding: 50px;
+    background-color: ${(props) => props.theme.color.pureWhite};
+    border-radius: 10px;
+  }
+`;

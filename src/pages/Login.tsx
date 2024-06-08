@@ -38,11 +38,12 @@ function Login() {
           id: info.id,
           department: info.department,
           email: info.email,
-          jobposition: info.jobPosition,
+          jobPosition: info.jobPosition,
           joiningDate: info.joiningDate,
           name: info.name,
         }),
       );
+      
       return true;
     }
     return false;
@@ -60,7 +61,7 @@ function Login() {
   const onSubmit = async (data: ILogin) => {
     const loggedIn = await checkLogin(data.id, data.password);
     if (loggedIn) {
-      navigate('/');
+      navigate('/profile');
     } else {
       setError('password', {
         type: 'manual',

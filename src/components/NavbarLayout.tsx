@@ -16,14 +16,12 @@ function NavbarLayout() {
     <NavbarLayoutStyle>
       {/* NavbarList */}
       <ul>
-        <Link to="/">
-          {/* NavbarItem */}
-          <li
-            className={`titleLogo ${location.pathname === '/' ? 'active' : ''}`}
-          >
-            LOGO
-          </li>
-        </Link>
+        {/* NavbarItem */}
+        <li
+          className={`titleLogo ${location.pathname === '/' ? 'active' : ''}`}
+        >
+          <h1>LOGO</h1>
+        </li>
         {/* NavbarBox */}
         <div className="navbar">
           <div className="navEl">
@@ -93,7 +91,6 @@ const NavbarLayoutStyle = styled.header`
   li {
     margin: 1rem;
     padding: 0 20px 0 20px;
-    cursor: pointer;
   }
   .active {
     color: ${(props) => props.theme.color.primary};

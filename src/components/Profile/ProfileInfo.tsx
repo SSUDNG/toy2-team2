@@ -1,45 +1,65 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-} from 'firebase/firestore';
-import { app } from '../../firebase/firebase';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from '../../store';
+import { initializeSalaryAsync } from '../../store/salaryTable';
+import { initializeCorrectionAsync } from '../../store/correctionTable';
+import { fetchEvents } from '../../store/calendar';
 
 export default function ProfileInfo() {
+  const dispatch = useDispatch<AppDispatch>();
+  const userId = sessionStorage.getItem('id');
+  const salaryTable = useSelector(
+    (state: RootState) => state.salaryTable.table,
+  );
+  const correctionTable = useSelector(
+    (state: RootState) => state.correctionTable.table,
+  );
+  const events = useSelector((state: RootState) => state.calendar.events);
+  const currentMonth = new Date().getMonth();
+  const currentMonthSalary = salaryTable.find(
+    (salary) => salary.month === currentMonth,
+  );
+  const pendingCorrections = correctionTable.filter(
+    (correction) => correction.progress === 'in progress',
+  ).length;
+
   const [todayScheduleCount, setTodayScheduleCount] = useState(0);
 
   useEffect(() => {
-    const fetchTodayScheduleCount = async () => {
-      try {
-        const userId = sessionStorage.getItem('id');
-        if (userId) {
-          const firestore = getFirestore(app);
-          const eventsRef = collection(firestore, 'events', userId, 'event');
-          const today = new Date();
-          const year = today.getFullYear();
-          const month = String(today.getMonth() + 1).padStart(2, '0');
-          const day = String(today.getDate()).padStart(2, '0');
-          const todayString = `${year}-${month}-${day}`;
+    if (userId) {
+      dispatch(initializeSalaryAsync());
+      dispatch(initializeCorrectionAsync());
+      dispatch(fetchEvents()).then(() => {});
+    }
+  }, [dispatch, userId]);
 
-          const q = query(eventsRef, where('startDate', '==', todayString));
-          const querySnapshot = await getDocs(q);
+  useEffect(() => {
+    if (events && events.length > 0) {
+      const today = new Date(new Date().getTime() + 9 * 60 * 60 * 1000)
+        .toISOString()
+        .split('T')[0];
+        const todayScheduleCount = events.filter(({ startDate }) => {
+        const eventDate = new Date(startDate).toISOString().split('T')[0];
+        return eventDate === today;
+      }).length;
+      setTodayScheduleCount(todayScheduleCount);
+    }
+  }, [events]);
 
-          setTodayScheduleCount(querySnapshot.size);
-        } else {
-          console.log('로그인 된 상태 아님.');
-        }
-      } catch (error) {
-        console.error('DB 불러오기 오류: ', error);
-      }
-    };
-
-    fetchTodayScheduleCount();
-  }, []);
+  useEffect(() => {
+    if (events && events.length > 0) {
+      const today = new Date(new Date().getTime() + 9 * 60 * 60 * 1000)
+        .toISOString()
+        .split('T')[0];
+        const todayScheduleCount = events.filter(({ startDate }) => {
+        const eventDate = new Date(startDate).toISOString().split('T')[0];
+        return eventDate === today;
+      }).length;
+      setTodayScheduleCount(todayScheduleCount);
+    }
+  }, [events]);
 
   return (
     <ProfileInfoStyle>
@@ -48,13 +68,18 @@ export default function ProfileInfo() {
           <div className="confirmEl">
             <Link to="/correction">
               결재 대기중인 내역
-              <div className="confirmApply">1건</div>
+              <div className="confirmApply">{pendingCorrections}건</div>
             </Link>
           </div>
           <div className="confirmEl">
             <Link to="/salary">
               당월 예상 급여
-              <div className="confirmPay">2,370,000</div>
+              <div className="confirmPay">
+                {currentMonthSalary
+                  ? currentMonthSalary.net.toLocaleString()
+                  : '데이터 없음'}
+                원
+              </div>
             </Link>
           </div>
           <div className="confirmEl">
@@ -68,6 +93,7 @@ export default function ProfileInfo() {
     </ProfileInfoStyle>
   );
 }
+
 const ProfileInfoStyle = styled.div`
   .confirmWrapper {
     display: flex;
@@ -80,7 +106,7 @@ const ProfileInfoStyle = styled.div`
     align-items: center;
     margin: 0 50px 0 50px;
     color: ${(props) => props.theme.color.black};
-    font-size: ${(props) => props.theme.fontSize.title1};
+    font-size: ${(props) => props.theme.fontSize.title2};
     font-weight: ${(props) => props.theme.fontWeight.bold};
     border-radius: 10px;
     padding: 2em;
