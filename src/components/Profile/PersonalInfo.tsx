@@ -77,7 +77,7 @@ export default function PersonalInfo() {
 }
 
 const Table = styled.table`
-  width: 60vw;
+  width: 50vw;
   height: 40vh;
   border-radius: 10px;
   overflow: hidden;
