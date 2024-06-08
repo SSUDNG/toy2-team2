@@ -11,7 +11,7 @@ import {
 } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import InputBox from '../components/Login/InputBox';
+import InputBox from '../components/common/InputBox';
 import signUpSchema from '../schema/signupSchema';
 import Button from '../components/common/Button';
 import Select from '../components/common/Select';
@@ -107,7 +107,6 @@ function Signup() {
                   placeholdercolor="gray"
                   register={register('id')}
                   message={errors.id?.message}
-                  font-size="16px"
                 />
               </List>
               <List>
@@ -127,8 +126,8 @@ function Signup() {
                 <InputLabel>비밀번호 확인</InputLabel>
                 <InputBox
                   type="password"
-                  bordercolor="gray"
-                  outlinecolor="primary"
+                  outlinecolor={errors.confirmPassword ? 'red' : 'primary'}
+                  bordercolor={errors.confirmPassword ? 'red' : 'gray'}
                   required
                   placeholder="비밀번호를 입력하세요"
                   placeholdercolor="gray"

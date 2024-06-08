@@ -7,9 +7,9 @@ import { useDispatch } from 'react-redux';
 import Button from '../components/common/Button';
 import formSchema from '../components/Login/loginSchema';
 import { firestore } from '../firebase/firebase';
-import InputBox from '../components/Login/InputBox';
 import useCheckLogin from '../components/Login/useCheckLogin';
 import { setUserInfo } from '../store/login/index';
+import LoginInputBox from '../components/Login/LoginInputBox';
 
 interface ILogin {
   id: string;
@@ -74,23 +74,17 @@ function Login() {
       <Col>
         <Logo>LOGO</Logo>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <InputBox
+          <LoginInputBox
             type="text"
             required
             placeholder="ID"
-            placeholdercolor="black"
-            outlinecolor={errors.id ? 'red' : 'primary'}
-            bordercolor={errors.id ? 'red' : 'gray'}
             message={errors.id?.message}
             register={register('id')}
           />
-          <InputBox
+          <LoginInputBox
             type="password"
             required
             placeholder="PASSWORD"
-            placeholdercolor="black"
-            outlinecolor={errors.password ? 'red' : 'primary'}
-            bordercolor={errors.password ? 'red' : 'gray'}
             message={errors.password?.message}
             register={register('password')}
           />

@@ -1,6 +1,6 @@
 import type { UseFormRegisterReturn } from 'react-hook-form';
 import styled from 'styled-components';
-import Input from '../common/Input';
+import Input from './Input';
 
 function InputBox({
   type,
@@ -18,9 +18,9 @@ function InputBox({
         type={type}
         required={required}
         placeholder={placeholder}
-        $placeholdercolor={placeholdercolor}
-        $bordercolor={bordercolor}
-        $outlinecolor={outlinecolor}
+        placeholdercolor={placeholdercolor}
+        bordercolor={bordercolor}
+        outlinecolor={outlinecolor}
         register={register}
       />
       {message && <ErrorMessageBox> {message}</ErrorMessageBox>}
@@ -43,7 +43,7 @@ interface IProps {
   readonly type: string;
   readonly required: boolean;
   readonly placeholder: string;
-  readonly placeholdercolor: 'black' | 'gray';
+  readonly placeholdercolor: 'black' | 'gray' | 'primary';
   readonly bordercolor: 'primary' | 'black' | 'red' | 'gray';
   readonly outlinecolor: 'primary' | 'black' | 'red' | 'gray';
   readonly message?: string;
