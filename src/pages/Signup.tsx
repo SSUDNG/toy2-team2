@@ -11,13 +11,13 @@ import {
 } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import InputBox from '../components/common/InputBox';
 import signUpSchema from '../schema/signupSchema';
 import Button from '../components/common/Button';
 import Select from '../components/common/Select';
 import { firestore } from '../firebase/firebase';
 import Loading from '../components/common/Loading';
 import useCheckLogin from '../components/Login/useCheckLogin';
+import SignupInputBox from '../components/Signup/SignupInputBox';
 
 interface IuserInfo {
   id: string;
@@ -98,52 +98,40 @@ function Signup() {
             <OptionList>
               <List>
                 <InputLabel>ID</InputLabel>
-                <InputBox
+                <SignupInputBox
                   type="text"
-                  outlinecolor={errors.id ? 'red' : 'primary'}
-                  bordercolor={errors.id ? 'red' : 'gray'}
                   required
                   placeholder="아이디를 입력하세요"
-                  placeholdercolor="gray"
                   register={register('id')}
                   message={errors.id?.message}
                 />
               </List>
               <List>
                 <InputLabel>비밀번호</InputLabel>
-                <InputBox
+                <SignupInputBox
                   type="password"
-                  outlinecolor={errors.password ? 'red' : 'primary'}
-                  bordercolor={errors.password ? 'red' : 'gray'}
                   required
                   placeholder="비밀번호를 입력하세요"
-                  placeholdercolor="gray"
                   register={register('password')}
                   message={errors.password?.message}
                 />
               </List>
               <List>
                 <InputLabel>비밀번호 확인</InputLabel>
-                <InputBox
+                <SignupInputBox
                   type="password"
-                  outlinecolor={errors.confirmPassword ? 'red' : 'primary'}
-                  bordercolor={errors.confirmPassword ? 'red' : 'gray'}
                   required
                   placeholder="비밀번호를 입력하세요"
-                  placeholdercolor="gray"
                   register={register('confirmPassword')}
                   message={errors.confirmPassword?.message}
                 />
               </List>
               <List>
                 <InputLabel>이름</InputLabel>
-                <InputBox
+                <SignupInputBox
                   type="text"
-                  outlinecolor={errors.name ? 'red' : 'primary'}
-                  bordercolor={errors.name ? 'red' : 'gray'}
                   required
                   placeholder="이름을 입력하세요"
-                  placeholdercolor="gray"
                   register={register('name')}
                   message={errors.name?.message}
                 />
@@ -178,26 +166,20 @@ function Signup() {
               </List>
               <List>
                 <InputLabel>입사일</InputLabel>
-                <InputBox
+                <SignupInputBox
                   type="date"
-                  bordercolor="gray"
-                  outlinecolor="primary"
                   required
                   placeholder="입사일을 선택하세요"
-                  placeholdercolor="gray"
                   register={register('joiningDate')}
                   message={errors.joiningDate?.message}
                 />
               </List>
               <List>
                 <InputLabel>E-mail</InputLabel>
-                <InputBox
+                <SignupInputBox
                   type="email"
-                  bordercolor="gray"
-                  outlinecolor="primary"
                   required
                   placeholder="이메일을 입력하세요"
-                  placeholdercolor="gray"
                   register={register('email')}
                   message={errors.email?.message}
                 />
@@ -217,8 +199,9 @@ export default Signup;
 
 const Layout = styled.div`
   width: 100vw;
-  height: 100vh;
-  background-color: ${(props) => props.theme.color.white};
+  height: 100%;
+  background-color: ${(props) => props.theme.color.pureWhite};
+  overflow: scroll;
 `;
 
 const Col = styled.div`
@@ -260,4 +243,5 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: ${(props) => props.theme.fontSize.title1};
+  padding-bottom: 2rem;
 `;
