@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import sb from '../../utils/styledBranch';
 
-type PlaceholderColor = 'black' | 'gray';
+type PlaceholderColor = 'primary' | 'black' | 'gray';
 type OutlineColor = 'primary' | 'black' | 'red' | 'gray';
 type BorderColor = 'primary' | 'black' | 'red' | 'gray';
 
@@ -26,7 +26,6 @@ function Input<T extends object>({
   ...props
 }: InputProps<T>) {
   const { onChange, onBlur, name, ref } = register || {};
-  // console.log(register);
   return createElement(InputLayout, {
     placeholdercolor,
     bordercolor,
@@ -55,6 +54,11 @@ const InputLayout = styled.input<InputStyleProps>`
           color: ${props.theme.color.gray};
         }
       `,
+      primary: css`
+        &::placeholder {
+          color: ${props.theme.color.primary};
+        }
+      `,
     })}
   ${(props) =>
     sb(props.bordercolor, {
@@ -71,7 +75,7 @@ const InputLayout = styled.input<InputStyleProps>`
         border-color: ${props.theme.color.gray};
       `,
     })}
-    ${(props) =>
+  ${(props) =>
     sb(props.outlinecolor, {
       primary: css`
         outline-color: ${props.theme.color.primary};
@@ -86,11 +90,11 @@ const InputLayout = styled.input<InputStyleProps>`
         outline-color: ${props.theme.color.gray};
       `,
     })}
-    
+  
   border-radius: 6px;
   border-style: solid;
   border-width: 1px;
   height: 50px;
   padding: 0 ${(props) => props.theme.fontSize.title2};
-  font-size: ${(props) => props.theme.fontSize.title4};
+  font-size: ${(props) => props.theme.fontSize.body1};
 `;
