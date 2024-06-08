@@ -52,6 +52,7 @@ function Login() {
     register,
     formState: { errors },
     handleSubmit,
+    setError,
   } = useForm<ILogin>({
     resolver: zodResolver(formSchema),
   });
@@ -60,6 +61,11 @@ function Login() {
     const loggedIn = await checkLogin(data.id, data.password);
     if (loggedIn) {
       navigate('/profile');
+    } else {
+      setError('password', {
+        type: 'manual',
+        message: 'ID 혹은 비밀번호가 틀렸습니다.',
+      });
     }
   };
 
