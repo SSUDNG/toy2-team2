@@ -4,15 +4,9 @@ import styled, { css } from 'styled-components';
 import Day from '../components/Calendar/Day';
 import EventBar from '../components/Calendar/EventBar';
 import MonthNavigator from '../components/Calendar/MonthNavigator';
-import AddEventModal from '../components/Calendar/AddEventModal';
 import EventModal from '../components/Calendar/EventModal';
 import { RootState, AppDispatch } from '../store';
-import {
-  fetchEvents,
-  updateEvent,
-  deleteEvent,
-  Event as EventType,
-} from '../store/calendar';
+import { fetchEvents, Event as EventType } from '../store/calendar';
 import Button from '../components/common/Button';
 import Loading from '../components/common/Loading';
 
@@ -84,14 +78,6 @@ function Calendar() {
 
   const onToday = () => {
     setCurrentDate(new Date());
-  };
-
-  const handleEventUpdate = (updatedEvent: EventType) => {
-    dispatch(updateEvent(updatedEvent));
-  };
-
-  const handleEventDelete = (eventId: string) => {
-    dispatch(deleteEvent(eventId));
   };
 
   const monthTitle = `${currentDate.getFullYear()}. ${String(currentDate.getMonth() + 1).padStart(2, '0')} `;
@@ -223,14 +209,13 @@ function Calendar() {
         </WeekWrapper>
       ))}
       {isAddEventModalOpen && (
-        <AddEventModal onClose={() => setIsAddEventModalOpen(false)} />
+        <EventModal type="add" onClose={() => setIsAddEventModalOpen(false)} />
       )}
       {selectedEvent && (
         <EventModal
+          type="edit"
           event={selectedEvent}
           onClose={() => setSelectedEvent(null)}
-          onUpdate={handleEventUpdate}
-          onDelete={handleEventDelete}
         />
       )}
     </CalendarWrapper>

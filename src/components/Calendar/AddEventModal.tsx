@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 
-import ColorOptions from './ColorOptions';
 import Button from '../common/Button';
 import { AppDispatch } from '../../store';
 import { addEvent } from '../../store/calendar';
@@ -38,7 +37,6 @@ function AddEventModal({ onClose }: AddEventModalProps) {
   const nameProps = register('name', { required: true });
   const startDateProps = register('startDate', { required: true });
   const endDateProps = register('endDate', { required: true });
-  const colorProps = register('color', { required: true });
 
   return (
     <ModalOverlay onClick={onClose}>
@@ -71,7 +69,6 @@ function AddEventModal({ onClose }: AddEventModalProps) {
           onBlur={endDateProps.onBlur}
           ref={endDateProps.ref}
         />
-        <ColorOptions colorProps={colorProps} />
         <Button size="basic" color="primary" type="submit">
           추가
         </Button>
