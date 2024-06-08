@@ -16,7 +16,7 @@ interface EventBarProps {
 function EventBar({ event, span, offset, onClick }: EventBarProps) {
   return (
     <Bar color={event.color} span={span} offset={offset} onClick={onClick}>
-      {event.name}
+      <EventName>{event.name}</EventName>
     </Bar>
   );
 }
@@ -34,4 +34,9 @@ const Bar = styled.div<{ color: string; span: number; offset: number }>`
   border-radius: 0.5rem 1rem 1rem 0.5rem;
   cursor: pointer;
   height: 1rem;
+`;
+const EventName = styled.span`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
