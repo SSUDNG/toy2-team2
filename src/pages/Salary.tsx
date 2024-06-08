@@ -40,7 +40,7 @@ function Salary() {
       <h2>급여 내역</h2>
       {isLoading ? (
         <LoadingLayout>
-          <PositionedLoading position="middle" />
+          <PositionedLoading position="center" />
         </LoadingLayout>
       ) : (
         <Table<TableType>

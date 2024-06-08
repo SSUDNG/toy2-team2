@@ -40,7 +40,7 @@ export default function ProfileInfo() {
       const today = new Date(new Date().getTime() + 9 * 60 * 60 * 1000)
         .toISOString()
         .split('T')[0];
-        const todayScheduleCount = events.filter(({ startDate }) => {
+      const todayScheduleCount = events.filter(({ startDate }) => {
         const eventDate = new Date(startDate).toISOString().split('T')[0];
         return eventDate === today;
       }).length;
@@ -53,7 +53,7 @@ export default function ProfileInfo() {
       const today = new Date(new Date().getTime() + 9 * 60 * 60 * 1000)
         .toISOString()
         .split('T')[0];
-        const todayScheduleCount = events.filter(({ startDate }) => {
+      const todayScheduleCount = events.filter(({ startDate }) => {
         const eventDate = new Date(startDate).toISOString().split('T')[0];
         return eventDate === today;
       }).length;

@@ -17,22 +17,27 @@ function DeleteModal({
 }) {
   const dispatch = useDispatch<AppDispatch>();
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   return (
     isVisible && (
       <>
         <DeleteModalLayout>
-          <p>정말 삭제하시겠습니까?</p>
+          <p>{errorMessage.length ? errorMessage : '정말 삭제하시겠습니까?'}</p>
           <DeleteModalNav>
             <Button
               size="basic"
               color="primary"
               onClick={() => {
+                setErrorMessage('');
                 setIsSubmitting(true);
                 dispatch(removeAsync(id))
                   .then(() => {
                     setIsVisible(false);
+                  })
+                  .catch((error) => {
+                    setErrorMessage(error.message);
                   })
                   .finally(() => {
                     setIsSubmitting(false);

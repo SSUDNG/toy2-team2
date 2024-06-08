@@ -8,7 +8,7 @@ import Button from '../components/common/Button';
 import formSchema from '../components/Login/loginSchema';
 import { firestore } from '../firebase/firebase';
 import useCheckLogin from '../components/Login/useCheckLogin';
-import { setUserInfo } from '../store/login/index';
+import { setUserInfo } from '../store/login';
 import LoginInputBox from '../components/Login/LoginInputBox';
 
 interface ILogin {
@@ -43,7 +43,7 @@ function Login() {
           name: info.name,
         }),
       );
-      
+
       return true;
     }
     return false;

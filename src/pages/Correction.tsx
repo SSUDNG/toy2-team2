@@ -53,7 +53,7 @@ function Correction() {
       <h2>정정 내역</h2>
       {isLoading ? (
         <LoadingLayout>
-          <PositionedLoading position="middle" />
+          <PositionedLoading position="center" />
         </LoadingLayout>
       ) : (
         <Table<Omit<TableType, 'irregular'> & { irregular: React.ReactElement }>

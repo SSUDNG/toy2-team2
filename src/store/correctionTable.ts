@@ -8,8 +8,8 @@ import {
   doc,
   deleteDoc,
 } from 'firebase/firestore';
-import { firestore } from '../../firebase/firebase';
-import { PROGRESS_VALUES } from '../../constants';
+import { firestore } from '../firebase/firebase';
+import { PROGRESS_VALUES } from '../constants';
 
 export interface CorrectionTable {
   id: string;
@@ -45,10 +45,25 @@ const correctionTableSlice = createSlice({
         },
       )
       .addCase(
+        initializeCorrectionAsync.rejected.type,
+        (state, action: { type: string; error: Error }) => {
+          console.error(action.error.message);
+          state.isFetched = false;
+          throw action.error;
+        },
+      )
+      .addCase(
         appendAsync.fulfilled.type,
         (state, action: PayloadAction<CorrectionTable>) => {
           state.table = [...state.table, action.payload];
           state.isFetched = false;
+        },
+      )
+      .addCase(
+        appendAsync.rejected.type,
+        (_, action: { type: string; error: Error }) => {
+          console.error(action.error.message);
+          throw action.error;
         },
       )
       .addCase(
@@ -57,7 +72,13 @@ const correctionTableSlice = createSlice({
           state.table = state.table.filter(
             (item) => item.id !== action.payload,
           );
-          state.isFetched = false;
+        },
+      )
+      .addCase(
+        removeAsync.rejected.type,
+        (_, action: { type: string; error: Error }) => {
+          console.error(action.error.message);
+          throw action.error;
         },
       );
   },
@@ -70,6 +91,12 @@ export const initializeCorrectionAsync = createAsyncThunk(
 
     if (!userId) {
       throw new Error('유저 아이디 획득에 실패했습니다.');
+    }
+
+    const isOnline = navigator.onLine;
+
+    if (!isOnline) {
+      throw new Error('네트워크 연결에 실패했습니다.');
     }
 
     try {
@@ -86,8 +113,7 @@ export const initializeCorrectionAsync = createAsyncThunk(
 
       return fetchedDocs;
     } catch (error) {
-      console.log(error);
-      throw new Error('데이터베이스 조회에 실패했습니다.');
+      throw new Error('데이터베이스 연결에 실패했습니다.');
     }
   },
 );
@@ -95,7 +121,18 @@ export const initializeCorrectionAsync = createAsyncThunk(
 export const appendAsync = createAsyncThunk(
   'correctionTable/appendAsync',
   async (correction: Omit<CorrectionTable, 'id'>) => {
-    const userId = sessionStorage.getItem('id') || '';
+    const userId = sessionStorage.getItem('id');
+
+    if (!userId) {
+      throw new Error('유저 아이디 획득에 실피했습니다.');
+    }
+
+    const isOnline = navigator.onLine;
+
+    if (!isOnline) {
+      throw new Error('네트워크 연결에 실패했습니다.');
+    }
+
     try {
       const docRef = await addDoc(
         collection(firestore, 'User', userId, 'correction'),
@@ -107,8 +144,7 @@ export const appendAsync = createAsyncThunk(
         id: docRef.id,
       };
     } catch (error) {
-      console.log(error);
-      throw new Error('데이터베이스 조회에 실패했습니다.');
+      throw new Error('데이터베이스 연결에 실패했습니다.');
     }
   },
 );
@@ -116,14 +152,24 @@ export const appendAsync = createAsyncThunk(
 export const removeAsync = createAsyncThunk(
   'correctionTable/removeAsync',
   async (id: string) => {
-    const userId = sessionStorage.getItem('id') || '';
+    const userId = sessionStorage.getItem('id');
+
+    if (!userId) {
+      throw new Error('유저 아이디 획득에 실피했습니다.');
+    }
+
+    const isOnline = navigator.onLine;
+
+    if (!isOnline) {
+      throw new Error('네트워크 연결에 실패했습니다.');
+    }
+
     try {
       await deleteDoc(doc(firestore, 'User', userId, 'correction', id));
 
       return id;
     } catch (error) {
-      console.log(error);
-      throw new Error('데이터베이스 조회에 실패했습니다.');
+      throw new Error('데이터베이스 연결에 실패했습니다.');
     }
   },
 );
