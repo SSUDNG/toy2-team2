@@ -63,6 +63,7 @@ const ProfileStyle = styled.div`
   div {
     display: flex;
     justify-content: center;
+    height: 300px;
     position: relative;
   }
   .button {
