@@ -40,6 +40,7 @@ const NavigatorWrapper = styled.div`
   padding: 1rem;
   margin-bottom: 1rem;
 `;
+
 const Navigator = styled.div`
   cursor: pointer;
   transition: all 200ms;
@@ -50,6 +51,7 @@ const Navigator = styled.div`
     color: ${(props) => props.theme.color.darkgray};
     transform: translateY(-2px);
   }
+
   & svg {
     display: flex;
     align-items: center;

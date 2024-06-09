@@ -52,6 +52,6 @@ const TableLayout = styled.article<{
   min-width: ${(props) => props.$minWidth};
   display: grid;
   grid-template-columns: repeat(${(props) => props.$column}, auto);
-  row-gap: 1px;
   align-items: center;
+  row-gap: 1px;
 `;

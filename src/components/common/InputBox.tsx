@@ -2,6 +2,17 @@ import type { UseFormRegisterReturn } from 'react-hook-form';
 import styled from 'styled-components';
 import Input from './Input';
 
+interface IProps {
+  readonly type: string;
+  readonly required: boolean;
+  readonly placeholder: string;
+  readonly placeholdercolor: 'black' | 'gray' | 'primary';
+  readonly bordercolor: 'primary' | 'black' | 'red' | 'gray';
+  readonly outlinecolor: 'primary' | 'black' | 'red' | 'gray';
+  readonly message?: string;
+  readonly register: UseFormRegisterReturn;
+}
+
 function InputBox({
   type,
   required,
@@ -38,14 +49,3 @@ const ErrorMessageBox = styled.span`
   color: ${(props) => props.theme.color.red};
   font-size: ${(props) => props.theme.fontSize.body1};
 `;
-
-interface IProps {
-  readonly type: string;
-  readonly required: boolean;
-  readonly placeholder: string;
-  readonly placeholdercolor: 'black' | 'gray' | 'primary';
-  readonly bordercolor: 'primary' | 'black' | 'red' | 'gray';
-  readonly outlinecolor: 'primary' | 'black' | 'red' | 'gray';
-  readonly message?: string;
-  readonly register: UseFormRegisterReturn;
-}

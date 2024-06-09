@@ -61,9 +61,10 @@ export default NavbarLayout;
 
 const NavbarLayoutStyle = styled.header`
   ul {
-    height: 5rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    height: 5rem;
     color: ${(props) => props.theme.color.black};
     font-size: ${(props) => props.theme.fontSize.title3};
     font-weight: ${(props) => props.theme.fontWeight.bold};
@@ -71,31 +72,38 @@ const NavbarLayoutStyle = styled.header`
     box-shadow: 0 1px 10px -5px;
     margin-bottom: 2em;
   }
+
   .titleLogo {
-    font-size: ${(props) => props.theme.fontSize.title1};
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: ${(props) => props.theme.fontSize.title1};
   }
+
   a {
     display: flex;
     align-items: center;
   }
+
   .navbar {
     display: flex;
     align-items: center;
   }
+
   .navEl {
     display: flex;
   }
+
   li {
+    padding: 0 20px;
     margin: 1rem;
-    padding: 0 20px 0 20px;
   }
+
   .active {
     color: ${(props) => props.theme.color.primary};
   }
+
   button {
-    margin: 0 3rem 0 3rem;
+    margin: 0 3rem;
   }
 `;

@@ -20,10 +20,12 @@ export default PositionedLoading;
 
 const LoadingLayout = styled.div<{ $position: Position }>`
   z-index: 100;
+
   & > div {
     width: fit-content;
     height: fit-content;
   }
+
   ${(props) =>
     sb(props.$position, {
       unfixed: css``,

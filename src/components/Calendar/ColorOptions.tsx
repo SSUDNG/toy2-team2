@@ -51,24 +51,25 @@ const ColorOption = styled.label.attrs<{
     backgroundColor: $barColor,
   },
 }))`
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  border-radius: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
   cursor: pointer;
   transition: filter 200ms;
+
   &:hover {
     transform: scale(1.05);
   }
+
   input {
     display: none;
   }
 `;
 
 const Checked = styled(MdCheck)`
-  color: ${(props) => props.theme.color.pureWhite};
   font-size: ${(props) => props.theme.fontSize.body1};
+  color: ${(props) => props.theme.color.pureWhite};
 `;

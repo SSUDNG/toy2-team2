@@ -48,6 +48,7 @@ const Col = styled.div`
 const Input = styled.input<InputProps>`
   width: 28.438vw;
   height: 50px;
+  padding: 0 1.5rem;
   box-sizing: border-box;
   border-radius: 10px;
   border: 1px solid
@@ -55,7 +56,6 @@ const Input = styled.input<InputProps>`
       props.message ? props.theme.color.red : props.theme.color.gray};
   font-size: ${(props) => props.theme.fontSize.title4};
   font-weight: ${(props) => props.theme.fontWeight.bold};
-  padding: 0 1.5rem;
   &::placeholder {
     color: ${(props) => props.theme.color.primary};
   }

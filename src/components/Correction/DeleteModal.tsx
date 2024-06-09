@@ -66,18 +66,19 @@ function DeleteModal({
 export default DeleteModal;
 
 const DeleteModalLayout = styled.section`
-  display: flex;
-  gap: 2rem;
-  flex-direction: column;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 10;
   padding: 3rem;
   background-color: ${(props) => props.theme.color.pureWhite};
   border: 1px solid ${(props) => props.theme.color.primary};
   border-radius: 10px;
-  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
   & p {
     text-align: center;
     font-size: ${(props) => props.theme.fontSize.title1};
@@ -85,7 +86,7 @@ const DeleteModalLayout = styled.section`
 `;
 
 const DeleteModalNav = styled.nav`
+  align-self: center;
   display: flex;
   gap: 1rem;
-  align-self: center;
 `;

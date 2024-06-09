@@ -42,6 +42,13 @@ function Input<T extends object>({
 export default Input;
 
 const InputLayout = styled.input<InputStyleProps>`
+  border-radius: 6px;
+  border-style: solid;
+  border-width: 1px;
+  height: 50px;
+  padding: 0 ${(props) => props.theme.fontSize.title2};
+  font-size: ${(props) => props.theme.fontSize.body1};
+
   ${(props) =>
     sb(props.placeholdercolor, {
       black: css`
@@ -60,6 +67,7 @@ const InputLayout = styled.input<InputStyleProps>`
         }
       `,
     })}
+
   ${(props) =>
     sb(props.bordercolor, {
       primary: css`
@@ -75,6 +83,7 @@ const InputLayout = styled.input<InputStyleProps>`
         border-color: ${props.theme.color.gray};
       `,
     })}
+
   ${(props) =>
     sb(props.outlinecolor, {
       primary: css`
@@ -90,11 +99,4 @@ const InputLayout = styled.input<InputStyleProps>`
         outline-color: ${props.theme.color.gray};
       `,
     })}
-  
-  border-radius: 6px;
-  border-style: solid;
-  border-width: 1px;
-  height: 50px;
-  padding: 0 ${(props) => props.theme.fontSize.title2};
-  font-size: ${(props) => props.theme.fontSize.body1};
 `;

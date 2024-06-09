@@ -209,39 +209,42 @@ const Col = styled.div`
   height: 100vh;
   margin: 0 auto;
   display: flex;
-  gap: 1.389vh;
   flex-direction: column;
+  gap: 1.389vh;
 `;
 
 const Logo = styled.span`
+  padding: 2.5vh 0;
   font-size: ${(props) => props.theme.fontSize.title1};
   color: ${(props) => props.theme.color.primary};
   font-weight: ${(props) => props.theme.fontWeight.bold};
-  padding: 2.5vh 0;
 `;
+
 const OptionList = styled.ul`
+  padding: ${(props) => props.theme.fontSize.title2} 0;
   display: flex;
   flex-direction: column;
   gap: ${(props) => props.theme.fontSize.body1};
-  padding: ${(props) => props.theme.fontSize.title2} 0;
   border-top: 1px solid ${(props) => props.theme.color.black};
   border-bottom: 1px solid ${(props) => props.theme.color.black};
 `;
+
 const List = styled.li`
   display: flex;
   flex-direction: column;
   gap: 8px;
 `;
+
 const InputLabel = styled.label`
+  margin-bottom: 8px 0;
   font-size: ${(props) => props.theme.fontSize.body1};
   color: ${(props) => props.theme.color.black};
   font-weight: ${(props) => props.theme.fontWeight.medium};
-  margin-bottom: 8px 0;
 `;
 
 const Form = styled.form`
+  padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
   gap: ${(props) => props.theme.fontSize.title1};
-  padding-bottom: 2rem;
 `;

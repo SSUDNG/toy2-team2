@@ -26,15 +26,16 @@ export default EventBar;
 const Bar = styled.div<{ color: string; span: number; offset: number }>`
   position: absolute;
   display: flex;
-  background-color: ${(props) => props.color};
-  color: ${(props) => props.theme.color.pureWhite};
   left: ${(props) => props.offset * (100 / 7)}%;
   width: calc(${(props) => props.span * (100 / 7)}% - 1rem);
+  height: 1rem;
   padding: 0.5rem;
   border-radius: 0.5rem 1rem 1rem 0.5rem;
+  background-color: ${(props) => props.color};
+  color: ${(props) => props.theme.color.pureWhite};
   cursor: pointer;
-  height: 1rem;
 `;
+
 const EventName = styled.span`
   overflow: hidden;
   white-space: nowrap;

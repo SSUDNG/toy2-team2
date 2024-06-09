@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import Day from '../components/Calendar/Day';
 import EventBar from '../components/Calendar/EventBar';
 import MonthNavigator from '../components/Calendar/MonthNavigator';
@@ -231,17 +231,18 @@ function Calendar() {
 export default Calendar;
 
 const CalendarWrapper = styled.div`
-  width: 95vw;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 95vw;
+  margin: 0 auto;
 `;
+
 const CalendarHeader = styled.div`
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
   position: relative;
 `;
 
@@ -249,19 +250,23 @@ const Title = styled.div`
   display: flex;
   align-items: flex-end;
 `;
+
 const Year = styled.div`
-  color: ${(props) => props.theme.color.dimgray};
   font-size: ${(props) => props.theme.fontSize.title3};
+  color: ${(props) => props.theme.color.dimgray};
 `;
+
 const Month = styled.div`
-  color: ${(props) => props.theme.color.darkgray};
   font-size: ${(props) => props.theme.fontSize.title1};
+  color: ${(props) => props.theme.color.darkgray};
 `;
+
 const AddButton = styled(Button)`
-  width: 10rem;
   position: absolute;
   right: 0;
+  width: 10rem;
 `;
+
 const WeekDays = styled.div`
   display: flex;
   width: 100%;
@@ -269,6 +274,7 @@ const WeekDays = styled.div`
   border: 1px solid ${(props) => props.theme.color.pureWhite};
   border-radius: 8px 8px 0 0;
 `;
+
 const WeekDay = styled.div`
   flex: 1;
   padding: 0.5rem;
@@ -286,6 +292,7 @@ const WeekWrapper = styled.div`
   position: relative;
   background-color: ${(props) => props.theme.color.white};
 `;
+
 const WeekGrid = styled.div`
   position: absolute;
   display: grid;
@@ -294,16 +301,14 @@ const WeekGrid = styled.div`
   height: 100%;
   z-index: 1;
 `;
+
 const GridItem = styled.div<{ $isToday: boolean }>`
-  ${(props) =>
+  border: ${(props) =>
     props.$isToday
-      ? css`
-          border: 2px solid ${props.theme.color.primary};
-        `
-      : css`
-          border: 1px solid ${props.theme.color.pureWhite};
-        `}
+      ? `2px solid ${props.theme.color.primary}`
+      : `1px solid ${props.theme.color.pureWhite}`};
 `;
+
 const WeekHeader = styled.div`
   display: flex;
   width: 100%;
@@ -311,8 +316,8 @@ const WeekHeader = styled.div`
 `;
 
 const DayCell = styled.div<{ $isCurrentMonth: boolean }>`
-  background-color: ${(props) => props.theme.color.white};
   flex: 1;
+  background-color: ${(props) => props.theme.color.white};
   color: ${({ $isCurrentMonth }) => ($isCurrentMonth ? 'black' : 'gray')};
   &:first-child div {
     color: ${(props) => props.theme.color.red};
@@ -323,14 +328,14 @@ const EventContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  z-index: 2;
   position: relative;
+  z-index: 2;
 `;
 
 const EventRow = styled.div`
   display: flex;
   width: 100%;
-  height: 2rem; /* Row height */
+  height: 2rem;
   position: relative;
   margin-bottom: 0.1rem;
 `;
