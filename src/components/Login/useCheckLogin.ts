@@ -16,6 +16,7 @@ const useCheckLogin = async () => {
       (location.pathname === '/' ||
         location.pathname === '/profile' ||
         location.pathname === '/salary' ||
+        location.pathname === '/correction' ||
         location.pathname === '/calendar')
     ) {
       navigate('/login');
