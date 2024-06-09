@@ -62,11 +62,13 @@ const ProfileStyle = styled.div`
   }
   div {
     display: flex;
-    width: 30vw;
-    justify-content: flex-end;
-    align-items: flex-end;
+    justify-content: center;
+    position: relative;
   }
   .button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
     height: 2rem;
   }
 `;

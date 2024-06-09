@@ -1,9 +1,10 @@
 # 🧑🏻‍💼 직원을 위한 급여 및 업무관리 플랫폼
 
 - [배포 URL](https://toy2-team2.vercel.app)
-- Test ID: testid
-- Test PW: 1q2w3e$R
-
+```
+Test ID: testid
+Test PW: 1q2w3e$R
+```
 ## 💻 프로젝트 소개
 - 직원들을 위한 급여 및 업무관리 페이지입니다.
 - 보기 편하고 심플한 디자인을 추구했습니다.
@@ -17,7 +18,7 @@
 ## 🙌 팀원 구성
 |**김민수**|**송재원**|**변희준**|**장경빈**|
 | :------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------: |
- <img width="180" alt="김민수_profile_img" src="https://avatars.githubusercontent.com/u/153588816?v=4"> | <img width="180"  alt="송재원_profile_img" src="https://avatars.githubusercontent.com/u/120430844?v=4"> | <img width="180" alt="변희준_profile_img" src="https://avatars.githubusercontent.com/u/8759175?v=4"> | <img width="180" alt="장경빈_profile_img" src="https://github.com/FastCampus-Toy1/team5_intranet/assets/105346651/2113ce00-9401-4b3a-981a-7d83e43bb7d1"> |
+ <img width="180" alt="김민수_profile_img" src="https://avatars.githubusercontent.com/u/153588816?v=4"> | <img width="180"  alt="송재원_profile_img" src="https://github.com/SSUDNG/toy2-team2/assets/153588816/5acd6a54-bcae-480f-b5ef-e83afc567cbd"> | <img width="180" alt="변희준_profile_img" src="https://avatars.githubusercontent.com/u/8759175?v=4"> | <img width="180" alt="장경빈_profile_img" src="https://github.com/FastCampus-Toy1/team5_intranet/assets/105346651/2113ce00-9401-4b3a-981a-7d83e43bb7d1"> |
 | [SSUDNG](https://github.com/SSUDNG) | [Jae-Won-Song](https://github.com/Jae-Won-Song) | [hejuby](https://github.com/hejuby) | [BaDook2](https://github.com/BaDook2?tab=repositories)|
 | 팀장 | 팀원 | 팀원 | 팀원 |
 
@@ -49,7 +50,7 @@
 <img alt="Vercel" src="https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white"/>
 
 ## 👀 유저 플로우
-![image](https://github.com/FastCampus-Toy1/team5_intranet/assets/105346651/b946a399-36fc-4554-a8cb-b036f6ae7236)
+![Website flow chart](https://github.com/SSUDNG/toy2-team2/assets/153588816/7dda6944-dacc-46a0-92cd-dcc8cbf2733e)
 
 ## ✨ 역할 분담
 

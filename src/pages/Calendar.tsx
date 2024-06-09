@@ -235,7 +235,7 @@ const CalendarWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   width: 73.7vw;
-  margin: 0 auto;
+  margin: 2rem auto;
 `;
 
 const CalendarHeader = styled.div`
@@ -288,7 +288,7 @@ const WeekWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-height: 10rem;
+  min-height: 8rem;
   position: relative;
   background-color: ${(props) => props.theme.color.white};
 `;

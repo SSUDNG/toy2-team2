@@ -82,6 +82,7 @@ const Table = styled.table`
   text-align: center;
   justify-content: center;
   font-weight: ${(props) => props.theme.fontWeight.semiBold};
+  box-shadow: 0 3px 10px -5px;
 `;
 
 const TableRow = styled.tr``;
@@ -98,6 +99,7 @@ const TableCell = styled.td`
 `;
 
 const TableHeaderCell = styled.th`
+  width: 10vw;
   padding: 8px;
   background-color: ${(props) => props.theme.color.pureWhite};
 `;

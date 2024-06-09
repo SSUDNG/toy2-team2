@@ -64,9 +64,8 @@ export default function ProfileInfo() {
               당월 예상 급여
               <div className="confirmPay">
                 {currentMonthSalary
-                  ? currentMonthSalary.net.toLocaleString()
+                  ? `${currentMonthSalary.net.toLocaleString()}원`
                   : '데이터 없음'}
-                원
               </div>
             </Link>
           </div>
@@ -84,23 +83,44 @@ export default function ProfileInfo() {
 
 const ProfileInfoStyle = styled.div`
   .confirmWrapper {
+    width: 50vw;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    gap: 2rem;
+    flex-wrap: wrap;
   }
 
   .confirmEl {
+    width: 100%;
     display: flex;
+    flex: 1 1 calc((50vw - 4rem) / 4);
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    margin: 0 50px;
-    padding: 2em;
+    padding: 1rem;
     border-radius: 10px;
     background-color: ${(props) => props.theme.color.pureWhite};
     color: ${(props) => props.theme.color.black};
     font-size: ${(props) => props.theme.fontSize.title2};
     font-weight: ${(props) => props.theme.fontWeight.bold};
     box-shadow: 0 3px 10px -5px;
+  }
+  @media (max-width: 100rem) {
+    .confirmEl {
+      flex: 1 1 calc((50vw - 2rem) / 3);
+    }
+    .confirmEl:nth-child(3) {
+      flex: 1 1 100%;
+    }
+  }
+  @media (max-width: 65rem) {
+    .confirmWrapper {
+      flex-direction: column;
+    }
+    .confirmWrapper div {
+      flex: 1 1 100%;
+    }
   }
 
   .confirmApply,

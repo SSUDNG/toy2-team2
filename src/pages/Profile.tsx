@@ -7,12 +7,12 @@ import PersonalInfo from '../components/Profile/PersonalInfo';
 function Profile() {
   return (
     <ProfileStyle>
-      <section className="topLayout">
+      <section className="leftLayout">
         <ProfileImage />
-        <ProfileInfo />
-      </section>
-      <section className="underLayout">
         <NavClock />
+      </section>
+      <section className="rightLayout">
+        <ProfileInfo />
         <PersonalInfo />
       </section>
     </ProfileStyle>
@@ -22,13 +22,16 @@ function Profile() {
 export default Profile;
 
 const ProfileStyle = styled.header`
-  .topLayout {
+  display: flex;
+  margin: 2rem 0;
+  .leftLayout {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: space-around;
   }
-  .underLayout {
+  .rightLayout {
     display: flex;
-    justify-content: space-around;
-    margin-top: 2em;
+    flex-direction: column;
   }
 `;

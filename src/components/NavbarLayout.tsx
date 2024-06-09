@@ -72,6 +72,16 @@ const NavbarLayoutStyle = styled.header`
     box-shadow: 0 1px 10px -5px;
     margin-bottom: 2em;
   }
+  @media (max-width: 100rem) {
+    ul {
+      font-size: ${(props) => props.theme.fontSize.title4};
+    }
+  }
+  @media (max-width: 65rem) {
+    ul {
+      font-size: ${(props) => props.theme.fontSize.title5};
+    }
+  }
 
   .titleLogo {
     display: flex;
@@ -95,7 +105,7 @@ const NavbarLayoutStyle = styled.header`
   }
 
   li {
-    padding: 0 20px;
+    padding: 0 1rem;
     margin: 1rem;
   }
 
