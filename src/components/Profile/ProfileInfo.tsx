@@ -37,12 +37,13 @@ export default function ProfileInfo() {
 
   useEffect(() => {
     if (events && events.length > 0) {
-      const today = new Date(new Date().getTime() + 9 * 60 * 60 * 1000)
-        .toISOString()
-        .split('T')[0];
-      const count = events.filter(({ startDate }) => {
-        const eventDate = new Date(startDate).toISOString().split('T')[0];
-        return eventDate === today;
+      const today = new Date(new Date().getTime() + 9 * 60 * 60 * 1000);
+      const count = events.filter(({ startDate, endDate }) => {
+        const eventStartDate = new Date(startDate);
+        eventStartDate.setHours(0, 0, 0, 0);
+        const eventEndDate = new Date(endDate);
+        eventEndDate.setHours(23, 59, 59, 999);
+        return today >= eventStartDate && today <= eventEndDate;
       }).length;
       setTodayScheduleCount(count);
     }
