@@ -12,6 +12,11 @@ export default function PersonalInfo() {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
+      const isLogin = sessionStorage.getItem('isLogin');
+      if (!(isLogin && isLogin.length)) {
+        return;
+      }
+
       try {
         const userId = sessionStorage.getItem('id');
         if (!userId) {

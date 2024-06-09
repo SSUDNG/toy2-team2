@@ -7,6 +7,7 @@ interface UserState {
   email: string | null;
   joiningDate: string | null;
   name: string | null;
+  isLogin: string | null;
 }
 
 const initialState: UserState = {
@@ -16,6 +17,7 @@ const initialState: UserState = {
   email: '없음',
   joiningDate: '없음',
   name: '없음',
+  isLogin: sessionStorage.getItem('isLogin'),
 };
 
 const userSlice = createSlice({
@@ -39,6 +41,7 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.joiningDate = action.payload.joiningDate;
       state.name = action.payload.name;
+      sessionStorage.setItem('isLogin', 'true');
     },
     clearUserInfo: (state) => {
       state.department = null;
@@ -47,6 +50,7 @@ const userSlice = createSlice({
       state.email = null;
       state.joiningDate = null;
       state.name = null;
+      sessionStorage.setItem('isLogin', '');
     },
   },
 });

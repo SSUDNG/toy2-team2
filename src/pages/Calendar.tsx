@@ -20,6 +20,11 @@ function Calendar() {
   const [isAddEventModalOpen, setIsAddEventModalOpen] = useState(false);
 
   useEffect(() => {
+    const isLogin = sessionStorage.getItem('isLogin');
+    if (!(isLogin && isLogin.length)) {
+      return;
+    }
+
     if (eventStatus === 'idle') {
       dispatch(fetchEvents());
     }
