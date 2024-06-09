@@ -40,6 +40,11 @@ function Button<T extends object>({
 export default Button;
 
 const ButtonLayout = styled.button<ButtonStyleProps>`
+  border-radius: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: filter 200ms;
+
   ${(props) =>
     sb(props.size, {
       basic: css`
@@ -59,6 +64,7 @@ const ButtonLayout = styled.button<ButtonStyleProps>`
         width: 100%;
       `,
     })}
+
   ${(props) =>
     sb(props.color, {
       primary: css`
@@ -86,10 +92,4 @@ const ButtonLayout = styled.button<ButtonStyleProps>`
         }
       `,
     })}
-  border-radius: 10px;
-  box-sizing: border-box;
-  font-size: ${(props) => props.theme.fontSize.body1};
-  font-weight: ${(props) => props.theme.fontWeight.medium};
-  transition: filter 200ms;
-  cursor: pointer;
 `;

@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { RootState } from '../../store';
 import { setUserInfo } from '../../store/login';
-import { collection, getDocs, query, where } from 'firebase/firestore';
 import { firestore } from '../../firebase/firebase';
+
 export default function PersonalInfo() {
   const dispatch = useDispatch();
   const userInfo = useSelector((state: RootState) => state.login);
@@ -77,9 +78,9 @@ const Table = styled.table`
   height: 40vh;
   border-radius: 10px;
   overflow: hidden;
-  justify-content: center;
   border-collapse: collapse;
   text-align: center;
+  justify-content: center;
   font-weight: ${(props) => props.theme.fontWeight.semiBold};
 `;
 
@@ -87,9 +88,9 @@ const TableRow = styled.tr``;
 
 const TableCell = styled.td`
   padding: 8px;
+  height: 8vh;
   background-color: ${(props) => props.theme.color.pureWhite};
   text-align: center;
-  height: 8vh;
   display: flex;
   justify-content: center;
   align-content: stretch;

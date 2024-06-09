@@ -43,6 +43,15 @@ function Select<T extends object>({
 export default Select;
 
 const SelectLayout = styled.select<SelectStyleProps>`
+  width: 100%;
+  height: 50px;
+  padding: 0 ${(props) => props.theme.fontSize.title2};
+  font-size: ${(props) => props.theme.fontSize.title4};
+  text-align: center;
+  border-radius: 6px;
+  border-style: solid;
+  border-width: 1px;
+
   ${(props) =>
     sb(props.bordercolor, {
       primary: css`
@@ -58,6 +67,7 @@ const SelectLayout = styled.select<SelectStyleProps>`
         border-color: ${props.theme.color.gray};
       `,
     })}
+
   ${(props) =>
     sb(props.outlinecolor, {
       primary: css`
@@ -73,12 +83,4 @@ const SelectLayout = styled.select<SelectStyleProps>`
         outline-color: ${props.theme.color.gray};
       `,
     })}
-  text-align: center;
-  width: 100%;
-  border-radius: 6px;
-  border-style: solid;
-  border-width: 1px;
-  height: 50px;
-  padding: 0 ${(props) => props.theme.fontSize.title2};
-  font-size: ${(props) => props.theme.fontSize.title4};
 `;

@@ -168,20 +168,21 @@ function CorrectionModal({
 export default CorrectionModal;
 
 const CorrectionModalLayout = styled.section`
-  min-width: 83.75vw;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  min-width: 83.75vw;
   padding: 2rem;
   background-color: ${(props) => props.theme.color.background};
   border-radius: 10px;
   z-index: 10;
+
   & h3 {
     text-align: center;
-    color: ${(props) => props.theme.color.blue};
     font-size: ${(props) => props.theme.fontSize.title1};
     font-weight: ${(props) => props.theme.fontWeight.bold};
+    color: ${(props) => props.theme.color.blue};
   }
 `;
 
@@ -190,6 +191,7 @@ const CorrectionModalForm = styled.form`
   flex-direction: column;
   gap: 0.25rem;
   margin-top: 1rem;
+
   & input:first-of-type {
     color: ${(props) => props.theme.color.dimgray};
     margin-bottom: 2rem;
@@ -197,18 +199,18 @@ const CorrectionModalForm = styled.form`
 `;
 
 const CorrectionModalLabel = styled.label`
-  color: ${(props) => props.theme.color.blue};
   font-size: ${(props) => props.theme.fontSize.title4};
   margin-bottom: 0.25rem;
+  color: ${(props) => props.theme.color.blue};
 `;
 
 const CorrectionModalErrorMessage = styled.label`
   display: block;
   height: 1rem;
   margin-bottom: 0.75rem;
-  color: ${(props) => props.theme.color.red};
-  font-size: ${(props) => props.theme.fontSize.body1};
   text-align: right;
+  font-size: ${(props) => props.theme.fontSize.body1};
+  color: ${(props) => props.theme.color.red};
 `;
 
 const CorrectionModalNav = styled.nav`

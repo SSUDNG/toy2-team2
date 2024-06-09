@@ -114,27 +114,30 @@ const Layout = styled.div`
 `;
 
 const Col = styled.div`
-  width: 28.438vw;
   margin: 0 auto;
+  width: 28.438vw;
   display: flex;
-  gap: 6.296vh;
   flex-direction: column;
+  gap: 6.296vh;
 `;
+
 const ButtonBox = styled.div`
   display: flex;
   justify-content: center;
   gap: ${(props) => props.theme.fontSize.title2};
 `;
+
 const Logo = styled.span`
-  padding: 9vh 0;
-  margin: 0 auto;
+  margin: 9vh auto 0;
+  padding: 0;
   color: ${(props) => props.theme.color.blue};
-  font-weight: ${(props) => props.theme.fontWeight.bold};
   font-size: ${(props) => props.theme.fontSize.title1};
+  font-weight: ${(props) => props.theme.fontWeight.bold};
 `;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 5.556vh;
+  justify-content: space-between;
 `;

@@ -164,30 +164,30 @@ const ModalOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  z-index: 3;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 3;
+  background: rgba(0, 0, 0, 0.5);
 `;
 
 const ModalContent = styled.div`
-  background: white;
-  padding: 1rem 2rem;
-  border-radius: 5px;
-  max-width: 500px;
-  width: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  background: white;
 `;
 
 const EventHeader = styled.div`
+  display: flex;
+  align-items: center;
   width: 100%;
   box-sizing: border-box;
   padding: 1rem;
   margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
 `;
 
 const EventTitle = styled.h1`
@@ -198,9 +198,9 @@ const EventTitle = styled.h1`
 const EventColor = styled.div`
   width: 1rem;
   height: 1rem;
+  margin-right: 1rem;
   border-radius: 50%;
   background-color: ${(props) => props.color};
-  margin-right: 1rem;
 `;
 
 const List = styled.li`
@@ -217,26 +217,29 @@ const InputLabel = styled.label`
 `;
 
 const InputBox = styled.input`
-  border-radius: 6px;
-  border-style: solid;
-  border-width: 1px;
   height: 50px;
   padding: 0 ${(props) => props.theme.fontSize.title2};
-  font-size: ${(props) => props.theme.fontSize.title4};
   margin-bottom: 1rem;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 6px;
+  font-size: ${(props) => props.theme.fontSize.title4};
 `;
 
 const ButtonRow = styled.div`
-  width: 100%;
   display: flex;
   justify-content: right;
   gap: 1rem;
+  width: 100%;
+  position: relative;
   margin-bottom: 1rem;
 `;
+
 const ErrorMessage = styled.p`
   position: absolute;
   left: 1rem;
   animation: vibration 0.3s;
+
   @keyframes vibration {
     0% {
       transform: translateX(0);
@@ -244,7 +247,7 @@ const ErrorMessage = styled.p`
     }
     25% {
       transform: translateX(-5px);
-      ccolor: #7e3f46;
+      color: #7e3f46;
     }
     50% {
       transform: translateX(5px);

@@ -40,24 +40,11 @@ export default function ProfileInfo() {
       const today = new Date(new Date().getTime() + 9 * 60 * 60 * 1000)
         .toISOString()
         .split('T')[0];
-      const todayScheduleCount = events.filter(({ startDate }) => {
+      const count = events.filter(({ startDate }) => {
         const eventDate = new Date(startDate).toISOString().split('T')[0];
         return eventDate === today;
       }).length;
-      setTodayScheduleCount(todayScheduleCount);
-    }
-  }, [events]);
-
-  useEffect(() => {
-    if (events && events.length > 0) {
-      const today = new Date(new Date().getTime() + 9 * 60 * 60 * 1000)
-        .toISOString()
-        .split('T')[0];
-      const todayScheduleCount = events.filter(({ startDate }) => {
-        const eventDate = new Date(startDate).toISOString().split('T')[0];
-        return eventDate === today;
-      }).length;
-      setTodayScheduleCount(todayScheduleCount);
+      setTodayScheduleCount(count);
     }
   }, [events]);
 
@@ -99,33 +86,38 @@ const ProfileInfoStyle = styled.div`
     display: flex;
     justify-content: space-evenly;
   }
+
   .confirmEl {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    margin: 0 50px 0 50px;
+    margin: 0 50px;
+    padding: 2em;
+    border-radius: 10px;
+    background-color: ${(props) => props.theme.color.pureWhite};
     color: ${(props) => props.theme.color.black};
     font-size: ${(props) => props.theme.fontSize.title2};
     font-weight: ${(props) => props.theme.fontWeight.bold};
-    border-radius: 10px;
-    padding: 2em;
-    background-color: ${(props) => props.theme.color.pureWhite};
     box-shadow: 0 3px 10px -5px;
   }
-  .confirmApply {
-    margin-top: 2rem;
-    text-align: center;
-    color: ${(props) => props.theme.color.yellow};
-  }
-  .confirmPay {
-    margin-top: 2rem;
-    text-align: center;
-    color: ${(props) => props.theme.color.primary};
-  }
+
+  .confirmApply,
+  .confirmPay,
   .confirmSchedule {
     margin-top: 2rem;
     text-align: center;
+  }
+
+  .confirmApply {
+    color: ${(props) => props.theme.color.yellow};
+  }
+
+  .confirmPay {
+    color: ${(props) => props.theme.color.primary};
+  }
+
+  .confirmSchedule {
     color: ${(props) => props.theme.color.red};
   }
 `;

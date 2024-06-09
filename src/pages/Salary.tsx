@@ -58,9 +58,10 @@ function Salary() {
 export default Salary;
 
 export const SalaryLayout = styled.section`
-  width: fit-content;
   min-width: 73.7vw;
+  width: fit-content;
   margin: 0 auto;
+
   & h2 {
     font-size: ${(props) => props.theme.fontSize.title3};
     font-weight: ${(props) => props.theme.fontWeight.bold};
