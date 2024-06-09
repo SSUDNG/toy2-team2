@@ -21,6 +21,11 @@ function Salary() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    const isLogin = sessionStorage.getItem('isLogin');
+    if (!(isLogin && isLogin.length)) {
+      return;
+    }
+
     if (!isFetched) {
       setIsLoading(true);
       dispatch(initializeSalaryAsync()).then(() => {
