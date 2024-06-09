@@ -55,8 +55,26 @@ function EventModal({ event = defaultEvent, onClose, type }: EventModalProps) {
   const handleAdd = () => {
     const { id, ...newEvent } = isEvent;
 
-    if (!newEvent.name || !newEvent.startDate || !newEvent.endDate) {
-      setValidationError('모든 필드를 입력하세요.');
+    if (!newEvent.name) {
+      setValidationError('일정 이름을 입력하세요.');
+      setErrorKey((prev) => prev + 1);
+      return;
+    }
+
+    if (!newEvent.startDate) {
+      setValidationError('시작일을 입력하세요.');
+      setErrorKey((prev) => prev + 1);
+      return;
+    }
+
+    if (!newEvent.endDate) {
+      setValidationError('종료일을 입력하세요.');
+      setErrorKey((prev) => prev + 1);
+      return;
+    }
+
+    if (newEvent.startDate > newEvent.endDate) {
+      setValidationError('종료일이 시작일보다 빠를 수 없습니다.');
       setErrorKey((prev) => prev + 1);
       return;
     }
@@ -87,26 +105,29 @@ function EventModal({ event = defaultEvent, onClose, type }: EventModalProps) {
             required
           />
         </List>
-        <List>
-          <InputLabel>시작일</InputLabel>
-          <InputBox
-            type="date"
-            name="startDate"
-            value={type === 'edit' ? isEvent.startDate : undefined}
-            onChange={handleChange}
-            required
-          />
-        </List>
-        <List>
-          <InputLabel>종료일</InputLabel>
-          <InputBox
-            type="date"
-            name="endDate"
-            value={type === 'edit' ? isEvent.endDate : undefined}
-            onChange={handleChange}
-            required
-          />
-        </List>
+        <DateRow>
+          <List>
+            <InputLabel>시작일</InputLabel>
+            <InputBox
+              type="date"
+              name="startDate"
+              value={type === 'edit' ? isEvent.startDate : undefined}
+              onChange={handleChange}
+              required
+            />
+          </List>
+          <span>~</span>
+          <List>
+            <InputLabel>종료일</InputLabel>
+            <InputBox
+              type="date"
+              name="endDate"
+              value={type === 'edit' ? isEvent.endDate : undefined}
+              onChange={handleChange}
+              required
+            />
+          </List>
+        </DateRow>
         <List>
           <InputLabel>색상</InputLabel>
           <ColorOptions
@@ -174,8 +195,8 @@ const ModalOverlay = styled.div`
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 500px;
+  width: 35rem;
+  min-width: 10rem;
   padding: 1rem 2rem;
   border-radius: 5px;
   background: white;
@@ -190,11 +211,6 @@ const EventHeader = styled.div`
   margin-bottom: 1rem;
 `;
 
-const EventTitle = styled.h1`
-  font-size: ${(props) => props.theme.fontSize.title1};
-  color: ${(props) => props.theme.color.black};
-`;
-
 const EventColor = styled.div`
   width: 1rem;
   height: 1rem;
@@ -203,10 +219,24 @@ const EventColor = styled.div`
   background-color: ${(props) => props.color};
 `;
 
-const List = styled.li`
+const EventTitle = styled.h1`
+  font-size: ${(props) => props.theme.fontSize.title1};
+  color: ${(props) => props.theme.color.black};
+`;
+
+const List = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
+`;
+
+const DateRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 const InputLabel = styled.label`
@@ -217,6 +247,7 @@ const InputLabel = styled.label`
 `;
 
 const InputBox = styled.input`
+  width: 100%;
   height: 50px;
   padding: 0 ${(props) => props.theme.fontSize.title2};
   margin-bottom: 1rem;
@@ -224,6 +255,8 @@ const InputBox = styled.input`
   border-style: solid;
   border-radius: 6px;
   font-size: ${(props) => props.theme.fontSize.title4};
+  box-sizing: border-box;
+  outline-color: ${(props) => props.theme.color.primary};
 `;
 
 const ButtonRow = styled.div`

@@ -234,7 +234,7 @@ const CalendarWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 95vw;
+  width: 73.7vw;
   margin: 0 auto;
 `;
 
