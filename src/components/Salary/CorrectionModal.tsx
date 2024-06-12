@@ -36,8 +36,8 @@ function CorrectionModal({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const closeModal = useCallback(() => {
-    reset();
     setIsVisible(false);
+    reset();
   }, [reset, setIsVisible]);
 
   const appendData = useCallback(
