@@ -20,30 +20,28 @@ function DeleteModal({
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
+  const clickDelete = () => {
+    setErrorMessage('');
+    setIsSubmitting(true);
+    dispatch(removeAsync(id))
+      .then(() => {
+        setIsVisible(false);
+      })
+      .catch((error) => {
+        setErrorMessage(error.message);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
+  };
+
   return (
     isVisible && (
       <>
         <DeleteModalLayout>
           <p>{errorMessage.length ? errorMessage : '정말 삭제하시겠습니까?'}</p>
           <DeleteModalNav>
-            <Button
-              size="basic"
-              color="primary"
-              onClick={() => {
-                setErrorMessage('');
-                setIsSubmitting(true);
-                dispatch(removeAsync(id))
-                  .then(() => {
-                    setIsVisible(false);
-                  })
-                  .catch((error) => {
-                    setErrorMessage(error.message);
-                  })
-                  .finally(() => {
-                    setIsSubmitting(false);
-                  });
-              }}
-            >
+            <Button size="basic" color="primary" onClick={clickDelete}>
               삭제
             </Button>
             <Button
